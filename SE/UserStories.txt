@@ -1,0 +1,11 @@
+USER STORIES:
+1. As a user, I want to check my actual balance.
+2. As a user, I want to see the coin daily value.
+3. As a user, I want to buy and sell my coins.
+4. As a user, I want to see how the price of a coin changed in the last month.
+
+FUNCTIONAL REQUIREMENTS:
+1. The app shall save all the informations about a personal balance.
+2. The app shall display the updated currencies prices.
+3. The app must allow the sale and purchase of coins.
+4. The app shall display past values for a currency.
