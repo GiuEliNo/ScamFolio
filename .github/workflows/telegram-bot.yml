@@ -1,5 +1,12 @@
-- name: Github Telegram Notifier
-  uses: EverythingSuckz/github-telegram-notify@v1.1.2
-  with:
-		bot_token: '525578725'
-		chat_id: '2229448110'
+name: Update telegram on commit
+
+on:
+  branch_protection_rule:
+      types: [created,edited, deleted]
+
+jobs:
+  - name: Github Telegram Notifier
+    uses: EverythingSuckz/github-telegram-notify@v1.1.2
+    with:
+      bot_token: '525578725'
+      chat_id: '2229448110'
