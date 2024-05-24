@@ -1,10 +1,12 @@
 name: Update telegram on commit
 
-on:
-  push
+on: push
 jobs:
-    name: Github Telegram Notifier
-    uses: EverythingSuckz/github-telegram-notify@v1.1.2
-    with:
-      bot_token: 525578725
-      chat_id: 2229448110
+    Send-commit-messages-on-telegram:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Github Telegram Notifier
+          uses: EverythingSuckz/github-telegram-notify@v1.1.2
+          with:
+            bot_token: 525578725
+            chat_id: 2229448110
