@@ -5,5 +5,6 @@ import androidx.room.Insert
 
 @Dao
 interface UserDao {
-
+    @Insert
+    fun insertUser()
 }

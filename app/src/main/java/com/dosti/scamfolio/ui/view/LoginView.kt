@@ -126,7 +126,6 @@ fun LogoText() {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp)
     ) {
         Text(
             text = "Scamfolio",
@@ -195,7 +194,7 @@ fun passwordField(
     TextField(
         value = "",
         onValueChange = onChange,
-        label = { Text(text = "Username", color = Color.White) },
+        label = { Text(text = "Password", color = Color.White) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White
