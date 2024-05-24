@@ -8,5 +8,5 @@ jobs:
         - name: Github Telegram Notifier
           uses: EverythingSuckz/github-telegram-notify@v1.1.2
           with:
-            bot_token: 525578725
-            chat_id: -1002229448110
+            bot_token: '525578725'
+            chat_id: '-1002229448110'
