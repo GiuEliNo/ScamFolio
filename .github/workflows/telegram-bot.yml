@@ -9,4 +9,4 @@ jobs:
           uses: EverythingSuckz/github-telegram-notify@v1.1.2
           with:
             bot_token: 525578725
-            chat_id: 2229448110
+            chat_id: -1002229448110
