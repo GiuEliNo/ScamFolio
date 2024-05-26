@@ -10,33 +10,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.dosti.scamfolio.ui.theme.ScamFolioTheme
-import com.dosti.scamfolio.ui.view.HomeView
+import com.dosti.scamfolio.ui.view.LoginView
+import com.dosti.scamfolio.ui.view.LoginView
+import com.dosti.scamfolio.ui.view.routing.NavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ScamFolioTheme {
-                // A surface container using the 'background' color from the theme
-                HomeView()
-            }
+            MainScreen()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
+private fun MainScreen() {
     ScamFolioTheme {
-        Greeting("Android")
+        val navController = rememberNavController()
+        NavGraph(navController)
     }
 }
+

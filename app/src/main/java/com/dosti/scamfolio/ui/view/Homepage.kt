@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.sp
 import com.dosti.scamfolio.ui.theme.custom
 
 @Composable
-fun Homepage() {
+fun Homepage(
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,

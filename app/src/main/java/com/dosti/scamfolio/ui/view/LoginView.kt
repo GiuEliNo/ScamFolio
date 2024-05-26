@@ -31,7 +31,9 @@ import com.dosti.scamfolio.ui.theme.custom
 
 
 @Composable
-fun HomeView() {
+fun LoginView(
+    navigateToHome: () -> Unit
+) {
     var credentials by remember { mutableStateOf(Credentials()) }
 
 
@@ -57,7 +59,7 @@ fun HomeView() {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(100.dp))
-        SubmitButton()
+        SubmitButton(navigateToHome)
         Spacer(modifier = Modifier.height(30.dp))
         CreateAccountButton()
         Spacer(modifier = Modifier.height(40.dp))
@@ -177,7 +179,9 @@ fun passwordField(
 }
 
 @Composable
-fun SubmitButton() {
+fun SubmitButton(
+    onclick: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -185,7 +189,7 @@ fun SubmitButton() {
             .fillMaxWidth()
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onclick,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
