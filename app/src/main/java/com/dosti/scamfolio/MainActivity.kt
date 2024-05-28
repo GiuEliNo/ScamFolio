@@ -15,13 +15,14 @@ import com.dosti.scamfolio.ui.theme.ScamFolioTheme
 import com.dosti.scamfolio.ui.view.Homepage
 import com.dosti.scamfolio.ui.view.LoginView
 import com.dosti.scamfolio.ui.view.LoginView
+import com.dosti.scamfolio.ui.view.SearchedCryptos
 import com.dosti.scamfolio.ui.view.routing.NavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Homepage()
+            SearchedCryptos()
         }
     }
 }
