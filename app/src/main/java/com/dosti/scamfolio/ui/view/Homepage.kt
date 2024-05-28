@@ -34,13 +34,13 @@ fun Homepage(
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        val username by rememberSaveable() { mutableStateOf("") }
+        val username by rememberSaveable() { mutableStateOf("user") }
         val search by rememberSaveable() { mutableStateOf("Search cryptos") }
         val personal by rememberSaveable() { mutableStateOf("Personal area") }
         val settings by rememberSaveable { mutableStateOf("Settings") }
 
         TopText(username = username)
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(140.dp))
         
         GenericButton(buttonText = search)
         GenericButton(buttonText = personal)
@@ -60,14 +60,14 @@ fun TopText(
     ) {
         Text(
             text = "Welcome back,",
-            fontSize = 60.sp,
+            fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,
         )
 
         Text(
             text = username,
-            fontSize = 60.sp,
+            fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,
         )
@@ -96,7 +96,7 @@ fun GenericButton(
             ) {
                 Text(
                     text = buttonText,
-                    fontSize = 40.sp,
+                    fontSize = 30.sp,
                     fontFamily = custom,
                     color = Color.White
                 )
@@ -104,6 +104,6 @@ fun GenericButton(
         }
     }
     
-    Spacer(modifier = Modifier.height(20.dp))
+    Spacer(modifier = Modifier.height(40.dp))
 }
 
