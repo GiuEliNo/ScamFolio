@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">ScamFolio</string>
+    <string name="welcome_back">Bentornato,</string>
+    <string name="search_cryptos">Cerca crypto</string>
+    <string name="personal_area">Area personale</string>
+    <string name="settings">Impostazioni</string>
+    <string name="search">Cerca</string>
+    <string name="create_account">Crea account</string>
 </resources>

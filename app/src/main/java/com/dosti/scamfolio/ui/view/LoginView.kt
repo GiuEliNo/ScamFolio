@@ -2,7 +2,6 @@ package com.dosti.scamfolio.ui.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -18,18 +19,39 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+<<<<<<< HEAD
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dosti.scamfolio.R
+=======
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.onKeyEvent
+import android.view.KeyEvent
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.Visibility
+>>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
 import com.dosti.scamfolio.ui.theme.custom
 
 
@@ -49,14 +71,24 @@ fun LoginView() {
         Spacer(modifier = Modifier.height(100.dp))
 
         usernameField(
+<<<<<<< HEAD
             value = temp,
             onChange = { temp = it },
+=======
+            value = "",
+            onValueChange = { data -> credentials = credentials.copy(login = data)},
+>>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
         passwordField(
+<<<<<<< HEAD
             value = temp,
             onChange = { temp = it },
+=======
+            value = "",
+            onValueChange = { data -> credentials = credentials.copy(pwd = data)},
+>>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(100.dp))
@@ -123,11 +155,11 @@ fun LogoText() {
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun usernameField(
     value: String,
-    onChange: (String) -> Unit,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "Username"
 ) {
@@ -138,18 +170,26 @@ fun usernameField(
             tint = Color.White
         )
     }
-
+    var textUsername by remember { mutableStateOf("") }
     TextField(
+<<<<<<< HEAD
         value = value,
         onValueChange = onChange,
+=======
+        value = textUsername,
+        onValueChange = {textUsername = it},
+>>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
         label = { Text(text = "Username", color = Color.White) },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = Color.White,
+            focusedTextColor = Color.White,
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White,
             focusedTextColor = Color.White,
             unfocusedLabelColor = Color.White
         ),
-        leadingIcon = icon
+        leadingIcon = icon,
+        singleLine = true
     )
 }
 
@@ -157,7 +197,7 @@ fun usernameField(
 @Composable
 fun passwordField(
     value: String,
-    onChange: (String) -> Unit,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "Password"
 ) {
@@ -168,18 +208,41 @@ fun passwordField(
             tint = Color.White
         )
     }
+    var textPassword by remember { mutableStateOf("") }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     TextField(
+<<<<<<< HEAD
         value = value,
         onValueChange = onChange,
+=======
+        value = textPassword,
+        onValueChange = {textPassword = it},
+>>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
         label = { Text(text = "Password", color = Color.White) },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = Color.White,
+            focusedTextColor = Color.White,
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White,
             focusedTextColor = Color.White,
             unfocusedLabelColor = Color.White
         ),
-        leadingIcon = icon
+        singleLine = true,
+        leadingIcon = icon,
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        trailingIcon = {
+            val image = if (passwordVisible)
+                Icons.Filled.Visibility
+            else Icons.Filled.VisibilityOff
+
+            val description = if (passwordVisible) "Hide password" else "Show password"
+
+            IconButton(onClick = {passwordVisible = !passwordVisible}){
+                Icon(imageVector  = image, description)
+            }
+        }
     )
 }
 
