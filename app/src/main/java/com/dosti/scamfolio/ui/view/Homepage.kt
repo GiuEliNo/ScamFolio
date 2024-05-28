@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.ui.view
 
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +21,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dosti.scamfolio.R
 import com.dosti.scamfolio.ui.theme.custom
 
 @Composable
@@ -35,16 +38,16 @@ fun Homepage(
             .background(Color.DarkGray)
     ) {
         val username by rememberSaveable() { mutableStateOf("user") }
-        val search by rememberSaveable() { mutableStateOf("Search cryptos") }
-        val personal by rememberSaveable() { mutableStateOf("Personal area") }
-        val settings by rememberSaveable { mutableStateOf("Settings") }
+        val search by rememberSaveable() { mutableStateOf(R.string.search_cryptos) }
+        val personal by rememberSaveable() { mutableStateOf(R.string.personal_area) }
+        val settings by rememberSaveable { mutableStateOf(R.string.settings) }
 
         TopText(username = username)
         Spacer(modifier = Modifier.height(140.dp))
         
-        GenericButton(buttonText = search)
-        GenericButton(buttonText = personal)
-        GenericButton(buttonText = settings)
+        GenericButton(buttonText = stringResource(id = search))
+        GenericButton(buttonText = stringResource(id = personal))
+        GenericButton(buttonText = stringResource(id = settings))
     }
 }
 
@@ -59,7 +62,7 @@ fun TopText(
             .fillMaxWidth()
     ) {
         Text(
-            text = "Welcome back,",
+            text = stringResource(R.string.welcome_back),
             fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,

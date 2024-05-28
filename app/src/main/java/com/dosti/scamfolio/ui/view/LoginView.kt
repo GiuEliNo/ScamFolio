@@ -26,8 +26,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dosti.scamfolio.R
 import com.dosti.scamfolio.ui.theme.custom
 
 
@@ -230,7 +232,7 @@ fun CreateAccountButton() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Create account",
+                    text = stringResource(R.string.create_account),
                     fontSize = 25.sp,
                     fontFamily = custom,
                     color = Color.White

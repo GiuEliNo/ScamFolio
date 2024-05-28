@@ -33,10 +33,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dosti.scamfolio.R
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.ui.theme.custom
 
@@ -72,7 +74,7 @@ fun TopBar(
         TextField(
             value = value,
             onValueChange = onChange,
-            label = { Text(text = "Search", color = Color.White) },
+            label = { Text(text = stringResource(R.string.search), color = Color.White) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White,
