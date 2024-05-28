@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.dosti.scamfolio.db.entities.relations.Purchase
+import com.dosti.scamfolio.db.entities.Purchase
 
 @Dao
 interface PurchaseDao {
@@ -20,5 +20,4 @@ interface PurchaseDao {
 
     @Delete
     fun delete(purchase: Purchase)
-
 }

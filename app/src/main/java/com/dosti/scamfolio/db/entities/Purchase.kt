@@ -1,4 +1,4 @@
-package com.dosti.scamfolio.db.entities.relations
+package com.dosti.scamfolio.db.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation
