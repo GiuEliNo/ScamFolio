@@ -24,9 +24,11 @@ private fun addLoginScreen(
 ) {
     navGraphBuilder.composable(route = NavRoute.Login.path) {
         LoginView(
-            navigateToHome = {
+            /* navigateToHome = {
                 navController.navigate(NavRoute.Home.path)
             }
+
+             */
         )
     }
 }

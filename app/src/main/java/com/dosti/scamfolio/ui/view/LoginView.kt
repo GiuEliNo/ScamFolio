@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -31,11 +32,9 @@ import com.dosti.scamfolio.ui.theme.custom
 
 
 @Composable
-fun LoginView(
-    navigateToHome: () -> Unit
-) {
+fun LoginView() {
     var credentials by remember { mutableStateOf(Credentials()) }
-
+    var temp by rememberSaveable { mutableStateOf("") }
 
     BackgroundGradient()
     Column(
@@ -48,18 +47,18 @@ fun LoginView(
         Spacer(modifier = Modifier.height(100.dp))
 
         usernameField(
-            value = "",
-            onChange = { data -> credentials = credentials.copy(login = data)},
+            value = temp,
+            onChange = { temp = it },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
         passwordField(
-            value = "",
-            onChange = { data -> credentials = credentials.copy(pwd = data)},
+            value = temp,
+            onChange = { temp = it },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(100.dp))
-        SubmitButton(navigateToHome)
+        SubmitButton()
         Spacer(modifier = Modifier.height(30.dp))
         CreateAccountButton()
         Spacer(modifier = Modifier.height(40.dp))
@@ -139,12 +138,14 @@ fun usernameField(
     }
 
     TextField(
-        value = "",
+        value = value,
         onValueChange = onChange,
         label = { Text(text = "Username", color = Color.White) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White
+            unfocusedBorderColor = Color.White,
+            focusedTextColor = Color.White,
+            unfocusedLabelColor = Color.White
         ),
         leadingIcon = icon
     )
@@ -167,21 +168,21 @@ fun passwordField(
     }
 
     TextField(
-        value = "",
+        value = value,
         onValueChange = onChange,
         label = { Text(text = "Password", color = Color.White) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White
+            unfocusedBorderColor = Color.White,
+            focusedTextColor = Color.White,
+            unfocusedLabelColor = Color.White
         ),
         leadingIcon = icon
     )
 }
 
 @Composable
-fun SubmitButton(
-    onclick: () -> Unit
-) {
+fun SubmitButton() {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -189,7 +190,7 @@ fun SubmitButton(
             .fillMaxWidth()
     ) {
         Button(
-            onClick = onclick,
+            onClick = {/*TODO*/},
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
