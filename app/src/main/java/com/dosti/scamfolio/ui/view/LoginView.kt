@@ -29,18 +29,14 @@ import androidx.compose.ui.*
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-<<<<<<< HEAD
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dosti.scamfolio.R
-=======
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onKeyEvent
 import android.view.KeyEvent
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.text.input.ImeAction
@@ -50,15 +46,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.Visibility
->>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
 import com.dosti.scamfolio.ui.theme.custom
 
 
 @Composable
 fun LoginView() {
     var credentials by remember { mutableStateOf(Credentials()) }
-    var temp by rememberSaveable { mutableStateOf("") }
+    var temp1 by rememberSaveable { mutableStateOf("") }
+    var temp2 by rememberSaveable { mutableStateOf("") }
 
     BackgroundGradient()
     Column(
@@ -71,24 +66,14 @@ fun LoginView() {
         Spacer(modifier = Modifier.height(100.dp))
 
         usernameField(
-<<<<<<< HEAD
-            value = temp,
-            onChange = { temp = it },
-=======
-            value = "",
-            onValueChange = { data -> credentials = credentials.copy(login = data)},
->>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
+            value = temp1,
+            onValueChange = { temp1 = it },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
         passwordField(
-<<<<<<< HEAD
-            value = temp,
-            onChange = { temp = it },
-=======
-            value = "",
-            onValueChange = { data -> credentials = credentials.copy(pwd = data)},
->>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
+            value = temp2,
+            onValueChange = { temp2 = it },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(100.dp))
@@ -172,20 +157,14 @@ fun usernameField(
     }
     var textUsername by remember { mutableStateOf("") }
     TextField(
-<<<<<<< HEAD
         value = value,
-        onValueChange = onChange,
-=======
-        value = textUsername,
-        onValueChange = {textUsername = it},
->>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
+        onValueChange = onValueChange,
         label = { Text(text = "Username", color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = Color.White,
             focusedTextColor = Color.White,
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White,
-            focusedTextColor = Color.White,
             unfocusedLabelColor = Color.White
         ),
         leadingIcon = icon,
@@ -212,26 +191,21 @@ fun passwordField(
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     TextField(
-<<<<<<< HEAD
         value = value,
-        onValueChange = onChange,
-=======
-        value = textPassword,
-        onValueChange = {textPassword = it},
->>>>>>> f9ecf8ad9675af2eb8751e0a075532b241caef96
+        onValueChange = onValueChange,
         label = { Text(text = "Password", color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = Color.White,
             focusedTextColor = Color.White,
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White,
-            focusedTextColor = Color.White,
             unfocusedLabelColor = Color.White
         ),
         singleLine = true,
         leadingIcon = icon,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        /*
         trailingIcon = {
             val image = if (passwordVisible)
                 Icons.Filled.Visibility
@@ -243,6 +217,8 @@ fun passwordField(
                 Icon(imageVector  = image, description)
             }
         }
+
+         */
     )
 }
 
