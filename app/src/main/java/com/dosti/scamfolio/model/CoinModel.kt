@@ -4,5 +4,6 @@ data class Coin(
     val name: String,
     val symbol: String,
     val price: Int,
-    val change: String
+    val change: String,
+    val icon: String
 )
