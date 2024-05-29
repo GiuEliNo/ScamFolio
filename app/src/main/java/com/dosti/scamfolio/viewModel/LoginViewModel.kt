@@ -5,5 +5,5 @@ import androidx.lifecycle.AndroidViewModel
 import com.dosti.scamfolio.db.repositories.UserRepository
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository : UserRepository
+    private val repository : UserRepository = TODO()
 }
