@@ -2,7 +2,7 @@ package com.dosti.scamfolio.db.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.dosti.scamfolio.db.User
+import com.dosti.scamfolio.dbStuff.User
 import java.util.Date
 
 data class Purchase(

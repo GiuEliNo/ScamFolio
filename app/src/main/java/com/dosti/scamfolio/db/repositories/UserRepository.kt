@@ -1,8 +1,7 @@
 package com.dosti.scamfolio.db.repositories
 
-import androidx.lifecycle.LiveData
-import com.dosti.scamfolio.db.User
-import com.dosti.scamfolio.db.dao.UserDao
+import com.dosti.scamfolio.dbStuff.User
+import com.dosti.scamfolio.dbStuff.UserDao
 
 class UserRepository(private val userDao: UserDao) {
     suspend fun insertUser(user: User) = userDao.insert(user)

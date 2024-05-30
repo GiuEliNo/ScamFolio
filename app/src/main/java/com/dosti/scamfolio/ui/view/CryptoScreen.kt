@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.model.Coin
+import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 
 
@@ -104,7 +105,10 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel) {
                     titleContentColor = Color.White,
                 ),
                 title = {
-                    Text("ScamFolio")
+                    Text(
+                        text = "Scamfolio",
+                        fontFamily = custom
+                    )
                 }
             )
         },

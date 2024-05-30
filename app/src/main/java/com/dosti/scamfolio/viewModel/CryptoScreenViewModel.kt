@@ -8,7 +8,7 @@ import com.dosti.scamfolio.model.Coin
 import com.dosti.scamfolio.model.api.getCoin
 import kotlinx.coroutines.launch
 
-class CryptoScreenViewModel : ViewModel() {
+class CryptoScreenViewModel() : ViewModel() {
     private val _coin = MutableLiveData<Coin>()
     val coin: LiveData<Coin> = _coin
 

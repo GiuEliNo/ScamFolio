@@ -46,11 +46,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.dosti.scamfolio.ui.theme.custom
+import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 
 @Composable
-fun LoginView() {
+fun LoginView(
+    //factory: ViewModelFactory
+) {
     var credentials by remember { mutableStateOf(Credentials()) }
     var temp1 by rememberSaveable { mutableStateOf("") }
     var temp2 by rememberSaveable { mutableStateOf("") }

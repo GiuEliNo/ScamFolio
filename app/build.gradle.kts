@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    
 }
 
 android {
@@ -50,6 +51,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -77,4 +79,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
     implementation(libs.androidx.navigation.compose)
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 }
