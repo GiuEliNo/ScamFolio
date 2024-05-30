@@ -53,12 +53,15 @@ import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 @Composable
 fun LoginView(
-    //factory: ViewModelFactory
+    factory: ViewModelFactory
 ) {
     var credentials by remember { mutableStateOf(Credentials()) }
     var temp1 by rememberSaveable { mutableStateOf("") }
     var temp2 by rememberSaveable { mutableStateOf("") }
+    var state by remember { mutableStateOf(true) }
 
+
+    if (state) {
     BackgroundGradient()
     Column(
         verticalArrangement = Arrangement.Top,
@@ -81,10 +84,12 @@ fun LoginView(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(100.dp))
-        SubmitButton()
+        SubmitButton({ state = !state })
         Spacer(modifier = Modifier.height(30.dp))
         CreateAccountButton()
         Spacer(modifier = Modifier.height(40.dp))
+    }
+
 /*
         ClickableText(
             text = AnnotatedString("Credits"),
@@ -93,6 +98,8 @@ fun LoginView(
         }
 
  */
+    } else {
+        Homepage()
     }
 }
 
@@ -227,7 +234,9 @@ fun passwordField(
 }
 
 @Composable
-fun SubmitButton() {
+fun SubmitButton(
+    onClick: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -235,7 +244,7 @@ fun SubmitButton() {
             .fillMaxWidth()
     ) {
         Button(
-            onClick = {/*TODO*/},
+            onClick = onClick,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
