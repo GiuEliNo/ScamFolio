@@ -12,6 +12,8 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
                 LoginViewModel(repository) as T
         else if( modelClass.isAssignableFrom(CryptoScreenViewModel::class.java))
             CryptoScreenViewModel(repository) as T
+        else if( modelClass.isAssignableFrom(HomepageViewModel::class.java))
+            HomepageViewModel(repository) as T
         else
             PersonalAreaViewModel(repository) as T
 

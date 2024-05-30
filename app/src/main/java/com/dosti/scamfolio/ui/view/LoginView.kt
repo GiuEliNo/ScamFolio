@@ -46,22 +46,26 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.compose.rememberNavController
 import com.dosti.scamfolio.ui.theme.custom
+import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 
 @Composable
 fun LoginView(
+    viewModelStoreOwner: ViewModelStoreOwner,
     factory: ViewModelFactory
 ) {
+    val viewModel= ViewModelProvider(viewModelStoreOwner, factory)[LoginViewModel::class.java]
     var credentials by remember { mutableStateOf(Credentials()) }
     var temp1 by rememberSaveable { mutableStateOf("") }
     var temp2 by rememberSaveable { mutableStateOf("") }
-    var state by remember { mutableStateOf(true) }
+    val state by remember { mutableStateOf(viewModel.stateLogin) }
 
-
-    if (state) {
+    if (state.intValue==1) {
     BackgroundGradient()
     Column(
         verticalArrangement = Arrangement.Top,
@@ -84,7 +88,7 @@ fun LoginView(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(100.dp))
-        SubmitButton({ state = !state })
+        SubmitButton { viewModel.changeState() }
         Spacer(modifier = Modifier.height(30.dp))
         CreateAccountButton()
         Spacer(modifier = Modifier.height(40.dp))
