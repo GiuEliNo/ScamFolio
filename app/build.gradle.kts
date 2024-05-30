@@ -69,6 +69,8 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.runtime.livedata)
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

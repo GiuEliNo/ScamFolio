@@ -5,17 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.dbStuff.Repository
-import com.dosti.scamfolio.model.Coin
-import com.dosti.scamfolio.model.api.getCoin
+import com.dosti.scamfolio.api.model.CoinModelAPI
+import com.dosti.scamfolio.api.CoinGekoAPI
 import kotlinx.coroutines.launch
 
 class CryptoScreenViewModel(private val repository: Repository) : ViewModel() {
-    private val _coin = MutableLiveData<Coin>()
-    val coin: LiveData<Coin> = _coin
-
-    fun fetchCrypto() {
+    private val _coin = MutableLiveData<CoinModelAPI>()
+    val coin: LiveData<CoinModelAPI> = _coin
+    fun fetchCrypto(id : String) {
         viewModelScope.launch {
-            val newCoin = getCoin()
+            val newCoin = CoinGekoAPI.coinGekoAPIService.getCoinData(
+                "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
+                id,
+                marketDataBoolean = true,
+                communityDataBoolean = false,
+                devDataBoolean = false,
+                sparklineBoolean = false,
+            )
             _coin.value = newCoin
         }
     }

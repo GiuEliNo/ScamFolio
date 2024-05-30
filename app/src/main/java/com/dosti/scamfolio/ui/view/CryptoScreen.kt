@@ -7,9 +7,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -35,13 +32,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberAsyncImagePainter
-import com.dosti.scamfolio.model.Coin
+import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 
@@ -95,7 +91,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel) {
 
     val coin by viewModel.coin.observeAsState()
     LaunchedEffect(Unit) {
-        viewModel.fetchCrypto()
+        viewModel.fetchCrypto("bitcoin")
     }
     Scaffold(
         topBar = {
@@ -180,7 +176,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel) {
 }
 
 @Composable
-fun CryptoHeader(coin: Coin) {
+fun CryptoHeader(coin: CoinModelAPI) {
     Row(
         modifier = Modifier
             .padding(16.dp)
@@ -189,7 +185,7 @@ fun CryptoHeader(coin: Coin) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = rememberAsyncImagePainter(coin.icon),
+            painter = rememberAsyncImagePainter(coin.image.small),
             contentDescription = null,
             modifier = Modifier.size(50.dp)
         )
@@ -219,7 +215,7 @@ fun CryptoHeader(coin: Coin) {
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "(" + coin.change + ")",
+                text = coin.market_data.price_change_percentage_24h,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Medium,
                 color = Color.Green,
@@ -227,7 +223,7 @@ fun CryptoHeader(coin: Coin) {
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = coin.price.toString() + "€",
+                text = coin.market_data.current_price.eur + "€",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Medium,
                 color = Color.White,
