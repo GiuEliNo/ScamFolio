@@ -1,4 +1,9 @@
 package com.dosti.scamfolio.viewModel
 
-class PersonalAreaViewModel {
+import androidx.lifecycle.ViewModel
+import com.dosti.scamfolio.dbStuff.Repository
+
+class PersonalAreaViewModel(private var repository: Repository) : ViewModel() {
+
+
 }
