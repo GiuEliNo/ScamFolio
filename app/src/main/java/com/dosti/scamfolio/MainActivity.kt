@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
             val factory = ViewModelFactory(Repository(db.userDao()))
 
 
-            LoginView( this, factory = factory)
+            SearchedCryptos( this, factory = factory)
         }
     }
 }

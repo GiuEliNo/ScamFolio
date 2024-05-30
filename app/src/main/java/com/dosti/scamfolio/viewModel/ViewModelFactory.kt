@@ -14,7 +14,8 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
             CryptoScreenViewModel(repository) as T
         else if( modelClass.isAssignableFrom(HomepageViewModel::class.java))
             HomepageViewModel(repository) as T
+
         else
-            PersonalAreaViewModel(repository) as T
+            SearchedCryptosViewModel(repository) as T
 
 }
