@@ -42,7 +42,6 @@ import com.dosti.scamfolio.R
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.ui.theme.custom
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchedCryptos() {
     var search by rememberSaveable() { mutableStateOf("") }

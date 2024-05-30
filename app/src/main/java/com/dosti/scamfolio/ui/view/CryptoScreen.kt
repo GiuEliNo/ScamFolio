@@ -185,7 +185,7 @@ fun CryptoHeader(coin: CoinModelAPI) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = rememberAsyncImagePainter(coin.image.small),
+            painter = rememberAsyncImagePainter(coin.image),
             contentDescription = null,
             modifier = Modifier.size(50.dp)
         )
@@ -215,7 +215,7 @@ fun CryptoHeader(coin: CoinModelAPI) {
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = coin.market_data.price_change_percentage_24h,
+                text = coin.price_change_percentage_24h,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Medium,
                 color = Color.Green,
@@ -223,7 +223,7 @@ fun CryptoHeader(coin: CoinModelAPI) {
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = coin.market_data.current_price.eur + "€",
+                text = coin.current_price + "€",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Medium,
                 color = Color.White,

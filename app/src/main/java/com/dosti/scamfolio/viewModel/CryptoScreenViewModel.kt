@@ -17,9 +17,9 @@ class CryptoScreenViewModel(private val repository: Repository) : ViewModel() {
             val newCoin = CoinGekoAPI.coinGekoAPIService.getCoinData(
                 "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
                 id,
-                marketDataBoolean = true,
-                communityDataBoolean = false,
-                devDataBoolean = false,
+                vsCurrency = "eur",
+                order = "market_cap_desc",
+                perPage = "250",
                 sparklineBoolean = false,
             )
             _coin.value = newCoin
