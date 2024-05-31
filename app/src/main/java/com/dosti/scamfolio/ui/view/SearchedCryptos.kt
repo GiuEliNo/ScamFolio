@@ -1,12 +1,11 @@
 package com.dosti.scamfolio.ui.view
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,58 +16,52 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.viewModel.SearchedCryptosViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
-import kotlinx.coroutines.delay
-
 
 @Composable
-fun SearchedCryptos(
-    viewModelStoreOwner: ViewModelStoreOwner,
-    factory: ViewModelFactory
+@OptIn(ExperimentalMaterial3Api::class)
+fun SearchScreen(
+    searchQuery: String,
+    searchResults: List<CoinModelAPI>,
+    onSearchQueryChange: (String) -> Unit,
+    innerPadding: PaddingValues
 ) {
-    val viewModel = ViewModelProvider(viewModelStoreOwner, factory)[SearchedCryptosViewModel::class.java]
-
-    val coinList by viewModel.coinList.observeAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.fetchAllCryptos()
-    }
-
-    var search by rememberSaveable() { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,43 +69,53 @@ fun SearchedCryptos(
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
+
         Spacer(modifier = Modifier.height(20.dp))
-        TopBar(value = search, onChange = { search = it }, onClick = { /* TODO */ })
-        LazyColumn(
+        Row(
+            horizontalArrangement = Arrangement.Start,
             modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .fillMaxWidth()
         ) {
-            item {
-                Spacer(modifier = Modifier.size(8.dp))
-            }
+            Spacer(modifier = Modifier.width(50.dp))
+            TextField(
+                value = searchQuery,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {keyboardController?.hide()}),
+                onValueChange = onSearchQueryChange,
+                label = { Text(text = stringResource(R.string.search), color = Color.White) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.White,
+                    unfocusedBorderColor = Color.White,
+                    unfocusedLabelColor = Color.White,
+                ),
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
+                trailingIcon = { Icon(Icons.Default.Search, contentDescription = "") }
+            )
 
-            coinList?.forEach {
-                item {
-                    Card(colors = CardDefaults.cardColors(
-                        containerColor = Color.Black,
-                    ),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(10.dp)
-                    ) {
+            Spacer(modifier = Modifier.width(20.dp))
 
-                        CoinItem(it)
-                        Spacer(modifier = Modifier.size(16.dp))
-                    }
 
-                }
-            }
-
-            item {
-                Spacer(modifier = Modifier.size(32.dp))
+        }
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(32.dp),
+            contentPadding = PaddingValues(16.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(
+                items = searchResults
+            ) { coin ->
+                CoinItem(coin = coin)
             }
         }
     }
 }
 @Composable
-fun CoinItem(it: CoinModelAPI) {
+fun CoinItem(coin: CoinModelAPI) {
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -121,7 +124,7 @@ fun CoinItem(it: CoinModelAPI) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = rememberAsyncImagePainter(it.image),
+            painter = rememberAsyncImagePainter(coin.image),
             contentDescription = null,
             modifier = Modifier.size(40.dp)
         )
@@ -131,7 +134,7 @@ fun CoinItem(it: CoinModelAPI) {
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = it.name,
+                text = coin.name,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 overflow = TextOverflow.Ellipsis,
@@ -149,7 +152,7 @@ fun CoinItem(it: CoinModelAPI) {
                 }
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = it.symbol,
+                    text = coin.symbol,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White,
                     fontWeight = FontWeight.Medium,
@@ -169,7 +172,7 @@ fun CoinItem(it: CoinModelAPI) {
             Text(
                 modifier = Modifier
                     .width(IntrinsicSize.Max),
-                text = it.current_price + "€",
+                text = coin.current_price + "€",
                 color = Color.White,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
@@ -188,7 +191,7 @@ fun CoinItem(it: CoinModelAPI) {
                 )
             ) {
                 Text(
-                    text = it.price_change_percentage_24h + "%",
+                    text = coin.price_change_percentage_24h + "%",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .padding(horizontal = 8.dp, vertical = 1.dp)
@@ -206,77 +209,47 @@ fun CoinItem(it: CoinModelAPI) {
 }
 
 
-
-
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
-    value: String,
-    onChange: (String) -> Unit,
-    onClick: () -> Unit
+fun SearchedCryptos(
+    viewModelStoreOwner: ViewModelStoreOwner,
+    factory: ViewModelFactory
 ) {
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Spacer(modifier = Modifier.width(50.dp))
-        TextField(
-            value = value,
-            onValueChange = onChange,
-            label = { Text(text = stringResource(R.string.search), color = Color.White) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White,
-                focusedTextColor = Color.White,
-                unfocusedLabelColor = Color.White
-            )
-        )
-        
-        Spacer(modifier = Modifier.width(20.dp))
-        
-        IconButton(onClick = onClick) {
-            Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = "Search",
-                tint = Color.White
-            )
-        }
-    }
-}
-/*
-@Composable
-fun Content(coinList : MutableLiveData<MutableList<CoinModelAPI>>) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-    ) {
-        LazyColumn(
-            contentPadding = PaddingValues(5.dp)
-        ) {
-            items(coinList){
+    val viewModel =
+        ViewModelProvider(viewModelStoreOwner, factory)[SearchedCryptosViewModel::class.java]
 
+    LaunchedEffect(Unit) {
+        viewModel.fetchAllCryptos()
+    }
+
+    val searchResults by viewModel.searchResults.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
+
+    searchResults?.let {
+        Scaffold(
+            bottomBar = {
+                BottomAppBar(
+                    containerColor = Color.Black,
+                    contentColor = Color.Black,
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        text = "Qui ce ca la navigazione",
+                    )
+                }
             }
-        }
+        ) {innerPadding ->
+
+            SearchScreen(
+                        searchQuery = viewModel.searchQuery,
+                        searchResults = it,
+                        onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
+                        innerPadding
+                    )
+                }
+
     }
-}
 
 
 }
-
-
-}
-
-@Composable
-fun Crypto(coin: CoinModelAPI, modifier: Modifier, price : Float) {
-    Text(
-        text = coin.name,
-        modifier = modifier,
-        textAlign = TextAlign.Start,
-        fontSize = 10.sp,
-        fontStyle = FontStyle.Normal,
-        fontFamily = custom
-    )
-}*/

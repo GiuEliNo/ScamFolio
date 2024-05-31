@@ -16,6 +16,7 @@ constraintlayoutCompose = "1.0.1"
 navigationRuntimeKtx = "2.7.7"
 runtimeLivedata = "1.6.7"
 retrofit2 = "2.9.0"
+lifecycleRuntimeComposeAndroid = "2.8.1"
 
 [libraries]
 retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
@@ -44,6 +45,7 @@ androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name 
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
