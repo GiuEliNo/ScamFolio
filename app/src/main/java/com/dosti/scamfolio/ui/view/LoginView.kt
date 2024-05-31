@@ -66,42 +66,42 @@ fun LoginView(
     val state by remember { mutableStateOf(viewModel.stateLogin) }
 
     if (state.intValue==1) {
-    BackgroundGradient()
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        LogoText()
-        Spacer(modifier = Modifier.height(100.dp))
-
-        usernameField(
-            value = temp1,
-            onValueChange = { temp1 = it },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        passwordField(
-            value = temp2,
-            onValueChange = { temp2 = it },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(100.dp))
-        SubmitButton { viewModel.changeState() }
-        Spacer(modifier = Modifier.height(30.dp))
-        CreateAccountButton()
-        Spacer(modifier = Modifier.height(40.dp))
-    }
-
-/*
-        ClickableText(
-            text = AnnotatedString("Credits"),
-            onClick = { Toast.makeText(LocalContext.current, "Made by [authors]", Toast.LENGTH_SHORT).show() }
+        BackgroundGradient()
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
         ) {
+            LogoText()
+            Spacer(modifier = Modifier.height(100.dp))
+
+            usernameField(
+                value = temp1,
+                onValueChange = { temp1 = it },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            passwordField(
+                value = temp2,
+                onValueChange = { temp2 = it },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(100.dp))
+            SubmitButton { viewModel.changeState() }
+            Spacer(modifier = Modifier.height(30.dp))
+            CreateAccountButton()
+            Spacer(modifier = Modifier.height(40.dp))
         }
 
- */
+        /*
+                ClickableText(
+                    text = AnnotatedString("Credits"),
+                    onClick = { Toast.makeText(LocalContext.current, "Made by [authors]", Toast.LENGTH_SHORT).show() }
+                ) {
+                }
+
+         */
     } else {
         Homepage()
     }
