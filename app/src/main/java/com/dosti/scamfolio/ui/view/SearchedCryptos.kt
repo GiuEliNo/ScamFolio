@@ -201,21 +201,21 @@ fun CoinItem(coin: CoinModelAPI) {
                     maxLines = 1
                 )
             }
-
         }
-
     }
-
 }
 
 
 @Composable
 fun SearchedCryptos(
     viewModelStoreOwner: ViewModelStoreOwner,
-    factory: ViewModelFactory
+    viewModel: SearchedCryptosViewModel
 ) {
+    /*
     val viewModel =
         ViewModelProvider(viewModelStoreOwner, factory)[SearchedCryptosViewModel::class.java]
+
+     */
 
     LaunchedEffect(Unit) {
         viewModel.fetchAllCryptos()
@@ -225,20 +225,15 @@ fun SearchedCryptos(
 
     searchResults?.let {
         Scaffold(
+            /*
             bottomBar = {
                 BottomAppBar(
                     containerColor = Color.Black,
                     contentColor = Color.Black,
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        color = Color.White,
-                        text = "Qui ce ca la navigazione",
-                    )
-                }
+                ) {}
             }
+
+             */
         ) {innerPadding ->
 
             SearchScreen(
@@ -247,9 +242,6 @@ fun SearchedCryptos(
                         onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
                         innerPadding
                     )
-                }
-
+        }
     }
-
-
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -39,7 +40,7 @@ import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 @Composable
-fun ComposeCryptoPages(factory : ViewModelFactory) {
+fun ComposeCryptoPages(factory : ViewModelFactory, viewModelStoreOwner: ViewModelStoreOwner) {
     val navController = rememberNavController()
 
     ScamFolioTheme {
@@ -54,7 +55,8 @@ fun ComposeCryptoPages(factory : ViewModelFactory) {
             ComposeCryptoNavHost(
                 navController = navController,
                 factory = factory,
-                modifier = Modifier.padding(it)
+                modifier = Modifier.padding(it),
+                viewModelStoreOwner
             )
         }
     }
@@ -115,7 +117,8 @@ fun ComposeCryptoBottomBar(navController: NavHostController) {
 fun ComposeCryptoNavHost(
     navController: NavHostController,
     factory: ViewModelProvider.Factory?,
-    modifier: Modifier
+    modifier: Modifier,
+    viewModelStoreOwner: ViewModelStoreOwner
 ) {
     NavHost(
         navController = navController,
@@ -127,7 +130,7 @@ fun ComposeCryptoNavHost(
         }
 
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {
-            test()
+            SearchedCryptos(viewModelStoreOwner = viewModelStoreOwner, viewModel = viewModel(factory = factory))
         }
     }
 }

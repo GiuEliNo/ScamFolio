@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
             val factory = ViewModelFactory(Repository(db.userDao()))
 
 
-            ComposeCryptoPages(factory = factory)
+            ComposeCryptoPages(factory = factory, this)
         }
     }
 }
