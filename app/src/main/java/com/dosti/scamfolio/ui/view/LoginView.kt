@@ -117,16 +117,6 @@ fun BackgroundGradient() {
     )
 }
 
-data class Credentials(
-    var login: String = "",
-    var pwd: String = "",
-    var remember: Boolean = false
-) {
-    fun isNotEmpty(): Boolean {
-        return login.isNotEmpty() && pwd.isNotEmpty()
-    }
-}
-
 @Composable
 fun LogoText() {
     Column(
@@ -170,7 +160,7 @@ fun usernameField(
             tint = Color.White
         )
     }
-    var textUsername by remember { mutableStateOf("") }
+
     TextField(
         value = value,
         onValueChange = onValueChange,

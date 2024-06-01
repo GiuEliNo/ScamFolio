@@ -69,7 +69,6 @@ fun Homepage(
         /*
         LoginView(viewModelStoreOwner = viewModelStoreOwner, factory = ViewModelFactory(Repository(
             AppDatabase.getInstance(LocalContext.current).userDao())))
-
          */
     }
 

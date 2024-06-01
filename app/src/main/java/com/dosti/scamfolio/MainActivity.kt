@@ -25,6 +25,7 @@ import com.dosti.scamfolio.ui.view.Homepage
 import com.dosti.scamfolio.ui.view.LoginView
 import com.dosti.scamfolio.ui.view.LoginView
 import com.dosti.scamfolio.ui.view.SearchedCryptos
+import com.dosti.scamfolio.ui.view.SignInScreen
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 
@@ -36,7 +37,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val db = AppDatabase.getInstance(LocalContext.current)
             val factory = ViewModelFactory(Repository(db.userDao()))
-            LoginView(viewModelStoreOwner = this, factory = factory)
+            // LoginView(viewModelStoreOwner = this, factory = factory)
+            SignInScreen()
         }
     }
 }
