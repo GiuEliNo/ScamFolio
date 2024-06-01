@@ -17,38 +17,62 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.dbStuff.AppDatabase
+import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.ui.theme.custom
+import com.dosti.scamfolio.viewModel.HomepageViewModel
+import com.dosti.scamfolio.viewModel.LoginViewModel
+import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 @Composable
 fun Homepage(
+    viewModelStoreOwner: ViewModelStoreOwner,
+    homepageViewModel: HomepageViewModel
 ) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.DarkGray)
-    ) {
-        val username by rememberSaveable() { mutableStateOf("user") }
-        val search by rememberSaveable() { mutableStateOf(R.string.search_cryptos) }
-        val personal by rememberSaveable() { mutableStateOf(R.string.personal_area) }
-        val settings by rememberSaveable { mutableStateOf(R.string.settings) }
+    var state by rememberSaveable { mutableStateOf(0) }
+    val context = LocalContext.current
 
-        TopText(username = username)
-        Spacer(modifier = Modifier.height(140.dp))
-        
-        GenericButton(buttonText = stringResource(id = search))
-        GenericButton(buttonText = stringResource(id = personal))
-        GenericButton(buttonText = stringResource(id = settings))
+    if (state == 0) {
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.DarkGray)
+        ) {
+            val username by rememberSaveable() { mutableStateOf("user") }
+            val search by rememberSaveable() { mutableStateOf(R.string.search_cryptos) }
+            val personal by rememberSaveable() { mutableStateOf(R.string.personal_area) }
+            val settings by rememberSaveable { mutableStateOf(R.string.settings) }
+
+            TopText(username = username)
+            Spacer(modifier = Modifier.height(140.dp))
+
+            GenericButton(buttonText = stringResource(id = search), { /* TODO */})
+            GenericButton(buttonText = stringResource(id = personal), { /* TODO */})
+            GenericButton(buttonText = stringResource(R.string.logout), { state += 1 })
+        }
+    } else {
+        /*
+        LoginView(viewModelStoreOwner = viewModelStoreOwner, factory = ViewModelFactory(Repository(
+            AppDatabase.getInstance(LocalContext.current).userDao())))
+
+         */
     }
+
 }
 
 @Composable
@@ -79,7 +103,8 @@ fun TopText(
 
 @Composable
 fun GenericButton(
-    buttonText : String
+    buttonText : String,
+    onClick : () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -88,7 +113,7 @@ fun GenericButton(
             .fillMaxWidth()
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onClick,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
@@ -108,5 +133,9 @@ fun GenericButton(
     }
     
     Spacer(modifier = Modifier.height(40.dp))
+}
+
+private fun onLogout() {
+
 }
 

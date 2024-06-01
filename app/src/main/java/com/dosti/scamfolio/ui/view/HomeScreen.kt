@@ -126,7 +126,7 @@ fun ComposeCryptoNavHost(
         modifier = modifier
     ) {
         composable(ScreenRouter.ROUTE_PERSONALAREA) {
-            Homepage()
+            Homepage(viewModelStoreOwner = viewModelStoreOwner, homepageViewModel = viewModel(factory = factory))
         }
 
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {

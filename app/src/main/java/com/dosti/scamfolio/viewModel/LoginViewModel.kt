@@ -26,7 +26,12 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     var stateLogin= _stateLogin
 
     fun changeState(){
-        _stateLogin.intValue=0
-        stateLogin=_stateLogin
+        if (_stateLogin.intValue == 0) {
+            _stateLogin.intValue = 1
+            stateLogin = _stateLogin
+        } else {
+            _stateLogin.intValue = 0
+            stateLogin = _stateLogin
+        }
     }
 }
