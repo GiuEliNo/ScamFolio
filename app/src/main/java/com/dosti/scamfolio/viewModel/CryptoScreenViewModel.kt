@@ -8,21 +8,22 @@ import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.api.CoinGekoAPI
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class CryptoScreenViewModel(private val repository: Repository) : ViewModel() {
     private val _coin = MutableLiveData<CoinModelAPI>()
     val coin: LiveData<CoinModelAPI> = _coin
-    fun fetchCrypto(id : String) {
+    fun fetchCrypto(coinId : String) {
         viewModelScope.launch {
             val newCoin = CoinGekoAPI.coinGekoAPIService.getCoinData(
                 "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
-                id,
+                coinId.lowercase(),
                 vsCurrency = "eur",
                 order = "market_cap_desc",
                 perPage = "250",
                 sparklineBoolean = false,
             )
-            _coin.value = newCoin
+            _coin.value = newCoin[0]
         }
     }
 }

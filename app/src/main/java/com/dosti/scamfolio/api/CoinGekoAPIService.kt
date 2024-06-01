@@ -20,12 +20,12 @@ interface CoinGekoAPIService {
     @GET("coins/markets")
     suspend fun getCoinData(
         @Header("secret_key") secretKey : String = "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
-        @Path("id") coinId: String,
+        @retrofit2.http.Query("ids") id: String,
         @retrofit2.http.Query("vs_currency") vsCurrency: String = "eur",
         @retrofit2.http.Query("order") order: String = "market_cap_desc",
         @retrofit2.http.Query("per_page") perPage: String = "250",
         @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = false
-    ): CoinModelAPI
+    ): List<CoinModelAPI>
 }
 object CoinGekoAPI {
     private val retrofit = Retrofit.Builder()

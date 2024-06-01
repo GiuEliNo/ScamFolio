@@ -2,6 +2,7 @@ package com.dosti.scamfolio.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -21,7 +22,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,14 +44,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.viewModel.SearchedCryptosViewModel
-import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +57,8 @@ fun SearchScreen(
     searchQuery: String,
     searchResults: List<CoinModelAPI>,
     onSearchQueryChange: (String) -> Unit,
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    selectedCoin: (String) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
@@ -109,19 +108,20 @@ fun SearchScreen(
             items(
                 items = searchResults
             ) { coin ->
-                CoinItem(coin = coin)
+                CoinItem(coin = coin, selectedCoin)
             }
         }
     }
 }
 @Composable
-fun CoinItem(coin: CoinModelAPI) {
+fun CoinItem(coin: CoinModelAPI,  selectedCoin: (String) -> Unit) {
     Row(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = { selectedCoin(coin.id) }),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             painter = rememberAsyncImagePainter(coin.image),
@@ -208,7 +208,8 @@ fun CoinItem(coin: CoinModelAPI) {
 @Composable
 fun SearchedCryptos(
     viewModelStoreOwner: ViewModelStoreOwner,
-    viewModel: SearchedCryptosViewModel
+    viewModel: SearchedCryptosViewModel,
+    selectedCoin: (String) -> Unit
 ) {
     /*
     val viewModel =
@@ -239,7 +240,8 @@ fun SearchedCryptos(
                         searchQuery = viewModel.searchQuery,
                         searchResults = it,
                         onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
-                        innerPadding
+                        innerPadding,
+                        selectedCoin
                     )
         }
     }

@@ -16,6 +16,7 @@ sealed class ScreenRouter(val route : String, @StringRes val label: Int, val ico
 
         const val ROUTE_PERSONALAREA = "personalArea"
         const val ROUTE_SEARCHCOIN = "searchCoin"
+        const val COIN_DETAIL = "coinName"
     }
 
     private data object PersonalArea : ScreenRouter(
