@@ -35,11 +35,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val db = AppDatabase.getInstance(LocalContext.current)
-
             val factory = ViewModelFactory(Repository(db.userDao()))
-
-
-            ComposeCryptoPages(factory = factory, this)
+            LoginView(viewModelStoreOwner = this, factory = factory)
         }
     }
 }

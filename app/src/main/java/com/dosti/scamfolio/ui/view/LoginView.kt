@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.ui.view
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +38,10 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onKeyEvent
 import android.view.KeyEvent
+import android.widget.Toast
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -60,9 +63,9 @@ fun LoginView(
     factory: ViewModelFactory
 ) {
     val viewModel= ViewModelProvider(viewModelStoreOwner, factory)[LoginViewModel::class.java]
-    var credentials by remember { mutableStateOf(Credentials()) }
-    var temp1 by rememberSaveable { mutableStateOf("") }
-    var temp2 by rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
+    var username by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
     val state by remember { mutableStateOf(viewModel.stateLogin) }
 
     if (state.intValue==1) {
@@ -77,33 +80,30 @@ fun LoginView(
             Spacer(modifier = Modifier.height(100.dp))
 
             usernameField(
-                value = temp1,
-                onValueChange = { temp1 = it },
+                value = username,
+                onValueChange = { username = it },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(20.dp))
             passwordField(
-                value = temp2,
-                onValueChange = { temp2 = it },
+                value = password,
+                onValueChange = { password = it },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(100.dp))
-            SubmitButton { viewModel.changeState() }
+            SubmitButton(
+                onClick = {
+                    onSubmit(username, password, viewModel, context)
+                },
+                username = username,
+                password = password
+            )
             Spacer(modifier = Modifier.height(30.dp))
             CreateAccountButton()
             Spacer(modifier = Modifier.height(40.dp))
         }
-
-        /*
-                ClickableText(
-                    text = AnnotatedString("Credits"),
-                    onClick = { Toast.makeText(LocalContext.current, "Made by [authors]", Toast.LENGTH_SHORT).show() }
-                ) {
-                }
-
-         */
     } else {
-        Homepage()
+        ComposeCryptoPages(factory = factory, viewModelStoreOwner = viewModelStoreOwner)
     }
 }
 
@@ -239,7 +239,9 @@ fun passwordField(
 
 @Composable
 fun SubmitButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    username: String,
+    password: String
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -296,5 +298,12 @@ fun CreateAccountButton() {
             }
 
         }
+    }
+}
+
+private fun onSubmit(username : String, password : String, viewModel : LoginViewModel, context: Context) {
+    viewModel.checkLogin(username, password)
+    if (viewModel.stateLogin.intValue == 1) {
+        Toast.makeText(context, "Wrong credentials!", Toast.LENGTH_SHORT).show()
     }
 }

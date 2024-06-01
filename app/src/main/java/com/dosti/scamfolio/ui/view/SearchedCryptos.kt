@@ -205,7 +205,6 @@ fun CoinItem(coin: CoinModelAPI) {
     }
 }
 
-
 @Composable
 fun SearchedCryptos(
     viewModelStoreOwner: ViewModelStoreOwner,
