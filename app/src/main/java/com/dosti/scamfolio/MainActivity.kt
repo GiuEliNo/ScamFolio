@@ -37,8 +37,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val db = AppDatabase.getInstance(LocalContext.current)
             val factory = ViewModelFactory(Repository(db.userDao()))
-            // LoginView(viewModelStoreOwner = this, factory = factory)
-            SignInScreen()
+            LoginView(viewModelStoreOwner = this, factory = factory)
+            //SignInScreen()
         }
     }
 }

@@ -133,7 +133,7 @@ fun ComposeCryptoNavHost(
         modifier = modifier
     ) {
         composable(ScreenRouter.ROUTE_PERSONALAREA) {
-            Homepage(viewModelStoreOwner = viewModelStoreOwner, homepageViewModel = viewModel(factory = factory))
+            Welcome(viewModelStoreOwner = viewModelStoreOwner, homepageViewModel = viewModel(factory = factory))
         }
 
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {
@@ -167,20 +167,5 @@ class AppActions(
 
     val navigateUp: () -> Unit = {
         navController.navigateUp()
-    }
-}
-
-@Composable
-fun test() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Text(
-            text = "hi",
-            Modifier.size(150.dp)
-            )
     }
 }
