@@ -5,9 +5,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.dosti.scamfolio.db.entities.Purchasing
+import com.dosti.scamfolio.db.entities.User
 
 @Dao
-interface UserDao {
+interface ScamfolioDao {
     @Insert
     fun insertAll(users : List<User>)
 
@@ -25,4 +27,11 @@ interface UserDao {
 
     @Query("SELECT * FROM User WHERE username LIKE :username AND password LIKE :password")
     fun loadByLogin(username : String, password : String) : User
+
+    @Query("SELECT * FROM Purchasing WHERE usernameUser LIKE :username ")
+    fun getPurchasingList(username: String) : List<Purchasing>
+
+    @Insert
+    fun insertPurchasing(purchasing: Purchasing)
+
 }

@@ -1,4 +1,4 @@
-package com.dosti.scamfolio.dbStuff
+package com.dosti.scamfolio.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

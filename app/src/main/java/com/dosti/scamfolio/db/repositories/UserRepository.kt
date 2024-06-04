@@ -1,15 +1,16 @@
 package com.dosti.scamfolio.db.repositories
 
-import com.dosti.scamfolio.dbStuff.User
-import com.dosti.scamfolio.dbStuff.UserDao
+import com.dosti.scamfolio.db.entities.User
+import com.dosti.scamfolio.dbStuff.ScamfolioDao
 
-class UserRepository(private val userDao: UserDao) {
-    suspend fun insertUser(user: User) = userDao.insert(user)
 
-    suspend fun updateUser(user: User) = userDao.update(user)
+class UserRepository(private val dao: ScamfolioDao) {
+    suspend fun insertUser(user: User) = dao.insert(user)
 
-    suspend fun deleteUser(user: User) = userDao.delete(user)
+    suspend fun updateUser(user: User) = dao.update(user)
 
-    fun login(username : String, password : String) : User = userDao.loadByLogin(username, password)
+    suspend fun deleteUser(user: User) = dao.delete(user)
+
+    fun login(username : String, password : String) : User = dao.loadByLogin(username, password)
 
 }

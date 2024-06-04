@@ -5,14 +5,15 @@ import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dosti.scamfolio.db.dao.PurchaseDao
+import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.utils.ConverterDate
-import com.dosti.scamfolio.db.entities.Purchase
+import com.dosti.scamfolio.db.entities.Purchasing
+import com.dosti.scamfolio.db.entities.User
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class, Coin::class, Purchasing::class ], version = 1)
 @TypeConverters(ConverterDate::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
+    abstract fun ScamfolioDao(): ScamfolioDao
 
     companion object {
         private var db: AppDatabase? = null
@@ -25,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "scamfolio.db"
                 )
                     .createFromAsset("scamfolio.db")
-                    .allowMainThreadQueries()
+                    //.allowMainThreadQueries()
                     .build()
             }
             return db as AppDatabase
