@@ -139,6 +139,10 @@ fun ComposeCryptoNavHost(
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {
             SearchedCryptos(viewModelStoreOwner = viewModelStoreOwner, viewModel = viewModel(factory = factory), selectedCoin = actions.selectedCoin)
         }
+        
+        composable(ScreenRouter.ROUTE_CALCULATOR) {
+            ConverterScreen(viewModelStoreOwner = viewModelStoreOwner)
+        }
         composable(
             "${ScreenRouter.ROUTE_SEARCHCOIN}/{$COIN_DETAIL}",
             arguments = listOf(
