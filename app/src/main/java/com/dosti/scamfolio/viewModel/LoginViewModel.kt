@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.db.entities.User
 import com.dosti.scamfolio.dbStuff.Repository
+import com.dosti.scamfolio.ui.view.loginScreens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,12 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _loginResult = MutableStateFlow<User?>(null)
+
+
+    private var _currentScreen=MutableStateFlow(loginScreens.LOGIN)
+    var currentScreen= _currentScreen
+
+    //TODO logica nel viewModel per gestire i cambi di configurazione
 
     val loginResult: StateFlow<User?> =_loginResult
 
@@ -46,6 +53,16 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
         } else {
             _stateLogin.intValue = 0
             stateLogin = _stateLogin
+        }
+    }
+
+
+    fun createNewUser(
+        username: String,
+        password: String
+    ){
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.signIn(username, password)
         }
     }
 }
