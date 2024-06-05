@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.compose.rememberNavController
+import com.dosti.scamfolio.db.entities.User
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
@@ -67,12 +68,14 @@ fun LoginView(
     val context = LocalContext.current
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    val state by remember { mutableStateOf(viewModel.stateLogin) }
+    //val state by remember { mutableStateOf(viewModel.stateLogin) }
+    val loginResult by viewModel.loginResult.collectAsState()
     var orientation by remember { mutableStateOf(Configuration.ORIENTATION_PORTRAIT) }
 
     when (orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
-            if (state.intValue==1) {
+           // if (state.intValue==1) {
+            if (loginResult==null) {
                 BackgroundGradient()
                 Column(
                     verticalArrangement = Arrangement.Top,
@@ -107,6 +110,8 @@ fun LoginView(
                     Spacer(modifier = Modifier.height(40.dp))
                 }
             } else {
+
+                Toast.makeText(context, "Logged in correctly!", Toast.LENGTH_SHORT).show()
                 ComposeCryptoPages(factory = factory, viewModelStoreOwner = viewModelStoreOwner)
             }
         }
@@ -301,11 +306,8 @@ fun CreateAccountButton() {
     }
 }
 
-private fun onSubmit(username : String, password : String, viewModel : LoginViewModel, context: Context) {
+private fun onSubmit(username : String, password : String, viewModel : LoginViewModel, context: Context ) {
     viewModel.checkLogin(username, password)
-    if (viewModel.stateLogin.intValue == 1) {
-        Toast.makeText(context, "Wrong credentials!", Toast.LENGTH_SHORT).show()
-    }
 }
 
 @Composable

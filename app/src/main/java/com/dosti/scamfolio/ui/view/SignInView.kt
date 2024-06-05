@@ -1,5 +1,7 @@
 package com.dosti.scamfolio.ui.view
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,17 +31,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.ui.theme.custom
+import com.dosti.scamfolio.viewModel.CreateAccountViewModel
+import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    viewModelStoreOwner: ViewModelStoreOwner,
+    factory: ViewModelFactory
+) {
+    val context= LocalContext.current
+    val viewModel=ViewModelProvider(viewModelStoreOwner, factory)[CreateAccountViewModel::class.java]
     BackgroundGradient()
     Column(
         verticalArrangement = Arrangement.Top,
@@ -67,7 +79,7 @@ fun SignInScreen() {
 
         Spacer(modifier = Modifier.height(100.dp))
         
-        SignInButton() { onSubmit() }
+        SignInButton(username, password,viewModel, context) { onSubmit(username, password, viewModel, context)}
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
@@ -130,6 +142,10 @@ fun SignInPasswordField(
 
 @Composable
 fun SignInButton(
+    username: String,
+    password: String,
+    viewModel: CreateAccountViewModel,
+    context: Context,
     onClick: () -> Unit
 ) {
     Column(
@@ -139,7 +155,7 @@ fun SignInButton(
             .fillMaxWidth()
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onSubmit(username, password, viewModel, context) },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
@@ -160,4 +176,12 @@ fun SignInButton(
     }
 }
 
-private fun onSubmit() {}
+private fun onSubmit(
+    username: String,
+    password: String,
+    viewModel: CreateAccountViewModel,
+    context: Context
+) {
+    viewModel.createNewUser(username, password)
+    Toast.makeText(context, "Sign in completed", Toast.LENGTH_SHORT).show()
+}

@@ -11,6 +11,6 @@ class UserRepository(private val dao: ScamfolioDao) {
 
     suspend fun deleteUser(user: User) = dao.delete(user)
 
-    fun login(username : String, password : String) : User = dao.loadByLogin(username, password)
+    fun login(username : String, password : String) : User? = dao.loadByLogin(username, password)
 
 }

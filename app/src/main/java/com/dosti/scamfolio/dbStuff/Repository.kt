@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class Repository(private val dao: ScamfolioDao) {
-    fun login(username : String, password : String) : User {
+    fun login(username : String, password : String) : User? {
         return dao.loadByLogin(username, password)
     }
 

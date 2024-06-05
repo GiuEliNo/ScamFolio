@@ -25,8 +25,8 @@ interface ScamfolioDao {
     @Query("SELECT * FROM User")
     fun loadAll() : Array<User>
 
-    @Query("SELECT * FROM User WHERE username LIKE :username AND password LIKE :password")
-    fun loadByLogin(username : String, password : String) : User
+    @Query("SELECT * FROM User WHERE username LIKE :username AND password LIKE :password LIMIT 1")
+    fun loadByLogin(username : String, password : String) : User?
 
     @Query("SELECT * FROM Purchasing WHERE usernameUser LIKE :username ")
     fun getPurchasingList(username: String) : List<Purchasing>
