@@ -45,27 +45,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.db.entities.User
 import com.dosti.scamfolio.ui.theme.custom
-import com.dosti.scamfolio.viewModel.CreateAccountViewModel
 import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 
-
-enum class loginScreens{
-    LOGIN,REGISTER, HOME
-}
 
 @Composable
 fun MainLoginScreen(
     viewModelStoreOwner: ViewModelStoreOwner,
     viewModelFactory: ViewModelFactory
 ){
-    var currentScreen by remember {
-        mutableStateOf(loginScreens.LOGIN)
-    }
-        when(currentScreen) {
-            loginScreens.LOGIN -> LoginView1( viewModelStoreOwner, viewModelFactory, onNavigateToRegister = {currentScreen=loginScreens.REGISTER}, onLoginSuccess = {currentScreen=loginScreens.HOME})
-            loginScreens.REGISTER -> SignInView(viewModelStoreOwner, viewModelFactory, onBackButton={currentScreen=loginScreens.LOGIN})
-            loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModelStoreOwner)
+    val viewModel=ViewModelProvider(viewModelStoreOwner, viewModelFactory)[LoginViewModel::class.java]
+    val currentScreen by remember{ viewModel.currentScreen}
+        when(currentScreen){
+            LoginViewModel.loginScreens.LOGIN -> LoginView1( viewModelStoreOwner, viewModelFactory, onNavigateToRegister = {viewModel.navigateToRegister()}, onLoginSuccess = {viewModel.navigateToHome()})
+            LoginViewModel.loginScreens.REGISTER -> SignInView(viewModelStoreOwner, viewModelFactory, onBackButton={viewModel.navigateToLogin()})
+            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModelStoreOwner)
         }
 }
 
@@ -109,6 +103,18 @@ fun LoginView1(
                 onLoginSuccess
             )
 
+        }
+        Configuration.ORIENTATION_UNDEFINED-> {
+            LoginViewPortraitLayout(
+                viewModel,
+                username,
+                onUsernameChange = { username = it },
+                password,
+                onPasswordChange = { password = it },
+                loginResult,
+                onNavigateToRegister,
+                onLoginSuccess
+            )
         }
     }
 }
@@ -531,6 +537,16 @@ fun SignInView(
         }
         Configuration.ORIENTATION_LANDSCAPE -> {
             SignInViewLandscapeLayout(
+                viewModel,
+                username,
+                onUsernameChange ={username = it},
+                password,
+                onPasswordChange = {password=it},
+                onBackButton
+            )
+        }
+        Configuration.ORIENTATION_UNDEFINED -> {
+            SignInViewPortraitLayout(
                 viewModel,
                 username,
                 onUsernameChange ={username = it},

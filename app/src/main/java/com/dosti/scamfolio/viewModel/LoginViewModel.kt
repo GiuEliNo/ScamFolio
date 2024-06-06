@@ -1,14 +1,11 @@
 package com.dosti.scamfolio.viewModel
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.db.entities.User
 import com.dosti.scamfolio.dbStuff.Repository
-import com.dosti.scamfolio.ui.view.loginScreens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,10 +17,28 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _loginResult = MutableStateFlow<User?>(null)
 
 
-    private var _currentScreen=MutableStateFlow(loginScreens.LOGIN)
+
+    enum class loginScreens{
+        LOGIN,REGISTER, HOME
+    }
+
+
+
+    private var _currentScreen=mutableStateOf(loginScreens.LOGIN)
     var currentScreen= _currentScreen
 
-    //TODO logica nel viewModel per gestire i cambi di configurazione
+    fun navigateToLogin(){
+        _currentScreen.value=(loginScreens.LOGIN)
+    }
+
+    fun navigateToRegister(){
+        _currentScreen.value=(loginScreens.REGISTER)
+    }
+
+    fun navigateToHome(){
+        _currentScreen.value=(loginScreens.HOME)
+
+    }
 
     val loginResult: StateFlow<User?> =_loginResult
 
@@ -45,17 +60,6 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     private var _stateLogin = mutableIntStateOf(1)
     var stateLogin = _stateLogin
-
-    fun changeState() {
-        if (_stateLogin.intValue == 0) {
-            _stateLogin.intValue = 1
-            stateLogin = _stateLogin
-        } else {
-            _stateLogin.intValue = 0
-            stateLogin = _stateLogin
-        }
-    }
-
 
     fun createNewUser(
         username: String,
