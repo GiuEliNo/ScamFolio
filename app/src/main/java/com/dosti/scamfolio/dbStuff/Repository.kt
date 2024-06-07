@@ -24,4 +24,8 @@ class Repository(private val dao: ScamfolioDao) {
             dao.insertPurchasing(purchasing)
         }
     }
+
+    fun checkUserExistence(username: String): Boolean{
+        return dao.checkUserExistence(username)
+    }
 }

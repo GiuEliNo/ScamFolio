@@ -3,14 +3,12 @@ package com.dosti.scamfolio.ui.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.HomepageViewModel
@@ -29,6 +26,8 @@ import com.dosti.scamfolio.viewModel.HomepageViewModel
 fun Welcome(
     viewModel: HomepageViewModel
 ) {
+    val user= viewModel.username
+    val balance= viewModel.balance
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,10 +35,10 @@ fun Welcome(
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        TopLabel(username = "user")
+        TopLabel(username = user)
         Spacer(modifier = Modifier.height(140.dp))
 
-        BalanceText(balance = 3.5F)
+        BalanceText(balance = balance)
         Transactions()
     }
 }

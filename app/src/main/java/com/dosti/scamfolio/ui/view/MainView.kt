@@ -60,22 +60,20 @@ fun MainLoginScreen(
     val viewModel=ViewModelProvider(viewModelStoreOwner, viewModelFactory)[LoginViewModel::class.java]
     val currentScreen by remember{ viewModel.currentScreen}
         when(currentScreen){
-            LoginViewModel.loginScreens.LOGIN -> LoginView1( viewModelStoreOwner, viewModelFactory, onNavigateToRegister = {viewModel.navigateToRegister()}, onLoginSuccess = {viewModel.navigateToHome()})
-            LoginViewModel.loginScreens.REGISTER -> SignInView(viewModelStoreOwner, viewModelFactory, onBackButton={viewModel.navigateToLogin()})
-            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModelStoreOwner)
+            LoginViewModel.loginScreens.LOGIN -> LoginView( viewModel, onNavigateToRegister = {viewModel.navigateToRegister()}, onLoginSuccess = {viewModel.navigateToHome()})
+            LoginViewModel.loginScreens.REGISTER -> SignInView(viewModel, onBackButton={viewModel.navigateToLogin()})
+            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory)
         }
 }
 
 
 
 @Composable
-fun LoginView1(
-    viewModelStoreOwner: ViewModelStoreOwner,
-    factory: ViewModelFactory,
+fun LoginView(
+    viewModel: LoginViewModel,
     onNavigateToRegister:  () -> Unit,
     onLoginSuccess: () -> Unit,
 ) {
-    val viewModel= ViewModelProvider(viewModelStoreOwner, factory)[LoginViewModel::class.java]
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     val loginResult by viewModel.loginResult.collectAsState()
@@ -135,23 +133,23 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
                             )
 {
         if (loginResult==null) {
-            BackgroundGradient1()
+            BackgroundGradient()
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                LogoText1()
+                LogoText()
                 Spacer(modifier = Modifier.height(100.dp))
 
-                usernameField1(
+                usernameField(
                     value = username,
                     onValueChange = onUsernameChange,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                passwordField1(
+                passwordField(
                     value = password,
                     onValueChange = onPasswordChange,
                     modifier = Modifier.fillMaxWidth()
@@ -171,7 +169,8 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
             }
         } else {
 
-            Toast.makeText(LocalContext.current, "Logged in correctly!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current,
+                stringResource(R.string.logged_in_correctly), Toast.LENGTH_SHORT).show()
             onLoginSuccess()
 
         }
@@ -193,7 +192,7 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
                              onLoginSuccess: () -> Unit)
 {
     if (loginResult==null) {
-        BackgroundGradient1()
+        BackgroundGradient()
         Row(
             modifier=Modifier.fillMaxSize(),
         ) {
@@ -201,17 +200,17 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
                 .fillMaxHeight()
                 .weight(1f))
             {
-                LogoText1()
+                LogoText()
             }
             Column(modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f))
             {
-                usernameField1(value = username,
+                usernameField(value = username,
                     onValueChange = onUsernameChange,
                     modifier = Modifier.fillMaxWidth())
 
-                passwordField1(
+                passwordField(
                     value = password,
                     onValueChange = onPasswordChange,
                     modifier = Modifier.fillMaxWidth()
@@ -237,7 +236,7 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
 
     } else {
 
-            Toast.makeText(LocalContext.current, "Logged in correctly!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, stringResource(R.string.logged_in_correctly), Toast.LENGTH_SHORT).show()
             onLoginSuccess()
         }
 
@@ -245,7 +244,7 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
 
 
 @Composable
-fun BackgroundGradient1() {
+fun BackgroundGradient() {
     val brush = Brush.verticalGradient(listOf(Color(0xFF1E1E1E), Color.DarkGray))
     Box(
         modifier = Modifier
@@ -255,7 +254,7 @@ fun BackgroundGradient1() {
 }
 
 @Composable
-fun LogoText1() {
+fun LogoText() {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -284,7 +283,7 @@ fun LogoText1() {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun usernameField1(
+fun usernameField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -316,7 +315,7 @@ fun usernameField1(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun passwordField1(
+fun passwordField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -492,30 +491,11 @@ private fun onSubmitLogin(username : String, password : String, viewModel : Logi
 }
 
 
-
-
-
-
-
-
-
-
-
-@Composable
-fun test1() {
-    Text(text = "hi android!")
-}
-
-
-
 @Composable
 fun SignInView(
-    viewModelStoreOwner: ViewModelStoreOwner,
-    factory: ViewModelFactory,
+    viewModel: LoginViewModel,
     onBackButton: () -> Unit
 ) {
-    val context= LocalContext.current
-    val viewModel=ViewModelProvider(viewModelStoreOwner, factory)[LoginViewModel::class.java]
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     val configuration= LocalConfiguration.current
@@ -554,7 +534,7 @@ fun SignInView(
 }
 
 @Composable
-fun SignInLogoText1() {
+fun SignInLogoText() {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -580,7 +560,7 @@ fun SignInLogoText1() {
 
 
 @Composable
-fun SignInPasswordField1(
+fun SignInPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
 ) {
@@ -668,7 +648,14 @@ private fun onSubmitRegister(
     context: Context
 ) {
     viewModel.createNewUser(username, password)
-    Toast.makeText(context, "Sign in completed", Toast.LENGTH_SHORT).show()
+    if(!viewModel.eventToast) {
+        Toast.makeText(context, context.getString(R.string.sign_in_completed), Toast.LENGTH_SHORT).show()
+        viewModel.navigateToLogin()
+    }
+    else{
+        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+        viewModel.resetEventToast()
+    }
 }
 
 
@@ -690,7 +677,7 @@ fun SignInViewPortraitLayout(
             .fillMaxSize()
     ) {
 
-        SignInLogoText1()
+        SignInLogoText()
         Spacer(modifier = Modifier.height(100.dp))
 
         usernameField(
@@ -700,7 +687,7 @@ fun SignInViewPortraitLayout(
         )
         Spacer(modifier = Modifier.height(20.dp))
 
-        SignInPasswordField1(
+        SignInPasswordField(
             value = password,
             onValueChange = onPasswordChange,
         )
@@ -763,7 +750,7 @@ fun SignInViewLandscapeLayout(
     onBackButton: () -> Unit
     ){
     var context= LocalContext.current
-    BackgroundGradient1()
+    BackgroundGradient()
     Row(
         modifier=Modifier.fillMaxSize(),
     ) {
@@ -771,17 +758,17 @@ fun SignInViewLandscapeLayout(
             .fillMaxHeight()
             .weight(1f))
         {
-            SignInLogoText1()
+            SignInLogoText()
         }
         Column(modifier = Modifier
             .fillMaxHeight()
             .weight(1f))
         {
-            usernameField1(value = username,
+            usernameField(value = username,
                 onValueChange = onUsernameChange,
                 modifier = Modifier.fillMaxWidth())
 
-            passwordField1(
+            passwordField(
                 value = password,
                 onValueChange = onPasswordChange,
                 modifier = Modifier.fillMaxWidth()

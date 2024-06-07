@@ -36,16 +36,17 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.ui.theme.custom
+import com.dosti.scamfolio.viewModel.ConverterViewModel
 
 @Composable
 fun ConverterScreen(
-    viewModelStoreOwner: ViewModelStoreOwner
+    viewModel: ConverterViewModel
 ) {
-    var firstField by rememberSaveable { mutableStateOf("") }
-    var secondField by rememberSaveable { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
-    val cryptos = listOf("Crypto1", "Crypto2", "Crypto3")
-    var choice by remember { mutableStateOf(cryptos[0]) }
+    var firstField by rememberSaveable { viewModel.firstField }
+    var secondField by rememberSaveable { viewModel.secondField }
+    var expanded by remember { viewModel.expanded }
+    val cryptos = viewModel.cryptos
+    var choice by remember { viewModel.choice }
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -173,5 +174,3 @@ fun CryptoField(
         Spacer(modifier = Modifier.width(20.dp))
     }
 }
-
-private fun calculate() {}

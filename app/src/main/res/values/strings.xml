@@ -12,4 +12,7 @@
     <string name="calculator">calculator</string>
     <string name="back">Back</string>
     <string name="login">Login</string>
+    <string name="sign_in_completed">Sign in completed</string>
+    <string name="logged_in_correctly">Logged in correctly!</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

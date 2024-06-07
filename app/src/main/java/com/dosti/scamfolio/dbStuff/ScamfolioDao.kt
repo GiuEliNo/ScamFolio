@@ -34,4 +34,7 @@ interface ScamfolioDao {
     @Insert
     fun insertPurchasing(purchasing: Purchasing)
 
+    @Query("SELECT EXISTS(SELECT * FROM User WHERE username LIKE :username LIMIT 1)")
+    fun checkUserExistence(username: String) : Boolean
+
 }

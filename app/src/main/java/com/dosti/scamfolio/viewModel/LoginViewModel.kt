@@ -10,12 +10,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _loginResult = MutableStateFlow<User?>(null)
 
+    var eventToast= false
 
 
     enum class loginScreens{
@@ -50,10 +52,12 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
             val user = withContext(Dispatchers.IO) {
                 repository.login(username, password)
             }
-            /* if (user != null) {
-                changeState()*/
-            _loginResult.value = user
-
+            if (user!=null) {
+                _loginResult.value = user
+            }
+            else {
+                eventToast=true
+            }
         }
     }
 
@@ -64,9 +68,24 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     fun createNewUser(
         username: String,
         password: String
-    ){
-        CoroutineScope(Dispatchers.IO).launch {
-            repository.signIn(username, password)
+    ) {
+        viewModelScope.launch {
+            val exist = withContext(Dispatchers.IO) {
+                repository.checkUserExistence(username)
+            }
+
+            if (!exist) {
+                withContext(Dispatchers.IO) {
+                    repository.signIn(username, password)
+                }
+            } else {
+                eventToast = true
+            }
+
         }
+    }
+
+    fun resetEventToast(){
+        eventToast=false
     }
 }
