@@ -207,15 +207,9 @@ fun CoinItem(coin: CoinModelAPI,  selectedCoin: (String) -> Unit) {
 
 @Composable
 fun SearchedCryptos(
-    viewModelStoreOwner: ViewModelStoreOwner,
     viewModel: SearchedCryptosViewModel,
     selectedCoin: (String) -> Unit
 ) {
-    /*
-    val viewModel =
-        ViewModelProvider(viewModelStoreOwner, factory)[SearchedCryptosViewModel::class.java]
-
-     */
 
     LaunchedEffect(Unit) {
         viewModel.fetchAllCryptos()

@@ -27,8 +27,7 @@ import com.dosti.scamfolio.viewModel.HomepageViewModel
 
 @Composable
 fun Welcome(
-    viewModelStoreOwner: ViewModelStoreOwner,
-    homepageViewModel: HomepageViewModel
+    viewModel: HomepageViewModel
 ) {
     Column(
         verticalArrangement = Arrangement.Top,

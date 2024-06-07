@@ -133,15 +133,15 @@ fun ComposeCryptoNavHost(
         modifier = modifier
     ) {
         composable(ScreenRouter.ROUTE_PERSONALAREA) {
-            Welcome(viewModelStoreOwner = viewModelStoreOwner, homepageViewModel = viewModel(factory = factory))
+            Welcome(viewModel = viewModel(factory = factory))
         }
 
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {
-            SearchedCryptos(viewModelStoreOwner = viewModelStoreOwner, viewModel = viewModel(factory = factory), selectedCoin = actions.selectedCoin)
+            SearchedCryptos(viewModel = viewModel(factory = factory), selectedCoin = actions.selectedCoin)
         }
         
         composable(ScreenRouter.ROUTE_CALCULATOR) {
-            ConverterScreen(viewModelStoreOwner = viewModelStoreOwner)
+            ConverterScreen(viewModel = viewModel(factory = factory))
         }
         composable(
             "${ScreenRouter.ROUTE_SEARCHCOIN}/{$COIN_DETAIL}",
