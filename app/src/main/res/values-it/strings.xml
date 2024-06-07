@@ -9,4 +9,9 @@
     <string name="logout">Esci</string>
     <string name="submit">Invia</string>
     <string name="calculate">Calcola</string>
+    <string name="calculator">Calcolatore</string>
+    <string name="back">Indietro</string>
+    <string name="sign_in_completed">Registrazione Completata</string>
+    <string name="logged_in_correctly">Login effettuato correttamente</string>
+    <string name="something_went_wrong">Qualcosa è andato storto</string>
 </resources>
