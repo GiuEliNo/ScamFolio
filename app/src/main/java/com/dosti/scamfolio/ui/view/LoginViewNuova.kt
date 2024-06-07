@@ -36,8 +36,11 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -326,8 +329,8 @@ fun passwordField1(
             tint = Color.White
         )
     }
-    var textPassword by remember { mutableStateOf("") }
-    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
+    var showPass by remember { mutableStateOf(false) }
 
     TextField(
         value = value,
@@ -342,22 +345,14 @@ fun passwordField1(
         ),
         singleLine = true,
         leadingIcon = icon,
-        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        /*
         trailingIcon = {
-            val image = if (passwordVisible)
-                Icons.Filled.Visibility
-            else Icons.Filled.VisibilityOff
-
-            val description = if (passwordVisible) "Hide password" else "Show password"
-
-            IconButton(onClick = {passwordVisible = !passwordVisible}){
-                Icon(imageVector  = image, description)
+            IconButton(onClick = { showPass=!showPass}){
+                Icon(
+                    Icons.Default.RemoveRedEye, contentDescription = "", tint=Color.White)
             }
-        }
-
-         */
+        },
     )
 }
 
@@ -596,7 +591,14 @@ fun SignInPasswordField1(
             tint = Color.White
         )
     }
-    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
+    var showPass by remember { mutableStateOf(false) }
+
+    val visualTransformation = if (showPass) {
+        VisualTransformation.None
+    } else {
+        PasswordVisualTransformation()
+    }
 
     TextField(
         value = value,
@@ -610,7 +612,16 @@ fun SignInPasswordField1(
             unfocusedLabelColor = Color.White
         ),
         singleLine = true,
-        leadingIcon = icon
+        leadingIcon = icon,
+        visualTransformation = visualTransformation,
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+        trailingIcon = {
+            IconButton(onClick = { showPass=!showPass}){
+                Icon(
+                    Icons.Default.RemoveRedEye, contentDescription = "", tint=Color.White)
+            }
+        },
+
     )
 }
 
