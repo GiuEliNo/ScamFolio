@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.api.CoinGekoAPI
+import com.dosti.scamfolio.api.ConnectionRetrofit
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -15,7 +16,7 @@ class CryptoScreenViewModel(private val repository: Repository) : ViewModel() {
     val coin: LiveData<CoinModelAPI> = _coin
     fun fetchCrypto(coinId : String) {
         viewModelScope.launch {
-            val newCoin = CoinGekoAPI.coinGekoAPIService.getCoinData(
+            val newCoin = ConnectionRetrofit.callApi().getCoinData(
                 "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
                 coinId.lowercase(),
                 vsCurrency = "eur",

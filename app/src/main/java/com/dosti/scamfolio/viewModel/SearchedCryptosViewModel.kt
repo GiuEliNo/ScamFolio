@@ -4,10 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dosti.scamfolio.api.CoinGekoAPI
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.dbStuff.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,17 +39,14 @@ class SearchedCryptosViewModel(private val repository: Repository) : ViewModel()
 
 
     fun fetchAllCryptos() {
+
         viewModelScope.launch {
-            val newListCoin = CoinGekoAPI.coinGekoAPIService.getAllCoins(
-                "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
-                vsCurrency = "eur",
-                order = "market_cap_desc",
-                perPage = "250",
-                sparklineBoolean = false,
-            )
-            _coinList.value = newListCoin
+           val newListCoin = repository.loadAllCoin()
+           _coinList.value = newListCoin
         }
     }
+
+
 
     fun onSearchQueryChange(newQuery: String) {
         searchQuery = newQuery

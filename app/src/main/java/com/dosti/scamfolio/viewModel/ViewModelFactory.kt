@@ -16,6 +16,8 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
             HomepageViewModel(repository) as T
         else if( modelClass.isAssignableFrom(ConverterViewModel::class.java))
             ConverterViewModel(repository) as T
+        else if(modelClass.isAssignableFrom(SplashScreenViewModel::class.java))
+            SplashScreenViewModel(repository) as T
         else
             SearchedCryptosViewModel(repository) as T
 }

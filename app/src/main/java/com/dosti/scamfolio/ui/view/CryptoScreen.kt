@@ -187,13 +187,15 @@ fun CryptoHeader(coin: CoinModelAPI) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.End
         ) {
-            Text(
-                text = coin.price_change_percentage_24h,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Medium,
-                color = Color.Green,
-                textAlign = TextAlign.Center
-            )
+            coin.price_change_percentage_24h?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Green,
+                    textAlign = TextAlign.Center
+                )
+            }
             Spacer(modifier = Modifier.size(16.dp))
             Text(
                 text = coin.current_price + "€",

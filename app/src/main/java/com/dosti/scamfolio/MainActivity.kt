@@ -3,23 +3,53 @@ package com.dosti.scamfolio
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.dosti.scamfolio.dbStuff.AppDatabase
 import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.ui.view.MainLoginScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.ViewModelProvider
+import com.dosti.scamfolio.viewModel.SplashScreenViewModel
+import com.dosti.scamfolio.ui.view.SplashScreen
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var statusAPI: SplashScreenViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
-            val db = AppDatabase.getInstance(LocalContext.current)
-            val factory = ViewModelFactory(Repository(db.ScamfolioDao()))
-            MainLoginScreen(viewModelStoreOwner = this, viewModelFactory = factory)
+        val db = AppDatabase.getInstance(this)
+        val repository = Repository(db.ScamfolioDao())
+        val factory = ViewModelFactory(repository)
+        statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                statusAPI.isLoading.value
+            }
         }
+
+        setContent {
+            Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
+                val isLoading by statusAPI.isLoading.collectAsState()
+                if (isLoading) {
+                    SplashScreen()
+                } else {
+                    MainLoginScreen(viewModelStoreOwner = this, viewModelFactory = factory)
+                }
+            }
+        }
+
     }
 }
-
 
 
