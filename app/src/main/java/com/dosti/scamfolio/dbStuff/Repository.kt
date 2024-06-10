@@ -39,5 +39,8 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.loadAllCoin()
     }
 
+    fun isEmpty() : Boolean {
+        return dao.isEmpty()
+    }
 
 }

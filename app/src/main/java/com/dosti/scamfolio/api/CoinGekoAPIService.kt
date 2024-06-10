@@ -27,11 +27,3 @@ interface CoinGekoAPIService {
         @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = false
     ): List<CoinModelAPI>
 }
-object CoinGekoAPI {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.coingecko.com/api/v3/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    val coinGekoAPIService: CoinGekoAPIService = retrofit.create(CoinGekoAPIService::class.java)
-}
-

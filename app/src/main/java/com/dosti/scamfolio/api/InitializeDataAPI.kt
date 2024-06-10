@@ -3,6 +3,7 @@ package com.dosti.scamfolio.api
 import com.dosti.scamfolio.dbStuff.Repository
 
 suspend fun initializeDataAPI(repository: Repository) {
+
     val newCoin = ConnectionRetrofit.callApi().getAllCoins(
         "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
         vsCurrency = "eur",
@@ -11,11 +12,13 @@ suspend fun initializeDataAPI(repository: Repository) {
         sparklineBoolean = false
     )
 
-    // Assuming the newCoin is a list of coin data
+    newCoin.find { it.autoID == 0 }?.time_fetched = System.currentTimeMillis().toString()
+
     newCoin.let {
         for (coinData in it) {
             repository.insertCoinAPI(it)
         }
     }
+
 
 }

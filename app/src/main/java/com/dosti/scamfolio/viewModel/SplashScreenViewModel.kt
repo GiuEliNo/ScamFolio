@@ -17,7 +17,9 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
 
     init {
         viewModelScope.launch {
-            initializeDataAPI(repository)
+            if(repository.isEmpty()) {
+                initializeDataAPI(repository)
+            }
             fetchAllCryptos()
             _isLoading.value = false
         }

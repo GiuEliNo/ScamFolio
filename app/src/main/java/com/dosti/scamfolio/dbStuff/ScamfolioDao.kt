@@ -45,4 +45,7 @@ interface ScamfolioDao {
     @Query("SELECT * FROM CoinModelAPI")
     fun loadAllCoin(): MutableList<CoinModelAPI>
 
+    @Query("SELECT (SELECT COUNT(*) FROM CoinModelAPI) == 0")
+    fun isEmpty(): Boolean
+
 }

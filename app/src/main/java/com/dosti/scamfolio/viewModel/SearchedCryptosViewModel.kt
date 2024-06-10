@@ -18,8 +18,6 @@ import kotlinx.coroutines.launch
 
 class SearchedCryptosViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel) : ViewModel() {
     val _coinList =  sharedCoinGeko.getCoinLiveData()
-    val coinList: StateFlow<MutableList<CoinModelAPI>?>
-        get() = _coinList
     var searchQuery by mutableStateOf("")
         private set
 
@@ -37,18 +35,6 @@ class SearchedCryptosViewModel(private val repository: Repository, private val s
                 initialValue = emptyList(),
                 started = SharingStarted.WhileSubscribed(5_000)
             )
-
-
-    fun fetchAllCryptos() {
-
-        viewModelScope.launch {
-           val newListCoin = repository.loadAllCoin()
-           _coinList.value = newListCoin
-        }
-    }
-
-
-
     fun onSearchQueryChange(newQuery: String) {
         searchQuery = newQuery
     }
