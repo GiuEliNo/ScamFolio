@@ -1,7 +1,6 @@
 package com.dosti.scamfolio.dbStuff
 
-import android.database.Cursor
-import com.dosti.scamfolio.api.model.CoinModelAPI
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User
 import kotlinx.coroutines.CoroutineScope
@@ -31,11 +30,11 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.checkUserExistence(username)
     }
 
-    fun insertCoinAPI(coin: MutableList<CoinModelAPI>){
+    fun insertCoinAPI(coin: MutableList<CoinModelAPIDB>){
         dao.insertCoinAPI(coin)
     }
 
-    fun loadAllCoin() : MutableList<CoinModelAPI> {
+    fun loadAllCoin() : MutableList<CoinModelAPIDB> {
         return dao.loadAllCoin()
     }
 

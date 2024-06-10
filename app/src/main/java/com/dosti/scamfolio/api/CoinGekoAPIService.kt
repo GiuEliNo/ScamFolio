@@ -1,11 +1,8 @@
 package com.dosti.scamfolio.api
 
-import androidx.lifecycle.MutableLiveData
 import com.dosti.scamfolio.api.model.CoinModelAPI
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Header
 
 interface CoinGekoAPIService {
@@ -16,7 +13,7 @@ interface CoinGekoAPIService {
         @retrofit2.http.Query("order") order: String = "market_cap_desc",
         @retrofit2.http.Query("per_page") perPage: String = "250",
         @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = false
-    ): MutableList<CoinModelAPI>
+    ): MutableList<CoinModelAPIDB>
     @GET("coins/markets")
     suspend fun getCoinData(
         @Header("secret_key") secretKey : String = "CG-9CHDGjAiUnv7oCnbFEB7KPAN",

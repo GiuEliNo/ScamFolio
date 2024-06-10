@@ -1,19 +1,17 @@
 package com.dosti.scamfolio.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dosti.scamfolio.api.model.CoinModelAPI
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class SharedCoinGekoViewModel : ViewModel() {
-    private val coinLiveData = MutableStateFlow<MutableList<CoinModelAPI>?>(null)
+    private val coinLiveData = MutableStateFlow<MutableList<CoinModelAPIDB>?>(null)
 
-    fun getCoinLiveData() : MutableStateFlow<MutableList<CoinModelAPI>?> {
+    fun getCoinLiveData() : MutableStateFlow<MutableList<CoinModelAPIDB>?> {
         return coinLiveData
     }
 
-    fun setCoinLiveData(listCoin:MutableList<CoinModelAPI>){
+    fun setCoinLiveData(listCoin:MutableList<CoinModelAPIDB>){
         coinLiveData.value = listCoin
     }
 }

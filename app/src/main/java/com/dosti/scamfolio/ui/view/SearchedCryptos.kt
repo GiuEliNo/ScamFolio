@@ -32,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,18 +43,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
-import com.dosti.scamfolio.api.model.CoinModelAPI
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.viewModel.SearchedCryptosViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SearchScreen(
     searchQuery: String,
-    searchResults: List<CoinModelAPI>,
+    searchResults: List<CoinModelAPIDB>,
     onSearchQueryChange: (String) -> Unit,
     innerPadding: PaddingValues,
     selectedCoin: (String) -> Unit
@@ -114,7 +112,7 @@ fun SearchScreen(
     }
 }
 @Composable
-fun CoinItem(coin: CoinModelAPI,  selectedCoin: (String) -> Unit) {
+fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
     Row(
         modifier = Modifier
             .padding(8.dp)

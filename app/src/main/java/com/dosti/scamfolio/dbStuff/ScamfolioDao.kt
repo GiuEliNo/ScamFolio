@@ -1,12 +1,12 @@
 package com.dosti.scamfolio.dbStuff
 
-import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.dosti.scamfolio.api.model.CoinModelAPI
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User
 
@@ -39,19 +39,19 @@ interface ScamfolioDao {
     @Query("SELECT EXISTS(SELECT * FROM User WHERE username LIKE :username LIMIT 1)")
     fun checkUserExistence(username: String): Boolean
 
-    @Insert
-    fun insertCoinAPI(coin: MutableList<CoinModelAPI>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCoinAPI(coin: MutableList<CoinModelAPIDB>)
 
-    @Query("SELECT * FROM CoinModelAPI")
-    fun loadAllCoin(): MutableList<CoinModelAPI>
+    @Query("SELECT * FROM CoinModelAPIDB")
+    fun loadAllCoin(): MutableList<CoinModelAPIDB>
 
-    @Query("SELECT (SELECT COUNT(*) FROM CoinModelAPI) == 0")
+    @Query("SELECT (SELECT COUNT(*) FROM CoinModelAPIDB) == 0")
     fun isEmpty(): Boolean
 
-    @Query("SELECT time_fetched FROM CoinModelAPI ORDER BY autoID LIMIT 1 ")
+    @Query("SELECT time_fetched FROM CoinModelAPIDB ORDER BY autoID LIMIT 1 ")
     fun chechFetchedDate(): Long
 
-    @Query("DELETE FROM CoinModelAPI")
+    @Query("DELETE FROM CoinModelAPIDB")
     suspend fun resetCoinList()
 
 }
