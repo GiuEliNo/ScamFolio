@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
     implementation(libs.androidx.navigation.compose)
+    implementation("co.yml:ycharts:2.1.0")
     val room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")

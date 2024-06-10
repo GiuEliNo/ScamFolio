@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.chart.Chart
+import com.dosti.scamfolio.ui.chart.Chart1
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -70,7 +71,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     .fillMaxSize()
                     .padding(10.dp)
                 ) {
-                    coin?.let { Chart(it.sparkline_in_7d.price) }
+                    coin?.let { Chart1(it.sparkline_in_7d.price) }
                 }
             }
         }
