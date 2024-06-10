@@ -48,4 +48,10 @@ interface ScamfolioDao {
     @Query("SELECT (SELECT COUNT(*) FROM CoinModelAPI) == 0")
     fun isEmpty(): Boolean
 
+    @Query("SELECT time_fetched FROM CoinModelAPI ORDER BY autoID LIMIT 1 ")
+    fun chechFetchedDate(): Long
+
+    @Query("DELETE FROM CoinModelAPI")
+    suspend fun resetCoinList()
+
 }

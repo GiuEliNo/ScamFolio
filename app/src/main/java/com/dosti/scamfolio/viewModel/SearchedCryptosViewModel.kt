@@ -8,13 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.dbStuff.Repository
-import com.dosti.scamfolio.ui.view.SharedCoinGekoViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class SearchedCryptosViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel) : ViewModel() {
     val _coinList =  sharedCoinGeko.getCoinLiveData()

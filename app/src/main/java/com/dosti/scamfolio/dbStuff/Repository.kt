@@ -43,4 +43,13 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.isEmpty()
     }
 
+    fun chechFetchedDate(): Long{
+        return dao.chechFetchedDate()
+    }
+
+    fun resetCoinList(){
+        CoroutineScope(Dispatchers.IO).launch{
+            dao.resetCoinList()
+        }
+    }
 }

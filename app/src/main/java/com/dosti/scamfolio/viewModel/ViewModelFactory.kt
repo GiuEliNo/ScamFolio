@@ -2,9 +2,7 @@ package com.dosti.scamfolio.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dosti.scamfolio.db.repositories.UserRepository
 import com.dosti.scamfolio.dbStuff.Repository
-import com.dosti.scamfolio.ui.view.SharedCoinGekoViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val repository: Repository, private val sharedCoinGeko : SharedCoinGekoViewModel) : ViewModelProvider.NewInstanceFactory() {

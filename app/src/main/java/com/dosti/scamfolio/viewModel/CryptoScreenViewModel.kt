@@ -6,11 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.api.model.CoinModelAPI
-import com.dosti.scamfolio.api.CoinGekoAPI
 import com.dosti.scamfolio.api.ConnectionRetrofit
-import com.dosti.scamfolio.ui.view.SharedCoinGekoViewModel
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel) : ViewModel() {
     private val _coin = MutableLiveData<CoinModelAPI>()

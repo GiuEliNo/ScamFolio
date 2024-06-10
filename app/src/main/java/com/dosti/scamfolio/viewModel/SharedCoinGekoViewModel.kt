@@ -1,4 +1,4 @@
-package com.dosti.scamfolio.ui.view
+package com.dosti.scamfolio.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

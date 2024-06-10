@@ -12,7 +12,7 @@ suspend fun initializeDataAPI(repository: Repository) {
         sparklineBoolean = false
     )
 
-    newCoin.find { it.autoID == 0 }?.time_fetched = System.currentTimeMillis().toString()
+    newCoin.find { it.autoID == 0 }?.time_fetched = System.currentTimeMillis()
 
     newCoin.let {
         for (coinData in it) {
