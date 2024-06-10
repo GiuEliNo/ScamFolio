@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -14,8 +13,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
@@ -24,19 +21,15 @@ import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
-import com.patrykandpatrick.vico.compose.component.marker.markerComponent
-import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
-import com.patrykandpatrick.vico.core.DefaultAlpha
 import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
 import com.patrykandpatrick.vico.core.chart.line.LineChart
-import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShader
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 
 
 @Composable
-fun Chart() {
+fun Chart(listPrice: List<Double>) {
     val refreshDataset = remember { mutableIntStateOf(0) }
     val modelProducer = remember { ChartEntryModelProducer() }
     val dataSetForModel = remember { mutableStateListOf(listOf<FloatEntry>()) }
@@ -62,11 +55,15 @@ fun Chart() {
                 )*/
             )
         )
-
-        for (i in 1..100) {
-            val randomYFloat = (1..1000).random().toFloat()
-            dataPoints.add(FloatEntry(x = xPos, y = randomYFloat))
-            xPos += 1f
+        var count = 0
+        var days = 0
+        for (price in listPrice) {
+            if(count == 24) {
+                dataPoints.add(FloatEntry(x = days.toFloat(), y = price.toFloat()))
+                count = 0
+                days++
+            }
+            count += 1
         }
 
         dataSetForModel.add(dataPoints)

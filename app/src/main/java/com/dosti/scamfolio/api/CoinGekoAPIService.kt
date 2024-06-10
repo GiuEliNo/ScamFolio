@@ -21,6 +21,6 @@ interface CoinGekoAPIService {
         @retrofit2.http.Query("vs_currency") vsCurrency: String = "eur",
         @retrofit2.http.Query("order") order: String = "market_cap_desc",
         @retrofit2.http.Query("per_page") perPage: String = "250",
-        @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = false
+        @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = true
     ): List<CoinModelAPI>
 }

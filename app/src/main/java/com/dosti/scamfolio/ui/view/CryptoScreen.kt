@@ -70,7 +70,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     .fillMaxSize()
                     .padding(10.dp)
                 ) {
-                    Chart()
+                    coin?.let { Chart(it.sparkline_in_7d.price) }
                 }
             }
         }

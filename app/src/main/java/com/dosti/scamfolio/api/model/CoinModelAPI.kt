@@ -1,5 +1,8 @@
 package com.dosti.scamfolio.api.model
 
+data class Sparkline(
+    val price: List<Double>
+)
 data class CoinModelAPI(
     val id : String,
     val name: String,
@@ -9,5 +12,5 @@ data class CoinModelAPI(
     val price_change_percentage_24h : String,
     val current_price : String,
     var time_fetched: Long?,
-    val prices: List<List<Double>>
+    val sparkline_in_7d: Sparkline
 )

@@ -24,6 +24,9 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
                 sparklineBoolean = true,
             )
             _coin.value = newCoin[0]
+
         }
     }
+
+
 }
