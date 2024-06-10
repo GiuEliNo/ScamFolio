@@ -210,11 +210,6 @@ fun SearchedCryptos(
     viewModel: SearchedCryptosViewModel,
     selectedCoin: (String) -> Unit
 ) {
-
-    LaunchedEffect(Unit) {
-        viewModel.fetchAllCryptos()
-    }
-
     val searchResults by viewModel.searchResults.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
     searchResults?.let {

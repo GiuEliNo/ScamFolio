@@ -1,5 +1,6 @@
 package com.dosti.scamfolio
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,9 +17,12 @@ import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.ui.view.MainLoginScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dosti.scamfolio.ui.view.SharedCoinGekoViewModel
 import com.dosti.scamfolio.viewModel.SplashScreenViewModel
 import com.dosti.scamfolio.ui.view.SplashScreen
 import com.dosti.scamfolio.viewModel.ViewModelFactory
+import com.google.android.material.internal.ContextUtils.getActivity
 
 class MainActivity : ComponentActivity() {
 
@@ -29,7 +33,8 @@ class MainActivity : ComponentActivity() {
 
         val db = AppDatabase.getInstance(this)
         val repository = Repository(db.ScamfolioDao())
-        val factory = ViewModelFactory(repository)
+        val sharedCoinGeko: SharedCoinGekoViewModel by viewModels()
+        val factory = ViewModelFactory(repository, sharedCoinGeko)
         statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
 
         installSplashScreen().apply {

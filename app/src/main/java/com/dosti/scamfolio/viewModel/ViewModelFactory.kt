@@ -4,20 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dosti.scamfolio.db.repositories.UserRepository
 import com.dosti.scamfolio.dbStuff.Repository
+import com.dosti.scamfolio.ui.view.SharedCoinGekoViewModel
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val repository: Repository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(private val repository: Repository, private val sharedCoinGeko : SharedCoinGekoViewModel) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         if(modelClass.isAssignableFrom(LoginViewModel::class.java))
                 LoginViewModel(repository) as T
         else if( modelClass.isAssignableFrom(CryptoScreenViewModel::class.java))
-            CryptoScreenViewModel(repository) as T
+            CryptoScreenViewModel(repository, sharedCoinGeko) as T
         else if( modelClass.isAssignableFrom(HomepageViewModel::class.java))
             HomepageViewModel(repository) as T
         else if( modelClass.isAssignableFrom(ConverterViewModel::class.java))
-            ConverterViewModel(repository) as T
+            ConverterViewModel(repository, sharedCoinGeko) as T
         else if(modelClass.isAssignableFrom(SplashScreenViewModel::class.java))
-            SplashScreenViewModel(repository) as T
+            SplashScreenViewModel(repository,sharedCoinGeko) as T
         else
-            SearchedCryptosViewModel(repository) as T
+            SearchedCryptosViewModel(repository, sharedCoinGeko) as T
 }
