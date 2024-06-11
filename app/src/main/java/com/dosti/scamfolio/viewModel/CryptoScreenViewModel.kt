@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,7 +32,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
-    fun addPurchase(coinName: String, qty: Int, username: String) {
+    fun addPurchase(coinName: String, qty: Double, username: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val newPurchasing = Purchasing(0, coinName, qty, username)
@@ -39,4 +40,6 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
             }
         }
     }
+
+    fun getPurchase() {}
 }

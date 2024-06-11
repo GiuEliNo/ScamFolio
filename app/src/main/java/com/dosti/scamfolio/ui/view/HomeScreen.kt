@@ -136,7 +136,7 @@ fun ComposeCryptoNavHost(
         }
 
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {
-            SearchedCryptos(viewModel = viewModel(factory = factory), selectedCoin = actions.selectedCoin)
+            SearchedCryptos(viewModel = viewModel(factory = factory), selectedCoin = actions.selectedCoin, sharedPrefRepository = sharedPrefRepository)
         }
         
         composable(ScreenRouter.ROUTE_CALCULATOR) {
@@ -155,7 +155,8 @@ fun ComposeCryptoNavHost(
                 CryptoScreen(
                     viewModel = viewModel(factory = factory),
                     coinName = it,
-                    navigateUp = actions.navigateUp
+                    navigateUp = actions.navigateUp,
+                    sharedPrefRepository
                 )
             }
         }

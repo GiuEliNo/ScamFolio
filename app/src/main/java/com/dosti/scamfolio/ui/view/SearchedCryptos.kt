@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.viewModel.SearchedCryptosViewModel
 
@@ -56,7 +57,8 @@ fun SearchScreen(
     searchResults: List<CoinModelAPIDB>,
     onSearchQueryChange: (String) -> Unit,
     innerPadding: PaddingValues,
-    selectedCoin: (String) -> Unit
+    selectedCoin: (String) -> Unit,
+    prefRepository: SharedPrefRepository
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
@@ -206,7 +208,8 @@ fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
 @Composable
 fun SearchedCryptos(
     viewModel: SearchedCryptosViewModel,
-    selectedCoin: (String) -> Unit
+    selectedCoin: (String) -> Unit,
+    sharedPrefRepository: SharedPrefRepository
 ) {
     val searchResults by viewModel.searchResults.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
@@ -228,7 +231,8 @@ fun SearchedCryptos(
                         searchResults = it,
                         onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
                         innerPadding,
-                        selectedCoin
+                        selectedCoin,
+                        sharedPrefRepository
                     )
         }
     }

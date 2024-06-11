@@ -15,6 +15,7 @@ import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.ui.view.MainLoginScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.viewModel.SharedCoinGekoViewModel
 import com.dosti.scamfolio.viewModel.SplashScreenViewModel
 import com.dosti.scamfolio.ui.view.SplashScreen

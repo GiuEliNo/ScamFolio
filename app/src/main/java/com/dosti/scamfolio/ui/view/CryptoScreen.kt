@@ -1,6 +1,8 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.chart.Chart
 import com.dosti.scamfolio.ui.chart.Chart1
@@ -52,10 +56,11 @@ import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit) {
+fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit, sharedPrefRepository: SharedPrefRepository) {
 
     var addQty by remember { mutableStateOf(0.0) }
     var removeQty by remember { mutableStateOf(0.0) }
+    var toastEvent by remember { mutableStateOf(false) }
     val coin by viewModel.coin.observeAsState()
     LaunchedEffect(Unit) {
         viewModel.fetchCrypto(coinName)
@@ -111,11 +116,19 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     ) {
                         Spacer(modifier = Modifier.width(10.dp))
                         CustomButton(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                viewModel.addPurchase(coinName, addQty, sharedPrefRepository.getUsr("username", "NULL"))
+                                toastEvent = true
+                            },
                             text = stringResource(R.string.add_to_transactions)
                         )
                         Spacer(modifier = Modifier.width(20.dp))
                         CustomTextField1(value = (addQty.toString()))
+                    }
+
+                    if (toastEvent) {
+                        Toast.makeText(LocalContext.current, "purchasing added!", Toast.LENGTH_SHORT).show()
+                        toastEvent = false
                     }
 
                     Spacer(modifier = Modifier.height(50.dp))

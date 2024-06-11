@@ -17,6 +17,7 @@ import com.dosti.scamfolio.db.entities.User
             onUpdate = CASCADE,
             onDelete = CASCADE
         ),
+        /*
         ForeignKey(
             entity = Coin::class,
             parentColumns = ["name"],
@@ -24,12 +25,14 @@ import com.dosti.scamfolio.db.entities.User
             onUpdate = CASCADE,
             onDelete = CASCADE
         )
+
+         */
     ]
 )
 data class Purchasing(
     @PrimaryKey(autoGenerate = true)
     val purchaseId: Int,
     val coinName: String,
-    val quantity: Int,
+    val quantity: Double,
     val usernameUser: String
 )
