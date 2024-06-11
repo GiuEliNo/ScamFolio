@@ -857,3 +857,7 @@ fun BackButtonLandscape(
     }
 }
 
+private fun onLoginSuccess(viewModel: LoginViewModel) {
+    viewModel.navigateToHome()
+    //val sharedPref = activity?.
+}
