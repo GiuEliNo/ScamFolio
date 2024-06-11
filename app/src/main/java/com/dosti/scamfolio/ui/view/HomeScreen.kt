@@ -37,12 +37,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.ui.theme.ScamFolioTheme
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.ui.view.ScreenRouter.Companion.COIN_DETAIL
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 @Composable
-fun ComposeCryptoPages(factory : ViewModelFactory) {
+fun ComposeCryptoPages(factory : ViewModelFactory, sharedPrefRepository: SharedPrefRepository) {
     val navController = rememberNavController()
 
     ScamFolioTheme {
@@ -58,6 +59,7 @@ fun ComposeCryptoPages(factory : ViewModelFactory) {
                 navController = navController,
                 factory = factory,
                 modifier = Modifier.padding(it),
+                sharedPrefRepository = sharedPrefRepository
             )
         }
     }
@@ -120,6 +122,7 @@ fun ComposeCryptoNavHost(
     navController: NavHostController,
     factory: ViewModelProvider.Factory?,
     modifier: Modifier,
+    sharedPrefRepository: SharedPrefRepository
 ) {
     val actions = remember(navController) { AppActions(navController) }
 
@@ -129,7 +132,7 @@ fun ComposeCryptoNavHost(
         modifier = modifier
     ) {
         composable(ScreenRouter.ROUTE_PERSONALAREA) {
-            Welcome(viewModel = viewModel(factory = factory))
+            Welcome(viewModel = viewModel(factory = factory), sharedPrefRepository = sharedPrefRepository)
         }
 
         composable(ScreenRouter.ROUTE_SEARCHCOIN) {

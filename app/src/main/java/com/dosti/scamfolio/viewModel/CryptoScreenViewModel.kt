@@ -31,14 +31,11 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
-    private val _purchasedCoin = MutableLiveData<CoinModelAPI>()
-    val purchasedCoin: LiveData<CoinModelAPI> = _purchasedCoin
-
     fun addPurchase(coinName: String, qty: Int, username: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                //val newPurchasing = Purchasing(coinName, qty, username)
-                //repository.insertPurchasing()
+                val newPurchasing = Purchasing(0, coinName, qty, username)
+                repository.insertPurchasing(newPurchasing)
             }
         }
     }

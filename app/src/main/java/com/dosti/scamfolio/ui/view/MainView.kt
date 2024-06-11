@@ -1,7 +1,9 @@
 package com.dosti.scamfolio.ui.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
+import android.preference.PreferenceManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +48,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.db.entities.User
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.LoginViewModel
@@ -55,14 +58,16 @@ import com.dosti.scamfolio.viewModel.ViewModelFactory
 @Composable
 fun MainLoginScreen(
     viewModelStoreOwner: ViewModelStoreOwner,
-    viewModelFactory: ViewModelFactory
+    viewModelFactory: ViewModelFactory,
+    sharedPrefRepository: SharedPrefRepository
 ){
     val viewModel=ViewModelProvider(viewModelStoreOwner, viewModelFactory)[LoginViewModel::class.java]
     val currentScreen by remember{ viewModel.currentScreen}
+
         when(currentScreen){
-            LoginViewModel.loginScreens.LOGIN -> LoginView( viewModel, onNavigateToRegister = {viewModel.navigateToRegister()}, onLoginSuccess = {viewModel.navigateToHome()})
+            LoginViewModel.loginScreens.LOGIN -> LoginView( viewModel, onNavigateToRegister = {viewModel.navigateToRegister()}, sharedPrefRepository = sharedPrefRepository)
             LoginViewModel.loginScreens.REGISTER -> SignInView(viewModel, onBackButton={viewModel.navigateToLogin()})
-            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory)
+            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, sharedPrefRepository)
         }
 }
 
@@ -72,7 +77,7 @@ fun MainLoginScreen(
 fun LoginView(
     viewModel: LoginViewModel,
     onNavigateToRegister:  () -> Unit,
-    onLoginSuccess: () -> Unit,
+    sharedPrefRepository: SharedPrefRepository
 ) {
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -89,7 +94,7 @@ fun LoginView(
                 onPasswordChange = { password = it },
                 loginResult,
                 onNavigateToRegister,
-                onLoginSuccess
+                { onLoginSuccess(viewModel, sharedPrefRepository, username) }
             )
         }
         Configuration.ORIENTATION_LANDSCAPE -> {
@@ -101,7 +106,7 @@ fun LoginView(
                 onPasswordChange = { password = it },
                 loginResult,
                 onNavigateToRegister,
-                onLoginSuccess
+                { onLoginSuccess(viewModel, sharedPrefRepository, username) }
             )
 
         }
@@ -114,7 +119,7 @@ fun LoginView(
                 onPasswordChange = { password = it },
                 loginResult,
                 onNavigateToRegister,
-                onLoginSuccess
+                { onLoginSuccess(viewModel, sharedPrefRepository, username) }
             )
         }
     }
@@ -857,7 +862,7 @@ fun BackButtonLandscape(
     }
 }
 
-private fun onLoginSuccess(viewModel: LoginViewModel) {
+private fun onLoginSuccess(viewModel: LoginViewModel, sharedPrefRepository: SharedPrefRepository, username: String) {
     viewModel.navigateToHome()
-    //val sharedPref = activity?.
+    sharedPrefRepository.putUsr("username", username)
 }

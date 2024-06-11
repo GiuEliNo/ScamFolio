@@ -18,16 +18,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.HomepageViewModel
 
 
 @Composable
 fun Welcome(
-    viewModel: HomepageViewModel
+    viewModel: HomepageViewModel,
+    sharedPrefRepository: SharedPrefRepository
 ) {
     val user= viewModel.username
     val balance= viewModel.balance
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -35,7 +38,7 @@ fun Welcome(
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        TopLabel(username = user)
+        TopLabel(username = sharedPrefRepository.getUsr("username", "NULL"))
         Spacer(modifier = Modifier.height(140.dp))
 
         BalanceText(balance = balance)

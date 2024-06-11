@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
         val sharedCoinGeko: SharedCoinGekoViewModel by viewModels()
         val factory = ViewModelFactory(repository, sharedCoinGeko)
         statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
+        val sharedPrefRepository = SharedPrefRepository(applicationContext)
 
         setContent {
             Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 if (isLoading) {
                     SplashScreen()
                 } else {
-                    MainLoginScreen(viewModelStoreOwner = this, viewModelFactory = factory)
+                    MainLoginScreen(viewModelStoreOwner = this, viewModelFactory = factory, sharedPrefRepository = sharedPrefRepository)
                 }
             }
         }
