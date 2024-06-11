@@ -123,7 +123,10 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                             text = stringResource(R.string.add_to_transactions)
                         )
                         Spacer(modifier = Modifier.width(20.dp))
-                        CustomTextField1(value = (addQty.toString()))
+                        CustomTextField1(
+                            value = (addQty.toString()),
+                            onValueChange = { addQty = it.toDouble() }
+                        )
                     }
 
                     if (toastEvent) {
@@ -158,6 +161,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
     @Composable
     fun CustomTextField1(
         value: String,
+        onValueChange: (String) -> Unit
     ) {
         val icon = @Composable {
             Icon(
@@ -167,11 +171,11 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
             )
         }
 
-        var _value by remember { mutableStateOf(value) }
+
 
         TextField(
-            value = _value,
-            onValueChange = { _value = it },
+            value = value,
+            onValueChange = { onValueChange },
             label = { Text(text = "", color = Color.White) },
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color.White,
