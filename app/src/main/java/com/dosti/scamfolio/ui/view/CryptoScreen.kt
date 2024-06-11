@@ -1,7 +1,6 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -50,7 +49,6 @@ import com.dosti.scamfolio.R
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.chart.Chart
-import com.dosti.scamfolio.ui.chart.Chart1
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 
@@ -77,7 +75,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
             item {
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.Black,
+                        containerColor = MaterialTheme.colorScheme.surface,
                     ),
                     modifier = Modifier
                         .fillMaxSize()
@@ -98,7 +96,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         .fillMaxSize()
                         .padding(10.dp)
                 ) {
-                    coin?.let { Chart1(it.sparkline_in_7d.price) }
+                    coin?.let { Chart(it.sparkline_in_7d.price) }
                 }
             }
             item {
@@ -286,10 +284,10 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = coin.price_change_percentage_24h,
+                    text = textPriceChange(coin.price_change_percentage_24h),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Medium,
-                    color = Color.Green,
+                    color = changePercentColor(coin.price_change_percentage_24h),
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(16.dp))
@@ -303,3 +301,17 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
             }
         }
     }
+
+fun textPriceChange(change: String): String {
+    return if(change.substring(0,1) == "-")
+        change.substring(0,5) + "%"
+    else
+        change.substring(0,4) + "%"
+}
+
+fun changePercentColor(change: String): Color {
+    return if(change.substring(0,1) == "-")
+        Color.Red
+    else
+        Color.Green
+}

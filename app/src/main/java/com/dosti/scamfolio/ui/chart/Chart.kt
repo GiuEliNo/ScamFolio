@@ -1,130 +1,110 @@
 package com.dosti.scamfolio.ui.chart
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
-import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
-import com.patrykandpatrick.vico.compose.chart.Chart
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
-import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
-import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
-import com.patrykandpatrick.vico.core.chart.line.LineChart
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.FloatEntry
+import co.yml.charts.axis.AxisData
+import co.yml.charts.common.model.Point
+import co.yml.charts.ui.linechart.LineChart
+import co.yml.charts.ui.linechart.model.IntersectionPoint
+import co.yml.charts.ui.linechart.model.Line
+import co.yml.charts.ui.linechart.model.LineChartData
+import co.yml.charts.ui.linechart.model.LinePlotData
+import co.yml.charts.ui.linechart.model.LineStyle
+import co.yml.charts.ui.linechart.model.LineType
+import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
+import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
+import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import java.time.LocalDate
 
 
 @Composable
-fun Chart(listPrice: List<Double>) {
-    val refreshDataset = remember { mutableIntStateOf(0) }
-    val modelProducer = remember { ChartEntryModelProducer() }
-    val dataSetForModel = remember { mutableStateListOf(listOf<FloatEntry>()) }
-    val datasetLineSpec = remember { arrayListOf<LineChart.LineSpec>() }
+fun Chart(listPrice: List<Double>){
+    val pointsData: MutableList<Point> = mutableListOf()
 
-    val scrollState = rememberChartScrollState()
+    var count = 24
+    var days = 0
+    for(price in listPrice){
+        if(count == 24) {
+            pointsData.add(Point(days.toFloat(), price.toFloat()))
+            count = 0
+            days++
+        }
+        count += 1
+    }
+    val steps = 5
 
-    LaunchedEffect(key1 = refreshDataset.intValue) {
-        dataSetForModel.clear()
-        datasetLineSpec.clear()
-        var xPos = 0f
-        val dataPoints = arrayListOf<FloatEntry>()
-        datasetLineSpec.add(
-            LineChart.LineSpec(
-                lineColor = Green.toArgb(),
-                /*  lineBackgroundShader = DyanamicShaders.fromBrush(
-                    brush = Brush.verticalGradient(
-                            listOf(
-                                Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_START),
-                                Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_END)
+    val date = LocalDate.now().minusWeeks(1).plusDays(1)
+
+    val xAxisData = AxisData.Builder()
+        .axisStepSize(50.dp)
+        .backgroundColor(Color.Transparent)
+        .steps(pointsData.size - 1)
+        .labelData { i -> date.plusDays(i.toLong()).toString().substring(5) }
+        .labelAndAxisLinePadding(15.dp)
+        .axisLabelColor(Color.White)
+        .build()
+
+    val yAxisData = AxisData.Builder()
+        .steps(steps)
+        .backgroundColor(Color.Transparent)
+        .labelAndAxisLinePadding(20.dp)
+        .axisLabelColor(Color.White)
+        .labelData {  i ->
+            val yMin = pointsData.minOf { it.y }
+            val yMax = pointsData.maxOf { it.y }
+            val yScale = (yMax - yMin) / steps
+            ((i * yScale) + yMin).toString()
+        }
+        .build()
+
+    val lineChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = pointsData,
+                    LineStyle(
+                        color = MaterialTheme.colorScheme.tertiary,
+                        lineType = LineType.Straight(isDotted = false)
+
+                    ),
+                    IntersectionPoint(
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
+                    SelectionHighlightPoint(color = MaterialTheme.colorScheme.primary),
+                    ShadowUnderLine(
+                        alpha = 0.5f,
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.inversePrimary,
+                                Color.Transparent
                             )
-                    )
-                )*/
-            )
-        )
-        var count = 0
-        var days = 0
-        for (price in listPrice) {
-            if(count == 24) {
-                dataPoints.add(FloatEntry(x = days.toFloat(), y = price.toFloat()))
-                count = 0
-                days++
-            }
-            count += 1
-        }
-
-        dataSetForModel.add(dataPoints)
-
-        modelProducer.setEntries(dataSetForModel)
-    }
-
-
-        Column(modifier = Modifier.fillMaxSize()) {
-
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-            ) {
-
-                if(dataSetForModel.isNotEmpty()){
-                    ProvideChartStyle{
-                        val marker = rememberMarker()
-                        Chart(
-                            chart = lineChart(
-                                lines = datasetLineSpec
-                            ),
-                            chartModelProducer = modelProducer,
-
-                            startAxis = rememberStartAxis(
-                                title = "Top Values",
-                                tickLength = 0.dp,
-                                valueFormatter = { value, _ ->
-                                    (value.toInt()).toString()
-                                },
-                                itemPlacer = AxisItemPlacer.Vertical.default(
-                                    maxItemCount = 6
-                                )
-                            ),
-
-                            bottomAxis = rememberBottomAxis(
-                                title = "Title",
-                                tickLength = 0.dp,
-                                valueFormatter = { value, _ ->
-                                    ((value.toInt()) + 1).toString()
-                                },
-                                guideline = null
-                            ),
-                            marker = marker,
-
-                            chartScrollState = scrollState,
-                            isZoomEnabled = true
                         )
+                    ),
+                    selectionHighlightPopUp = SelectionHighlightPopUp(popUpLabel = { x, y ->
+                        val yLabel = String.format("%.2f", y)
+                        yLabel
+                    })
+                )
+            ),
+        ),
+        xAxisData = xAxisData,
+        yAxisData = yAxisData,
+        //gridLines = GridLines(color = MaterialTheme.colorScheme.outlineVariant),
+        backgroundColor = MaterialTheme.colorScheme.surface
+    )
 
-                    }
-                }
-            }
-            TextButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { refreshDataset.intValue++ }
-            )
-            {
-                Text(text = "Refresh")
-            }
-        }
-    }
+    LineChart(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        lineChartData = lineChartData
+    )
 
 
+}

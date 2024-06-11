@@ -186,13 +186,15 @@ fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
                     .requiredWidth(72.dp),
                 shape = MaterialTheme.shapes.small,
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White,
+                    containerColor = Color.Black,
                     contentColor = Color.Black
                 )
             ) {
                 Text(
-                    text = coin.price_change_percentage_24h + "%",
+                    text = textPriceChange(coin.price_change_percentage_24h),
                     style = MaterialTheme.typography.bodyMedium,
+                    color = changePercentColor(coin.price_change_percentage_24h),
+
                     modifier = Modifier
                         .padding(horizontal = 8.dp, vertical = 1.dp)
                         .align(Alignment.End),
