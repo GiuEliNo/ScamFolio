@@ -27,7 +27,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "scamfolio.db"
                 )
                   //  .createFromAsset("scamfolio.db")
-                    .allowMainThreadQueries()
+                   // .allowMainThreadQueries()
                     .build()
             }
             return db as AppDatabase
