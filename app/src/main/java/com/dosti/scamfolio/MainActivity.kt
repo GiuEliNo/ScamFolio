@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
             Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
                 val isLoading by statusAPI.isLoading.collectAsState()
                 if (isLoading) {
-                    SplashScreen()
+                    SplashScreen(statusAPI)
                 } else {
                     MainLoginScreen(viewModelStoreOwner = this, viewModelFactory = factory, sharedPrefRepository = sharedPrefRepository)
                 }

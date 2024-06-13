@@ -16,4 +16,5 @@
     <string name="something_went_wrong">Qualcosa è andato storto</string>
     <string name="add_to_transactions">Aggiungi</string>
     <string name="remove_from_balance">Rimuovi</string>
+    <string name="errorSplash">Errore di rete. Database non aggiornato</string>
 </resources>
