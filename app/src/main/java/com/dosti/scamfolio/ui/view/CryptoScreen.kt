@@ -50,6 +50,7 @@ import com.dosti.scamfolio.R
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.chart.Chart
+import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 
@@ -333,7 +334,7 @@ fun textPriceChange(change: String): String {
 
 fun changePercentColor(change: String): Color {
     return if(change.substring(0,1) == "-")
-        Color.Red
+        Color(0xFFEB4E3D)
     else
-        Color.Green
+        Color(0xFF65C466)
 }

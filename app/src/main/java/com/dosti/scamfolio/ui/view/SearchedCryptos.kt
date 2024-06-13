@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,65 +49,68 @@ import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.viewModel.SearchedCryptosViewModel
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun SearchScreen(
     searchQuery: String,
     searchResults: List<CoinModelAPIDB>,
     onSearchQueryChange: (String) -> Unit,
-    innerPadding: PaddingValues,
     selectedCoin: (String) -> Unit,
     prefRepository: SharedPrefRepository
 ) {
+    BackgroundGradient()
+
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.DarkGray)
     ) {
+         TextField(
+             modifier = Modifier
+                 .fillMaxWidth()
+                 .padding(end = 8.dp, top = 10.dp, bottom = 16.dp, start = 8.dp),
+             value = searchQuery,
+             singleLine = true,
+             keyboardOptions = KeyboardOptions.Default.copy(
+                 imeAction = ImeAction.Done,
+                 autoCorrect = false,
+                 capitalization = KeyboardCapitalization.None
+             ),
+             keyboardActions = KeyboardActions(
+                 onDone = {keyboardController?.hide()}
+             ),
+             onValueChange = onSearchQueryChange,
+             label = { Text(text = stringResource(R.string.search), color = Color.White) },
+             colors = OutlinedTextFieldDefaults.colors(
+                 focusedTextColor = Color.White,
+                 unfocusedTextColor = Color.White,
+                 focusedBorderColor = Color.Transparent,
+                 focusedLeadingIconColor = Color.White,
+                 unfocusedLeadingIconColor = Color.White,
+                 unfocusedBorderColor = Color.Transparent,
+                 unfocusedLabelColor = Color.Transparent,
+                 focusedContainerColor = Color.DarkGray,
+                 unfocusedContainerColor = Color.DarkGray
+                 ),
+             leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
+             shape = MaterialTheme.shapes.large,
+             )
 
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            horizontalArrangement = Arrangement.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Spacer(modifier = Modifier.width(50.dp))
-            TextField(
-                value = searchQuery,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(
-                    onDone = {keyboardController?.hide()}),
-                onValueChange = onSearchQueryChange,
-                label = { Text(text = stringResource(R.string.search), color = Color.White) },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    focusedBorderColor = Color.White,
-                    focusedLeadingIconColor = Color.White,
-                    unfocusedLeadingIconColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    unfocusedLabelColor = Color.White,
-                ),
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
-                trailingIcon = { Icon(Icons.Default.Search, contentDescription = "") }
-            )
-
-            Spacer(modifier = Modifier.width(20.dp))
-
-
-        }
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(32.dp),
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier.fillMaxSize()
         ) {
             items(
-                items = searchResults
+                items = searchResults,
+                key = { coin ->
+                    coin.id
+                }
             ) { coin ->
                 CoinItem(coin = coin, selectedCoin)
             }
@@ -186,14 +190,14 @@ fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
                     .requiredWidth(72.dp),
                 shape = MaterialTheme.shapes.small,
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.Black,
-                    contentColor = Color.Black
+                    containerColor = changePercentColor(coin.price_change_percentage_24h),
+                    contentColor = changePercentColor(coin.price_change_percentage_24h)
                 )
             ) {
                 Text(
                     text = textPriceChange(coin.price_change_percentage_24h),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = changePercentColor(coin.price_change_percentage_24h),
+                    color = Color.White,
 
                     modifier = Modifier
                         .padding(horizontal = 8.dp, vertical = 1.dp)
@@ -216,26 +220,12 @@ fun SearchedCryptos(
     val searchResults by viewModel.searchResults.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
     searchResults?.let {
-        Scaffold(
-            /*
-            bottomBar = {
-                BottomAppBar(
-                    containerColor = Color.Black,
-                    contentColor = Color.Black,
-                ) {}
-            }
-
-             */
-        ) {innerPadding ->
-
-            SearchScreen(
-                        searchQuery = viewModel.searchQuery,
-                        searchResults = it,
-                        onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
-                        innerPadding,
-                        selectedCoin,
-                        sharedPrefRepository
-                    )
-        }
+        SearchScreen(
+            searchQuery = viewModel.searchQuery,
+            searchResults = it,
+            onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
+            selectedCoin,
+            sharedPrefRepository
+        )
     }
 }
