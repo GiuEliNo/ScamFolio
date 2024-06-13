@@ -26,6 +26,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.viewModel.SplashScreenViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

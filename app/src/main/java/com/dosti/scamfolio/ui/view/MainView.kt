@@ -50,6 +50,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.db.entities.User
+import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
@@ -245,17 +246,6 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
             onLoginSuccess()
         }
 
-}
-
-
-@Composable
-fun BackgroundGradient() {
-    val brush = Brush.verticalGradient(listOf(Color(0xFF1E1E1E), Color.DarkGray))
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(brush)
-    )
 }
 
 @Composable
