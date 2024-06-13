@@ -54,4 +54,6 @@ interface ScamfolioDao {
     @Query("DELETE FROM CoinModelAPIDB")
     suspend fun resetCoinList()
 
+    @Query("UPDATE User SET balance = balance + :qty WHERE Username LIKE :username ")
+    fun updateUserBalance(username: String, qty: Double)
 }

@@ -41,5 +41,14 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
+    fun addSelling(coinName: String, qty: Double, username: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val newPurchasing = Purchasing(0, coinName, qty, username)
+                repository.insertPurchasing(newPurchasing)
+            }
+        }
+    }
+
     fun getPurchase() {}
 }
