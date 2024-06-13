@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room.common)
+    implementation("com.airbnb.android:lottie-compose:6.3.0")
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.material.icons.extended)

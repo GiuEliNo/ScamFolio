@@ -18,4 +18,5 @@
     <string name="add_to_transactions">add</string>
     <string name="remove_from_balance">remove</string>
     <string name="errorSplash">Network error. Database not updated</string>
+    <string name="splashText" >Loading crypto ...</string>
 </resources>
