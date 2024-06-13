@@ -32,19 +32,10 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
-    fun addPurchase(coinName: String, qty: Double, username: String) {
+    fun addPurchase(coinName: String, qty: Double, username: String, isNegative: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val newPurchasing = Purchasing(0, coinName, qty, username)
-                repository.insertPurchasing(newPurchasing)
-            }
-        }
-    }
-
-    fun addSelling(coinName: String, qty: Double, username: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val newPurchasing = Purchasing(0, coinName, qty, username)
+                val newPurchasing = Purchasing(0, coinName, qty, username, isNegative)
                 repository.insertPurchasing(newPurchasing)
             }
         }

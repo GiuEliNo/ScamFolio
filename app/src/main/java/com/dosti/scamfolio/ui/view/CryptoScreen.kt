@@ -1,6 +1,7 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -117,7 +118,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         CustomButton(
                             onClick = {
                                 try {
-                                    viewModel.addPurchase(coinName, addQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"))
+                                    viewModel.addPurchase(coinName, addQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"), false)
                                     toastEvent = true
                                 } catch (e: NumberFormatException) {
                                     errorEvent = true
@@ -142,8 +143,9 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         Spacer(modifier = Modifier.width(10.dp))
                         CustomButton(
                             onClick = {
+                                Log.d("test", removeQty)
                                 try {
-                                    viewModel.addSelling(coinName, removeQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"))
+                                    viewModel.addPurchase(coinName, removeQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"), true)
                                     toastEvent = true
                                 } catch (e: NumberFormatException) {
                                     errorEvent = true
@@ -213,7 +215,6 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
         value: String,
         onValueChange: (String) -> Unit
     ) {
-        var _value by remember { mutableStateOf(value) }
         val icon = @Composable {
             Icon(
                 Icons.Default.Remove,
@@ -223,8 +224,8 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
         }
 
         TextField(
-            value = _value,
-            onValueChange = { _value = it },
+            value = value,
+            onValueChange = onValueChange,
             label = { Text(text = "", color = Color.White) },
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color.White,
