@@ -56,4 +56,10 @@ interface ScamfolioDao {
 
     @Query("UPDATE User SET balance = balance + :qty WHERE Username LIKE :username ")
     fun updateUserBalance(username: String, qty: Double)
+
+    @Query("UPDATE User SET balance = balance - :qty WHERE Username LIKE :username")
+    fun decrementUserBalance(username: String, qty: Double)
+
+    @Query("SELECT balance FROM User WHERE username LIKE :username")
+    fun getBalance(username: String) : Double
 }

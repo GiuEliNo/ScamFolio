@@ -20,10 +20,19 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.getPurchasingList(username)
     }
 
+    fun getBalance(username: String) : Double {
+        return dao.getBalance(username)
+    }
+
     fun insertPurchasing(purchasing: Purchasing){
         CoroutineScope(Dispatchers.IO).launch{
             dao.insertPurchasing(purchasing)
-            dao.updateUserBalance(purchasing.usernameUser, purchasing.quantity)
+            if(purchasing.isNegative) {
+                dao.decrementUserBalance(purchasing.usernameUser, purchasing.quantity)
+            } else {
+                dao.updateUserBalance(purchasing.usernameUser, purchasing.quantity)
+            }
+
         }
     }
 
