@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -22,6 +23,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.R
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.ConverterViewModel
 
@@ -44,9 +47,9 @@ fun ConverterScreen(
 ) {
     var firstField by rememberSaveable { viewModel.firstField }
     var secondField by rememberSaveable { viewModel.secondField }
-    var expanded by remember { viewModel.expanded }
-    val cryptos = viewModel.cryptos
-    var choice by remember { viewModel.choice }
+    val cryptos = viewModel.coinList.collectAsState().value
+    val choice1 by remember { viewModel.choice1 }
+    val choice2 by remember {viewModel.choice2}
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -64,15 +67,27 @@ fun ConverterScreen(
         
         Spacer(modifier = Modifier.height(150.dp))
 
-        CryptoField(value = firstField, onValueChange = {}, ch = choice, isTop = true)
+        CryptoField(value = firstField,
+            onValueChange = {firstField=it},
+            viewModel,
+            ch = choice1,
+            cryptos,
+            isTop = true,
+            onChoiceChange = {viewModel.setChoice1(it)})
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        CryptoField(value = secondField, onValueChange = {}, ch = choice, isTop = false)
+        CryptoField(value = secondField,
+            onValueChange = {secondField=it},
+            viewModel,
+            ch = choice2,
+            cryptos,
+            isTop = false,
+            onChoiceChange = {viewModel.setChoice2(it) })
         Spacer(modifier = Modifier.height(100.dp))
 
         Button(
-            onClick = {},
+            onClick = {viewModel.calculate()},
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
@@ -98,13 +113,14 @@ fun ConverterScreen(
 fun CryptoField(
     value: String,
     onValueChange: (String) -> Unit,
+    viewModel: ConverterViewModel,
     ch: String,
-    options: List<String> = listOf(),
-    isTop: Boolean
+    options: List<CoinModelAPIDB>?,
+    isTop: Boolean,
+    onChoiceChange: (String) -> Unit
 ) {
     var choice by rememberSaveable { mutableStateOf(ch) }
     var expanded by remember { mutableStateOf(false) }
-    val options by remember { mutableStateOf(options) }
 
     Row(
         modifier = Modifier
@@ -120,7 +136,7 @@ fun CryptoField(
         ) {
             TextField(
                 value = choice,
-                onValueChange = {},
+                onValueChange = onValueChange,
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 colors = ExposedDropdownMenuDefaults.textFieldColors(),
@@ -135,22 +151,28 @@ fun CryptoField(
                 modifier = Modifier
                     .width(150.dp)
             ) {
-                DropdownMenuItem(
-                    text = { Text(text = "Crypto2") },
-                    onClick = {
-                        choice = "Crypto2"
-                        expanded = false
+                LazyColumn(
+                    modifier= Modifier
+                        .width(500.dp)
+                        .height(200.dp)
+                ) {
+                    if (options != null) {
+                        items(options.size){index ->
+                            val myCrypto= options[index]
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text= myCrypto.name
+                                    )},
+                                onClick = {
+                                    choice=myCrypto.name
+                                    expanded= false
+                                    onChoiceChange(myCrypto.name)
+                                }
+                                )
+                        }
                     }
-                )
-
-
-                DropdownMenuItem(
-                    text = { Text(text = "Crypto3") },
-                    onClick = {
-                        choice = "Crypto3"
-                        expanded = false
-                    }
-                )
+                }
             }
         }
 
