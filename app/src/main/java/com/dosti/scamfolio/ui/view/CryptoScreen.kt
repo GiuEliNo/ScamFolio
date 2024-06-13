@@ -63,6 +63,8 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
     var toastEvent by remember { mutableStateOf(false) }
     var errorEvent by remember { mutableStateOf(false) }
     val coin by viewModel.coin.observeAsState()
+    val username=viewModel.username
+
     LaunchedEffect(Unit) {
         viewModel.fetchCrypto(coinName)
     }
@@ -119,7 +121,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         CustomButton(
                             onClick = {
                                 try {
-                                    viewModel.addPurchase(coinName, addQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"), false)
+                                    viewModel.addPurchase(coinName, addQty.toDouble(), username, false)
                                     toastEvent = true
                                 } catch (e: NumberFormatException) {
                                     errorEvent = true
@@ -146,7 +148,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                             onClick = {
                                 Log.d("test", removeQty)
                                 try {
-                                    viewModel.addPurchase(coinName, removeQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"), true)
+                                    viewModel.addPurchase(coinName, removeQty.toDouble(), username, true)
                                     toastEvent = true
                                 } catch (e: NumberFormatException) {
                                     errorEvent = true

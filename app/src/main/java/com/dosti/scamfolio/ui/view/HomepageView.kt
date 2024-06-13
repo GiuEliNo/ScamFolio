@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,12 +36,9 @@ fun Welcome(
     sharedPrefRepository: SharedPrefRepository
 ) {
 
-    val username = sharedPrefRepository.getUsr("username", "NULL")
-    viewModel.setBalance(username, sharedPrefRepository)
-    viewModel.setUsername(username)
-    val balance = sharedPrefRepository.getBalance("balance", "NULL")
-    var transactions = listOf(Purchasing(0, "Bitcoin", 10000.0, "a", true), Purchasing(0, "Bitcoin", 15.0, "a", false))
-
+    val username=viewModel.username
+    val balance= viewModel.balance
+    val transactions= viewModel.transactions.collectAsState().value
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,7 +46,7 @@ fun Welcome(
             .fillMaxSize()
             .background(Color.DarkGray)
     ) {
-        TopLabel(username = sharedPrefRepository.getUsr("username", "NULL"))
+        TopLabel(username = username)
         Spacer(modifier = Modifier.height(140.dp))
 
         BalanceText(balance = balance)

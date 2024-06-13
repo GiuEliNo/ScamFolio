@@ -62,4 +62,5 @@ interface ScamfolioDao {
 
     @Query("SELECT balance FROM User WHERE username LIKE :username")
     fun getBalance(username: String) : Double
+
 }
