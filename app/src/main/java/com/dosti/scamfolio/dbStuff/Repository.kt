@@ -12,17 +12,27 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.loadByLogin(username, password)
     }
 
-    fun signIn(username: String, password: String) {
-        dao.insert(user = User(username, password))
+    fun signIn(username: String, password: String, balance: Double) {
+        dao.insert(user = User(username, password, balance))
     }
 
     fun getPurchasingList(username: String) : List<Purchasing>{
         return dao.getPurchasingList(username)
     }
 
+    fun getBalance(username: String) : Double {
+        return dao.getBalance(username)
+    }
+
     fun insertPurchasing(purchasing: Purchasing){
         CoroutineScope(Dispatchers.IO).launch{
             dao.insertPurchasing(purchasing)
+            if(purchasing.isNegative) {
+                dao.decrementUserBalance(purchasing.usernameUser, purchasing.quantity)
+            } else {
+                dao.updateUserBalance(purchasing.usernameUser, purchasing.quantity)
+            }
+
         }
     }
 

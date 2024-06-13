@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
         val factory = ViewModelFactory(repository, sharedCoinGeko)
         statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
         val sharedPrefRepository = SharedPrefRepository(applicationContext)
-
         setContent {
             Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
                 val isLoading by statusAPI.isLoading.collectAsState()

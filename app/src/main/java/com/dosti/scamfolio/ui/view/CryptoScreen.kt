@@ -1,6 +1,7 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -56,9 +57,10 @@ import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 @Composable
 fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit, sharedPrefRepository: SharedPrefRepository) {
 
-    var addQty by remember { mutableStateOf(0.0) }
-    var removeQty by remember { mutableStateOf(0.0) }
+    var addQty by remember { mutableStateOf("0.0") }
+    var removeQty by remember { mutableStateOf("0.0") }
     var toastEvent by remember { mutableStateOf(false) }
+    var errorEvent by remember { mutableStateOf(false) }
     val coin by viewModel.coin.observeAsState()
     LaunchedEffect(Unit) {
         viewModel.fetchCrypto(coinName)
@@ -75,7 +77,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
             item {
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Black,
                     ),
                     modifier = Modifier
                         .fillMaxSize()
@@ -115,21 +117,20 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         Spacer(modifier = Modifier.width(10.dp))
                         CustomButton(
                             onClick = {
-                                viewModel.addPurchase(coinName, addQty, sharedPrefRepository.getUsr("username", "NULL"))
-                                toastEvent = true
+                                try {
+                                    viewModel.addPurchase(coinName, addQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"), false)
+                                    toastEvent = true
+                                } catch (e: NumberFormatException) {
+                                    errorEvent = true
+                                }
                             },
                             text = stringResource(R.string.add_to_transactions)
                         )
                         Spacer(modifier = Modifier.width(20.dp))
                         CustomTextField1(
-                            value = (addQty.toString()),
-                            onValueChange = { addQty = it.toDouble() }
+                            value = addQty,
+                            onValueChange = { addQty = it }
                         )
-                    }
-
-                    if (toastEvent) {
-                        Toast.makeText(LocalContext.current, "purchasing added!", Toast.LENGTH_SHORT).show()
-                        toastEvent = false
                     }
 
                     Spacer(modifier = Modifier.height(50.dp))
@@ -141,14 +142,35 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     ) {
                         Spacer(modifier = Modifier.width(10.dp))
                         CustomButton(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                Log.d("test", removeQty)
+                                try {
+                                    viewModel.addPurchase(coinName, removeQty.toDouble(), sharedPrefRepository.getUsr("username", "NULL"), true)
+                                    toastEvent = true
+                                } catch (e: NumberFormatException) {
+                                    errorEvent = true
+                                }
+                            },
                             text = stringResource(R.string.remove_from_balance)
                         )
                         Spacer(modifier = Modifier.width(20.dp))
-                        CustomTextField2(value = (removeQty.toString()))
+                        CustomTextField2(
+                            value = removeQty,
+                            onValueChange = { removeQty = it }
+                        )
                     }
                     
                     Spacer(modifier = Modifier.height(20.dp))
+                }
+
+                if (toastEvent) {
+                    Toast.makeText(LocalContext.current, "purchasing added!", Toast.LENGTH_SHORT).show()
+                    toastEvent = false
+                }
+
+                if (errorEvent) {
+                    Toast.makeText(LocalContext.current, "Not a number!", Toast.LENGTH_SHORT).show()
+                    errorEvent = false
                 }
 
             }
@@ -173,7 +195,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
 
         TextField(
             value = value,
-            onValueChange = { onValueChange },
+            onValueChange = onValueChange,
             label = { Text(text = "", color = Color.White) },
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color.White,
@@ -190,9 +212,9 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
 
     @Composable
     fun CustomTextField2(
-        value: String
+        value: String,
+        onValueChange: (String) -> Unit
     ) {
-        var _value by remember { mutableStateOf(value) }
         val icon = @Composable {
             Icon(
                 Icons.Default.Remove,
@@ -202,8 +224,8 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
         }
 
         TextField(
-            value = _value,
-            onValueChange = { _value = it },
+            value = value,
+            onValueChange = onValueChange,
             label = { Text(text = "", color = Color.White) },
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color.White,

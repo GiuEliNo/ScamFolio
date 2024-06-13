@@ -76,7 +76,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
             if (!exist) {
                 withContext(Dispatchers.IO) {
-                    repository.signIn(username, password)
+                    repository.signIn(username, password, 0.0)
                 }
             } else {
                 eventToast = true

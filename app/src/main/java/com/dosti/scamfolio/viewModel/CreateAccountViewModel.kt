@@ -13,7 +13,7 @@ class CreateAccountViewModel(private val repository: Repository): ViewModel() {
         password: String
     ){
         CoroutineScope(Dispatchers.IO).launch {
-            repository.signIn(username, password)
+            repository.signIn(username, password, 0.0)
         }
     }
 }

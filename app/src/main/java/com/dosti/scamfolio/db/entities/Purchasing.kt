@@ -34,5 +34,6 @@ data class Purchasing(
     val purchaseId: Int,
     val coinName: String,
     val quantity: Double,
-    val usernameUser: String
+    val usernameUser: String,
+    val isNegative: Boolean
 )
