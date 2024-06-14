@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
+import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.User
 
@@ -17,9 +18,9 @@ import com.dosti.scamfolio.db.entities.User
             onUpdate = CASCADE,
             onDelete = CASCADE
         ),
-        /*
-        ForeignKey(
-            entity = Coin::class,
+
+        /*ForeignKey(
+            entity = CoinModelAPIDB::class,
             parentColumns = ["name"],
             childColumns = ["coinName"],
             onUpdate = CASCADE,
@@ -27,6 +28,8 @@ import com.dosti.scamfolio.db.entities.User
         )
 
          */
+
+
     ]
 )
 data class Purchasing(

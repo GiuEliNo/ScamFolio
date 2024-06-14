@@ -33,9 +33,10 @@ class MainActivity : ComponentActivity() {
         val db = AppDatabase.getInstance(this)
         val repository = Repository(db.ScamfolioDao())
         val sharedCoinGeko: SharedCoinGekoViewModel by viewModels()
-        val factory = ViewModelFactory(repository, sharedCoinGeko)
-        statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
         val sharedPrefRepository = SharedPrefRepository(applicationContext)
+        val factory = ViewModelFactory(repository, sharedCoinGeko, sharedPrefRepository)
+        statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
+
         setContent {
             ScamFolioTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {

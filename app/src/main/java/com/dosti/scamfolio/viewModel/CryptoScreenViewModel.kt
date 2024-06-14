@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.api.ConnectionRetrofit
@@ -14,9 +15,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel) : ViewModel() {
+class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel,
+    private val sharedPrefRepository: SharedPrefRepository) : ViewModel() {
     private val _coin = MutableLiveData<CoinModelAPI>()
     val coin: LiveData<CoinModelAPI> = _coin
+
+
+    private val _username=sharedPrefRepository.getUsr("username", "NULL")
+
+    val username=_username
+
+
     fun fetchCrypto(coinId : String) {
         viewModelScope.launch {
             val newCoin = ConnectionRetrofit.callApi().getCoinData(
