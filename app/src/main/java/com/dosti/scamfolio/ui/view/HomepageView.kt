@@ -46,7 +46,7 @@ fun Welcome(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.DarkGray)
+          //  .background(Color.DarkGray)
     ) {
         TopLabel(username = sharedPrefRepository.getUsr("username", "NULL"))
         Spacer(modifier = Modifier.height(140.dp))

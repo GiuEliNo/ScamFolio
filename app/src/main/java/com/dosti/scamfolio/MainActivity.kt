@@ -3,6 +3,7 @@ package com.dosti.scamfolio
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -16,6 +17,7 @@ import com.dosti.scamfolio.ui.view.MainLoginScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.dosti.scamfolio.db.entities.Purchasing
+import com.dosti.scamfolio.ui.theme.ScamFolioTheme
 import com.dosti.scamfolio.viewModel.SharedCoinGekoViewModel
 import com.dosti.scamfolio.viewModel.SplashScreenViewModel
 import com.dosti.scamfolio.ui.view.SplashScreen
@@ -35,12 +37,18 @@ class MainActivity : ComponentActivity() {
         statusAPI = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
         val sharedPrefRepository = SharedPrefRepository(applicationContext)
         setContent {
-            Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
-                val isLoading by statusAPI.isLoading.collectAsState()
-                if (isLoading) {
-                    SplashScreen(statusAPI)
-                } else {
-                    MainLoginScreen(viewModelStoreOwner = this, viewModelFactory = factory, sharedPrefRepository = sharedPrefRepository)
+            ScamFolioTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    val isLoading by statusAPI.isLoading.collectAsState()
+                    if (isLoading) {
+                        SplashScreen(statusAPI)
+                    } else {
+                        MainLoginScreen(
+                            viewModelStoreOwner = this,
+                            viewModelFactory = factory,
+                            sharedPrefRepository = sharedPrefRepository
+                        )
+                    }
                 }
             }
         }

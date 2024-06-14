@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelStoreOwner
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.ConverterViewModel
 
@@ -56,7 +57,6 @@ fun ConverterScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.DarkGray)
     ) {
         Text(
             text = "Converter",

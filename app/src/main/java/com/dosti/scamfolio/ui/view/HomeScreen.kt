@@ -2,6 +2,7 @@ package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
@@ -38,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.SharedPrefRepository
+import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.ScamFolioTheme
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.ui.view.ScreenRouter.Companion.COIN_DETAIL
@@ -51,10 +54,13 @@ fun ComposeCryptoPages(factory : ViewModelFactory, sharedPrefRepository: SharedP
             topBar = {
                 ComposeCryptoTopBar()
             },
+
             bottomBar = {
                 ComposeCryptoBottomBar(navController)
             }
+
         ) {
+            BackgroundGradient()
             ComposeCryptoNavHost(
                 navController = navController,
                 factory = factory,

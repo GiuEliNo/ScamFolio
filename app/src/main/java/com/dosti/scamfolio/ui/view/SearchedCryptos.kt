@@ -60,8 +60,6 @@ fun SearchScreen(
     selectedCoin: (String) -> Unit,
     prefRepository: SharedPrefRepository
 ) {
-    BackgroundGradient()
-
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(

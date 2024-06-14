@@ -24,16 +24,22 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = Black,
     secondary = Black,
-    tertiary = Black
+    tertiary = Black,
+    background = Color(0xFFFFFBFE),
+    onBackground = Color(0xFFFFFFFF),
+    surface = Color(0xFFFFFBFE)
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Black,
     secondary = Black,
-    tertiary = Black
+    tertiary = Black,
+    background = Color(0xFFFFFBFE),
+    onBackground = Color(0xFF1C1B1F),
+    surface = Color(0xFFFFFBFE)
 
     /* Other default colors to override
-    background = Color(0xFFFFFBFE),
+
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
     onSecondary = Color.White,
@@ -50,6 +56,8 @@ fun ScamFolioTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+ //   BackgroundGradient()
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -63,11 +71,10 @@ fun ScamFolioTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = Color.Black.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = if (!darkTheme) darkTheme else !darkTheme
         }
     }
-
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
