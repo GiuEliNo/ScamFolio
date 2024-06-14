@@ -22,4 +22,12 @@
     <string name="today">Today</string>
     <string name="timeframe">1 week timeframe 1h</string>
     <string name="lastupdate">Last update</string>
+    <string name="marketcap">Market Cap</string>
+    <string name="high24h">High Price 24h</string>
+    <string name="low_24h">Low Price 24h</string>
+    <string name="circulating_supply">Circulating Supply</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="marketdata">Market Data</string>
+    <string name="titleportfoliocoindetial">Wallet</string>
+    <string name="addposition">Add position</string>
 </resources>

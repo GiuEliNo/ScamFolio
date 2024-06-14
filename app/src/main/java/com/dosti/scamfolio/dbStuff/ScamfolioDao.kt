@@ -75,4 +75,7 @@ interface ScamfolioDao {
     @Query("SELECT username, coinName, quantity, price, isNegative FROM User JOIN Purchasing ON username=usernameUser JOIN Coin ON coinName=name WHERE User.username like :name")
     fun getAllPurchasingForBalance(name: String) :List<CoinBalance>
 
+    @Query("SELECT SUM(p.quantity) AS total_quantity FROM Purchasing p JOIN User u ON p.usernameUser = u.username JOIN Coin c ON p.coinName = c.name WHERE u.username = :username AND c.name = :coinId AND p.isNegative = 0")
+    fun getQuantityCoinByiD(coinId: String, username: String) : String
+
 }

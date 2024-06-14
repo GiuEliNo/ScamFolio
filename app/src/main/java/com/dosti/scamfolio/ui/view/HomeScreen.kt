@@ -162,7 +162,6 @@ fun ComposeCryptoNavHost(
                     viewModel = viewModel(factory = factory),
                     coinName = it,
                     navigateUp = actions.navigateUp,
-                    sharedPrefRepository
                 )
             }
         }

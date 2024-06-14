@@ -1,9 +1,7 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,30 +14,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -57,33 +54,44 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
-import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.chart.Chart
 import com.dosti.scamfolio.ui.theme.BackgroundGradient
-import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
-import java.util.Date
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit, sharedPrefRepository: SharedPrefRepository) {
+fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit) {
 
-    var addQty by remember { mutableStateOf("0.0") }
-    var removeQty by remember { mutableStateOf("0.0") }
-    var toastEvent by remember { mutableStateOf(false) }
-    var errorEvent by remember { mutableStateOf(false) }
     val coin by viewModel.coin.observeAsState()
+    val walletCoin by viewModel.walletCoin.observeAsState()
+
+    val showDialog = remember { mutableStateOf(false) }
+
     val username=viewModel.username
+    if (showDialog.value) {
+        DialogOpenPosition(username, viewModel, coinName, showDialog)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.fetchCrypto(coinName)
+        viewModel.getWalletCoin(coinName)
     }
 
     Scaffold(
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = {showDialog.value = true},
+                icon = { Icon(Icons.Filled.Wallet, "Add position") },
+                text = { Text(text = stringResource(R.string.addposition)) },
+                contentColor = Color.White,
+                containerColor = MaterialTheme.colorScheme.secondary
+            )
+        }
+
     ) { innerPadding ->
         BackgroundGradient()
         LazyColumn(
@@ -123,92 +131,44 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
 
                 }
             }
-
             item {
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 10.dp, start = 10.dp)
-                ) {
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp)
-                    ) {
-                        Spacer(modifier = Modifier.width(10.dp))
-                        CustomButton(
-                            onClick = {
-                                try {
-                                    viewModel.addPurchase(coinName, addQty.toDouble(), username, false)
-                                    toastEvent = true
-                                } catch (e: NumberFormatException) {
-                                    errorEvent = true
-                                }
-                            },
-                            text = stringResource(R.string.add_to_transactions)
-                        )
-                        Spacer(modifier = Modifier.width(20.dp))
-                        CustomTextField1(
-                            value = addQty,
-                            onValueChange = { addQty = it }
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp)
-                    ) {
-                        Spacer(modifier = Modifier.width(10.dp))
-                        CustomButton(
-                            onClick = {
-                                Log.d("test", removeQty)
-                                try {
-                                    viewModel.addPurchase(coinName, removeQty.toDouble(), username, true)
-                                    toastEvent = true
-                                } catch (e: NumberFormatException) {
-                                    errorEvent = true
-                                }
-                            },
-                            text = stringResource(R.string.remove_from_balance)
-                        )
-                        Spacer(modifier = Modifier.width(20.dp))
-                        CustomTextField2(
-                            value = removeQty,
-                            onValueChange = { removeQty = it }
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-
-                if (toastEvent) {
-                    Toast.makeText(LocalContext.current, "purchasing added!", Toast.LENGTH_SHORT).show()
-                    toastEvent = false
-                }
-
-                if (errorEvent) {
-                    Toast.makeText(LocalContext.current, "Not a number!", Toast.LENGTH_SHORT).show()
-                    errorEvent = false
-                }
-
+                Text(
+                    modifier = Modifier.padding(start = 20.dp),
+                    text = stringResource(R.string.titleportfoliocoindetial),
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.White,
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
-                }
+             item {
+                 Card(
+                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+                     modifier = Modifier
+                         .fillMaxSize()
+                         .padding(end = 10.dp, start = 10.dp)
+                 ) {
+                     Column(
+                         modifier = Modifier
+                             .padding(horizontal = 8.dp)
+                     ) {
+                         coin?.let {
+                             walletCoin?.let { it1 -> WalletInfo(coin!!, it1) }
+                         }
+                     }
+                 }
+             }
+
+             item {
+                 Text(
+                     modifier = Modifier.padding(start = 20.dp),
+                     text = stringResource(R.string.marketdata),
+                     textAlign = TextAlign.Start,
+                     fontWeight = FontWeight.Medium,
+                     color = Color.White,
+                     style = MaterialTheme.typography.titleLarge
+                 )
+             }
 
             item {
                 Card(
@@ -217,7 +177,38 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         .fillMaxSize()
                         .padding(end = 10.dp, start = 10.dp)
                 )
-                {
+                { Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                ) {
+                    coin?.let {
+                        InfoMarketData(
+                            name = stringResource(R.string.marketcap),
+                            value = coin!!.market_cap + " $",
+                            false
+                        )
+
+                        InfoMarketData(
+                            name = stringResource(R.string.high24h),
+                            value = coin!!.high_24h + " $",
+                            false)
+
+                        InfoMarketData(
+                            name = stringResource(R.string.low_24h),
+                            value = coin!!.low_24h + " $",
+                            false)
+
+                        InfoMarketData(
+                            name = stringResource(R.string.circulating_supply),
+                            value = coin!!.circulating_supply,
+                            false)
+
+                        InfoMarketData(
+                            name = stringResource(R.string.total_supply),
+                            value = coin!!.total_supply,
+                            true)
+                    }
+                }
 
                 }
 
@@ -226,7 +217,169 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
     }
 }
 
-    @Composable
+@Composable
+fun WalletInfo(coin : CoinModelAPI, walletCoin : String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = coin.name,
+            color = Color.LightGray,
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        Text(
+            text = walletCoin,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+
+}
+
+@Composable
+fun InfoMarketData(name: String, value: String, lastValue: Boolean) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = name,
+            color = Color.LightGray,
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        Text(
+            text = value,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+
+    if (!lastValue) {
+        Divider(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .alpha(.2f),
+            color = Color.LightGray
+        )
+    }
+
+}
+
+@Composable
+fun DialogOpenPosition(
+    username: String,
+    viewModel: CryptoScreenViewModel,
+    coinName: String,
+    showDialog: MutableState<Boolean>
+) {
+    var toastEvent by remember { mutableStateOf(false) }
+    var errorEvent by remember { mutableStateOf(false) }
+    var addQty by remember { mutableStateOf("0.0") }
+    var removeQty by remember { mutableStateOf("0.0") }
+
+
+    Dialog(onDismissRequest = { showDialog.value = false } ){
+        Card(
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary,),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    CustomButton(
+                        onClick = {
+                            try {
+                                viewModel.addPurchase(coinName, addQty.toDouble(), username, false)
+                                toastEvent = true
+                            } catch (e: NumberFormatException) {
+                                errorEvent = true
+                            }
+                                  },
+                        text = stringResource(R.string.add_to_transactions)
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    CustomTextField1(
+                        value = addQty,
+                        onValueChange = { addQty = it }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(25.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                    ) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    CustomButton(
+                        onClick = {
+                            try {
+                                viewModel.addPurchase(coinName, removeQty.toDouble(), username, true)
+                                toastEvent = true
+                            } catch (e: NumberFormatException) {
+                                errorEvent = true
+                            }
+                        },
+                        text = stringResource(R.string.remove_from_balance)
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    CustomTextField2(
+                        value = removeQty,
+                        onValueChange = { removeQty = it }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+
+            if (toastEvent) {
+                Toast.makeText(LocalContext.current, "purchasing added!", Toast.LENGTH_SHORT).show()
+                toastEvent = false
+                showDialog.value = false
+
+            }
+
+            if (errorEvent) {
+                Toast.makeText(LocalContext.current, "Not a number!", Toast.LENGTH_SHORT).show()
+                errorEvent = false
+                showDialog.value = false
+            }
+
+        }
+    }
+}
+
+@Composable
     fun CustomTextField1(
         value: String,
         onValueChange: (String) -> Unit

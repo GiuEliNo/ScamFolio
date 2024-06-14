@@ -77,4 +77,8 @@ class Repository(private val dao: ScamfolioDao) {
     fun getAllPurchasingForBalance(name: String) :List<CoinBalance> {
         return dao.getAllPurchasingForBalance(name)
     }
+
+    fun getQuantityCoinByiD(coinId: String, username: String) : String{
+        return dao.getQuantityCoinByiD(coinId,username)
+    }
 }

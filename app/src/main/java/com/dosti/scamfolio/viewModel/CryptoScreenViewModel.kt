@@ -25,13 +25,16 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
     private val _coin = MutableLiveData<CoinModelAPI>()
     val coin: LiveData<CoinModelAPI> = _coin
 
-
-    private val _username=sharedPrefRepository.getUsr("username", "NULL")
-
-    val username=_username
+    private val _walletCoin = MutableLiveData<String>()
+    val walletCoin: LiveData<String> get() = _walletCoin
 
 
-    fun fetchCrypto(coinId : String) {
+    private val _username = sharedPrefRepository.getUsr("username", "NULL")
+
+    val username = _username
+
+
+    fun fetchCrypto(coinId: String) {
         viewModelScope.launch {
             val newCoin = ConnectionRetrofit.callApi().getCoinData(
                 "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
@@ -47,7 +50,11 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
-    suspend fun getCurrentPriceWithRetry(coinId:String, maxRetries: Int, delayMillis: Long): Double?{
+    suspend fun getCurrentPriceWithRetry(
+        coinId: String,
+        maxRetries: Int,
+        delayMillis: Long
+    ): Double? {
         var currentPrice: Double? = null
         try {
             repeat(maxRetries) { attempt ->
@@ -59,25 +66,30 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
                     delay(delayMillis)
                 }
             }
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             Log.e("getCurrentPrice", "Eccezione nella ricerca del valore", e)
         }
         return currentPrice
     }
 
 
-    suspend fun insertPurchaseWithRetry(purchasing: Purchasing, maxRetries: Int, delayMillis: Long){
+    suspend fun insertPurchaseWithRetry(
+        purchasing: Purchasing,
+        maxRetries: Int,
+        delayMillis: Long
+    ) {
 
-        repeat(maxRetries){
-            attempt ->
+        repeat(maxRetries) { attempt ->
             try {
                 repository.insertPurchasing(purchasing)
                 Log.e("Inserimento Purchase", "Inserimento avvenuto con successo")
                 return
-            }
-            catch(e: SQLiteConstraintException){
-                Log.e("Inserimento Purchase", "Errore nell'inserimento, riprovo tra $delayMillis ms", e )
+            } catch (e: SQLiteConstraintException) {
+                Log.e(
+                    "Inserimento Purchase",
+                    "Errore nell'inserimento, riprovo tra $delayMillis ms",
+                    e
+                )
                 delay(delayMillis)
             }
         }
@@ -104,19 +116,28 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
                             "Errore nell'inserimento: $currentPrice non è un valido numero"
                         )
                     }
-                }
-                catch(e: Exception){
+                } catch (e: Exception) {
                     Log.e("Purchasing", "Errore durante l'inserimento dell'acquisto", e)
                 }
             }
         }
     }
 
-    fun getLastUpdate(coin : CoinModelAPI): String? {
+    fun getLastUpdate(coin: CoinModelAPI): String? {
         val sdf = SimpleDateFormat("dd/MM/yy hh:mm a")
         val netDate = coin.time_fetched?.let { Date(it) }
         val date = netDate?.let { sdf.format(it) }
         return date
+    }
+
+    fun getWalletCoin(coinId: String) {
+        val username = sharedPrefRepository.getUsr("username", "NULL")
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                repository.getQuantityCoinByiD(coinId, username)
+            }
+            _walletCoin.value = result
+        }
     }
 }
 

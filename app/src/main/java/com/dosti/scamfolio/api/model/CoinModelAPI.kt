@@ -12,5 +12,10 @@ data class CoinModelAPI(
     val price_change_percentage_24h : String,
     val current_price : String,
     var time_fetched: Long?,
-    val sparkline_in_7d: Sparkline
-)
+    val sparkline_in_7d: Sparkline,
+    val market_cap: String,
+    val high_24h: String,
+    val low_24h: String,
+    val circulating_supply : String,
+    val total_supply: String
+    )

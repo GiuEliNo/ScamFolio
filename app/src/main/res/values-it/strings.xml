@@ -18,7 +18,15 @@
     <string name="remove_from_balance">Rimuovi</string>
     <string name="errorSplash">Errore di rete. Database non aggiornato</string>
     <string name="splashText">Caricamento criptovalute...</string>
-    <string name="today">Today</string>
+    <string name="today">Oggi</string>
     <string name="timeframe">1 settimana timeframe 1ora</string>
     <string name="lastupdate">Ultimo aggiornamento</string>
+    <string name="marketcap">Capitalizzazione di mercato</string>
+    <string name="high24h">Prezzo più alto in 24h</string>
+    <string name="low_24h">Prezzo più basso in 24h</string>
+    <string name="circulating_supply">"Offerta circolante "</string>
+    <string name="total_supply">Offerta massima</string>
+    <string name="marketdata">Dati di Mercato</string>
+    <string name="titleportfoliocoindetial">Portafoglio</string>
+    <string name="addposition">Aggiungi posizione</string>
 </resources>
