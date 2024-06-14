@@ -22,21 +22,23 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Black,
-    secondary = Black,
+    primary = DarkScam,
+    secondary = Aquamarine,
     tertiary = Black,
     background = Color(0xFFFFFBFE),
     onBackground = Color(0xFFFFFFFF),
-    surface = Color(0xFFFFFBFE)
+    surface = DarkScam,
+    primaryContainer = DarkScam
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Black,
-    secondary = Black,
+    secondary = AquamarineLight,
     tertiary = Black,
     background = Color(0xFFFFFBFE),
     onBackground = Color(0xFF1C1B1F),
-    surface = Color(0xFFFFFBFE)
+    surface = DarkScam,
+    primaryContainer = DarkScam
 
     /* Other default colors to override
 
@@ -58,15 +60,8 @@ fun ScamFolioTheme(
 ) {
  //   BackgroundGradient()
 
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

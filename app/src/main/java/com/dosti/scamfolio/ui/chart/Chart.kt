@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.ui.chart
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
@@ -21,46 +22,46 @@ import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @Composable
 fun Chart(listPrice: List<Double>){
     val pointsData: MutableList<Point> = mutableListOf()
 
-    var count = 24
-    var days = 0
+    var count = 0
+    var hours = 0
     for(price in listPrice){
-        if(count == 24) {
-            pointsData.add(Point(days.toFloat(), price.toFloat()))
-            count = 0
-            days++
-        }
+
+        pointsData.add(Point(hours.toFloat(), price.toFloat()))
+        hours++
+
         count += 1
     }
-    val steps = 5
+    val steps = 2
 
-    val date = LocalDate.now().minusWeeks(1).plusDays(1)
+    val date = LocalDateTime.now().minusWeeks(1)
 
     val xAxisData = AxisData.Builder()
-        .axisStepSize(50.dp)
+        .axisStepSize(3.dp)
         .backgroundColor(Color.Transparent)
-        .steps(pointsData.size - 1)
-        .labelData { i -> date.plusDays(i.toLong()).toString().substring(5) }
-        .labelAndAxisLinePadding(15.dp)
-        .axisLabelColor(Color.White)
+       // .steps(pointsData.size - 1)
+    ///    .labelData { i -> date.plusDays(i.toLong()).toString().substring(5) }
+    //    .labelAndAxisLinePadding(12.dp)
+        .axisLabelColor(Color.LightGray)
         .build()
 
     val yAxisData = AxisData.Builder()
         .steps(steps)
         .backgroundColor(Color.Transparent)
         .labelAndAxisLinePadding(20.dp)
-        .axisLabelColor(Color.White)
-        .labelData {  i ->
+        .axisLabelColor(Color.LightGray)
+      /*  .labelData {  i ->
             val yMin = pointsData.minOf { it.y }
             val yMax = pointsData.maxOf { it.y }
             val yScale = (yMax - yMin) / steps
             ((i * yScale) + yMin).toString()
-        }
+        }*/
         .build()
 
     val lineChartData = LineChartData(
@@ -69,12 +70,13 @@ fun Chart(listPrice: List<Double>){
                 Line(
                     dataPoints = pointsData,
                     LineStyle(
-                        color = MaterialTheme.colorScheme.tertiary,
+                        color = MaterialTheme.colorScheme.secondary,
                         lineType = LineType.Straight(isDotted = false)
 
                     ),
                     IntersectionPoint(
-                        color = MaterialTheme.colorScheme.tertiary
+                        radius = 0.dp,
+                        color = MaterialTheme.colorScheme.secondary
                     ),
                     SelectionHighlightPoint(color = MaterialTheme.colorScheme.primary),
                     ShadowUnderLine(
@@ -87,8 +89,9 @@ fun Chart(listPrice: List<Double>){
                         )
                     ),
                     selectionHighlightPopUp = SelectionHighlightPopUp(popUpLabel = { x, y ->
-                        val yLabel = String.format("%.2f", y)
-                        yLabel
+                        val xLabel = "${(date.plusHours(x.toLong())).toString().substring(5, 13).replace("T", " ").replace("-", "/").plus("h")} "
+                        val yLabel = "${String.format("%.2f", y)}"
+                        "$xLabel \n $yLabel"
                     })
                 )
             ),

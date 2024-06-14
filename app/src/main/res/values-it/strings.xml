@@ -18,4 +18,5 @@
     <string name="remove_from_balance">Rimuovi</string>
     <string name="errorSplash">Errore di rete. Database non aggiornato</string>
     <string name="splashText">Caricamento criptovalute...</string>
+    <string name="today">Today</string>
 </resources>

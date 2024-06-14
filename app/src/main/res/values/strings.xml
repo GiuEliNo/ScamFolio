@@ -15,8 +15,9 @@
     <string name="sign_in_completed">Sign in completed</string>
     <string name="logged_in_correctly">Logged in correctly!</string>
     <string name="something_went_wrong">Something went wrong</string>
-    <string name="add_to_transactions">add</string>
-    <string name="remove_from_balance">remove</string>
+    <string name="add_to_transactions">Add</string>
+    <string name="remove_from_balance">Remove</string>
     <string name="errorSplash">Network error. Database not updated</string>
     <string name="splashText" >Loading crypto ...</string>
+    <string name="today">Today</string>
 </resources>
