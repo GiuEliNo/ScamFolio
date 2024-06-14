@@ -1,4 +1,4 @@
-package com.dosti.scamfolio.api.model
+package com.dosti.scamfolio.db.entities
 
 import androidx.room.Entity
 import androidx.room.Index

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.utils.ConverterDate
 import com.dosti.scamfolio.db.entities.Purchasing

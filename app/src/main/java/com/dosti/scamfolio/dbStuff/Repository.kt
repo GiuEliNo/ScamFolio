@@ -1,8 +1,7 @@
 package com.dosti.scamfolio.dbStuff
 
-import android.database.Cursor
 import com.dosti.scamfolio.api.model.CoinBalance
-import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User

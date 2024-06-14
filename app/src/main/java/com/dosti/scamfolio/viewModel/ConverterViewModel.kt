@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.dbStuff.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

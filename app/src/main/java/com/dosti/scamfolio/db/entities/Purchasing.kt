@@ -4,9 +4,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
-import com.dosti.scamfolio.api.model.CoinModelAPIDB
-import com.dosti.scamfolio.db.entities.Coin
-import com.dosti.scamfolio.db.entities.User
 
 @Entity(
     tableName = "Purchasing",

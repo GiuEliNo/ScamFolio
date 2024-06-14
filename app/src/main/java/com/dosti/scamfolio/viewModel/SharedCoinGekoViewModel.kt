@@ -1,7 +1,7 @@
 package com.dosti.scamfolio.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class SharedCoinGekoViewModel : ViewModel() {

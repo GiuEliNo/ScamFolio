@@ -1,7 +1,7 @@
 package com.dosti.scamfolio.api
 
 import com.dosti.scamfolio.api.model.CoinModelAPI
-import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import retrofit2.http.GET
 import retrofit2.http.Header
 
