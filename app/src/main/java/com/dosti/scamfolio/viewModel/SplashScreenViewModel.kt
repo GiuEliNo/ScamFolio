@@ -44,7 +44,7 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
                     success = false
             }
 
-            if (System.currentTimeMillis() - repository.chechFetchedDate() > 600000) {
+            if (System.currentTimeMillis() - repository.chechFetchedDate() > 6000000) {
                 //if one week old
                 repository.resetCoinList()
                 if(initializeDataAPI(repository))
