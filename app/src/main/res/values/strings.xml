@@ -30,4 +30,5 @@
     <string name="marketdata">Market Data</string>
     <string name="titleportfoliocoindetial">Wallet</string>
     <string name="addposition">Add position</string>
+    <string name="insertValue">Insert value</string>
 </resources>

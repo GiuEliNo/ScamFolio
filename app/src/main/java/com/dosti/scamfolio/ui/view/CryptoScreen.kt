@@ -289,9 +289,7 @@ fun DialogOpenPosition(
 ) {
     var toastEvent by remember { mutableStateOf(false) }
     var errorEvent by remember { mutableStateOf(false) }
-    var addQty by remember { mutableStateOf("0.0") }
-    var removeQty by remember { mutableStateOf("0.0") }
-
+    var quantity by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = { showDialog.value = false } ){
         Card(
@@ -312,39 +310,37 @@ fun DialogOpenPosition(
                         .fillMaxWidth()
                         .padding(10.dp)
                 ) {
-                    Spacer(modifier = Modifier.width(10.dp))
-                    CustomButton(
-                        onClick = {
-                            try {
-                                viewModel.addPurchase(coinName, addQty.toDouble(), username, false)
-                                toastEvent = true
-                            } catch (e: NumberFormatException) {
-                                errorEvent = true
-                            }
-                                  },
-                        text = stringResource(R.string.add_to_transactions)
-                    )
-                    Spacer(modifier = Modifier.width(20.dp))
-                    CustomTextField1(
-                        value = addQty,
-                        onValueChange = { addQty = it }
+                    AddQuantityTextField(
+                        value = quantity,
+                        onValueChange = { quantity = it }
                     )
                 }
 
-                Spacer(modifier = Modifier.height(25.dp))
-
                 Row(
-                    horizontalArrangement = Arrangement.Start,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
                     ) {
-                    Spacer(modifier = Modifier.width(10.dp))
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, removeQty.toDouble(), username, true)
+                                viewModel.addPurchase(coinName, quantity.toDouble(), username, false)
+                                toastEvent = true
+                            } catch (e: NumberFormatException) {
+                                errorEvent = true
+                            }
+                        },
+                        text = stringResource(R.string.add_to_transactions)
+                    )
+
+                    Spacer(modifier = Modifier.width(20.dp))
+
+                    CustomButton(
+                        onClick = {
+                            try {
+                                viewModel.addPurchase(coinName, quantity.toDouble(), username, true)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
@@ -352,14 +348,7 @@ fun DialogOpenPosition(
                         },
                         text = stringResource(R.string.remove_from_balance)
                     )
-                    Spacer(modifier = Modifier.width(20.dp))
-                    CustomTextField2(
-                        value = removeQty,
-                        onValueChange = { removeQty = it }
-                    )
                 }
-
-                Spacer(modifier = Modifier.height(10.dp))
             }
 
             if (toastEvent) {
@@ -380,25 +369,19 @@ fun DialogOpenPosition(
 }
 
 @Composable
-    fun CustomTextField1(
+    fun AddQuantityTextField(
         value: String,
         onValueChange: (String) -> Unit
     ) {
-        val icon = @Composable {
-            Icon(
-                Icons.Default.Add,
-                contentDescription = "",
-                tint = Color.White
-            )
-        }
-
         val keyboardController = LocalSoftwareKeyboardController.current
 
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = 10.dp, start = 8.dp),
-            value = value,
+            value = value.filter { it.isDigit() },
+            placeholder = {
+                Text(text = stringResource(R.string.insertValue))},
             onValueChange = onValueChange,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done,
@@ -422,55 +405,6 @@ fun DialogOpenPosition(
                 unfocusedContainerColor = Color.DarkGray
             ),
             singleLine = true,
-            leadingIcon = icon,
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
-        )
-    }
-
-
-    @Composable
-    fun CustomTextField2(
-        value: String,
-        onValueChange: (String) -> Unit
-    ) {
-        val icon = @Composable {
-            Icon(
-                Icons.Default.Remove,
-                contentDescription = "",
-                tint = Color.White
-            )
-        }
-        val keyboardController = LocalSoftwareKeyboardController.current
-
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 10.dp, start = 8.dp),
-            value = value,
-            onValueChange = onValueChange,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done,
-                autoCorrect = false,
-                capitalization = KeyboardCapitalization.None,
-                keyboardType = KeyboardType.Number
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {keyboardController?.hide()},
-            ),
-            label = { Text(text = "", color = Color.White) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                focusedBorderColor = MaterialTheme.colorScheme.inversePrimary,
-                focusedLeadingIconColor = Color.White,
-                unfocusedLeadingIconColor = Color.White,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
-                unfocusedLabelColor = Color.Transparent,
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.DarkGray
-            ),
-            singleLine = true,
-            leadingIcon = icon,
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
         )
     }
@@ -483,7 +417,6 @@ fun DialogOpenPosition(
         Button(
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-        //    border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
 
         ) {

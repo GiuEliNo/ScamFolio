@@ -170,7 +170,7 @@ fun CryptoField(
 
         ) {
             TextField(
-                value = choice,
+                value = choice.filter { it.isDigit() },
                 onValueChange = onValueChange,
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },

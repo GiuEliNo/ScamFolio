@@ -29,4 +29,5 @@
     <string name="marketdata">Dati di Mercato</string>
     <string name="titleportfoliocoindetial">Portafoglio</string>
     <string name="addposition">Aggiungi posizione</string>
+    <string name="insertValue">Inserisci valore</string>
 </resources>
