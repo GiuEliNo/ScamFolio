@@ -51,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelStoreOwner
+import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
 import com.dosti.scamfolio.ui.theme.BackgroundGradient
@@ -215,7 +216,8 @@ fun CryptoField(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        text= myCrypto.name
+                                        text = myCrypto.name,
+                                        color = Color.White
                                     )},
                                 onClick = {
                                     choice=myCrypto.name
