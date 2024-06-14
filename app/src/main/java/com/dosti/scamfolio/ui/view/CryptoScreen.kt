@@ -108,7 +108,6 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     ){
 
                         coin?.let { CryptoHeader(it) }
-                        Spacer(modifier = Modifier.size(16.dp))
                         coin?.let { Chart(it.sparkline_in_7d.price, ) }
                         Text(
                             text = stringResource(R.string.lastupdate) + " : " + coin?.let {
@@ -350,64 +349,65 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
 
     @Composable
     fun CryptoHeader(coin: CoinModelAPI) {
-        Row(
+        Column(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(coin.image),
-                contentDescription = null,
-                modifier = Modifier.size(50.dp)
-            )
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                // .fillMaxWidth(),
-            ) {
-                Text(
-                    text = coin.name,
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Text(
-                    text = coin.symbol,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.LightGray
+            Row( modifier = Modifier
+                .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
 
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.End
             ) {
-                Row( modifier = Modifier
-                    .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
+                Image(
+                    painter = rememberAsyncImagePainter(coin.image),
+                    contentDescription = null,
+                    modifier = Modifier.size(50.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                    // .fillMaxWidth(),
                 ) {
                     Text(
-                        text = textPriceChange(coin.price_change_percentage_24h),
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Medium,
-                        color = changePercentColor(coin.price_change_percentage_24h),
-                        textAlign = TextAlign.Center
+                        text = coin.name,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
-                    Spacer(modifier = Modifier.size(5.dp))
                     Text(
-                        text = stringResource(R.string.today),
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.W600,
-                        color = Color.LightGray,
-                        textAlign = TextAlign.Center
+                        text = coin.symbol,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.LightGray
+
                     )
                 }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = textPriceChange(coin.price_change_percentage_24h),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Medium,
+                    color = changePercentColor(coin.price_change_percentage_24h),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.size(5.dp))
+                Text(
+                    text = stringResource(R.string.today),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.W600,
+                    color = Color.LightGray,
+                    textAlign = TextAlign.Center
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = coin.current_price + "€",
