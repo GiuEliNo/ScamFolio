@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 data class Coin(
     @PrimaryKey val name: String,
-    val price: Long,
+    val price: Double,
 )

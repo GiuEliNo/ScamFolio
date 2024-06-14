@@ -1,12 +1,15 @@
 package com.dosti.scamfolio.dbStuff
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.dosti.scamfolio.api.model.CoinBalance
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User
 
@@ -61,6 +64,16 @@ interface ScamfolioDao {
     fun decrementUserBalance(username: String, qty: Double)
 
     @Query("SELECT balance FROM User WHERE username LIKE :username")
-    fun getBalance(username: String) : Double
+    fun getBalance(username: String): Double
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCoinForBalance(coin: Coin)
+
+
+    @Query("SELECT current_price FROM CoinModelAPIDB where id LIKE :name LIMIT 1")
+    fun getCurrentPrice(name: String): String?
+
+    @Query("SELECT username, coinName, quantity, price, isNegative FROM User JOIN Purchasing ON username=usernameUser JOIN Coin ON coinName=name WHERE User.username like :name")
+    fun getAllPurchasingForBalance(name: String) :List<CoinBalance>
 
 }

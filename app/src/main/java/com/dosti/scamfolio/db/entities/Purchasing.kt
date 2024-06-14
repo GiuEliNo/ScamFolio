@@ -19,15 +19,15 @@ import com.dosti.scamfolio.db.entities.User
             onDelete = CASCADE
         ),
 
-        /*ForeignKey(
-            entity = CoinModelAPIDB::class,
+        ForeignKey(
+            entity = Coin::class,
             parentColumns = ["name"],
             childColumns = ["coinName"],
             onUpdate = CASCADE,
             onDelete = CASCADE
         )
 
-         */
+
 
 
     ]

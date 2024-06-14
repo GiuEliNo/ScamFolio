@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +38,7 @@ fun Welcome(
 ) {
 
     val username=viewModel.username
-    val balance= viewModel.balance
+    val balance = viewModel.balance.collectAsState().value
     val transactions= viewModel.transactions.collectAsState().value
     Column(
         verticalArrangement = Arrangement.Top,
@@ -49,7 +50,7 @@ fun Welcome(
         TopLabel(username = username)
         Spacer(modifier = Modifier.height(140.dp))
 
-        BalanceText(balance = balance)
+        BalanceText(balance = balance.toString())
         Transactions(transactions)
     }
 }
@@ -74,7 +75,7 @@ fun TopLabel(
 
 @Composable
 fun BalanceText(
-    balance : String
+    balance : String,
 ) {
     Row {
         Spacer(modifier = Modifier.width(20.dp))
@@ -87,7 +88,7 @@ fun BalanceText(
                 text = "Current balance: $balance$",
                 fontSize = 30.sp,
                 fontFamily = custom,
-                color = Color.White
+                color = Color.White,
             )
 
             Spacer(modifier = Modifier.height(10.dp))

@@ -1,6 +1,9 @@
 package com.dosti.scamfolio.dbStuff
 
+import android.database.Cursor
+import com.dosti.scamfolio.api.model.CoinBalance
 import com.dosti.scamfolio.api.model.CoinModelAPIDB
+import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User
 import kotlinx.coroutines.CoroutineScope
@@ -60,5 +63,19 @@ class Repository(private val dao: ScamfolioDao) {
         CoroutineScope(Dispatchers.IO).launch{
             dao.resetCoinList()
         }
+    }
+
+   fun insertCoinForBalance(name:String, price: Double){
+        CoroutineScope(Dispatchers.IO).launch{
+            dao.insertCoinForBalance(coin= Coin(name,price))
+        }
+    }
+
+    fun getCurrentPrice(name: String) :String?{
+        return dao.getCurrentPrice(name)
+    }
+
+    fun getAllPurchasingForBalance(name: String) :List<CoinBalance> {
+        return dao.getAllPurchasingForBalance(name)
     }
 }
