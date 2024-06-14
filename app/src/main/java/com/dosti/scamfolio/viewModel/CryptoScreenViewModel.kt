@@ -14,6 +14,9 @@ import com.dosti.scamfolio.db.entities.Purchasing
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel,
     private val sharedPrefRepository: SharedPrefRepository) : ViewModel() {
@@ -36,6 +39,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
                 perPage = "250",
                 sparklineBoolean = true,
             )
+            newCoin.find { it.id == coinId }?.time_fetched = System.currentTimeMillis()
             _coin.value = newCoin[0]
 
         }
@@ -46,9 +50,17 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
             withContext(Dispatchers.IO) {
                 val newPurchasing = Purchasing(0, coinName, qty, username, isNegative)
                 repository.insertPurchasing(newPurchasing)
+                repository.insertPurchasing(newPurchasing)
             }
         }
     }
 
-    fun getPurchase() {}
+    fun getLastUpdate(coin : CoinModelAPI): String? {
+        val sdf = SimpleDateFormat("dd/MM/yy hh:mm a")
+        val netDate = coin.time_fetched?.let { Date(it) }
+        val date = netDate?.let { sdf.format(it) }
+        return date
+    }
 }
+
+

@@ -99,7 +99,7 @@ fun Chart(listPrice: List<Double>){
         xAxisData = xAxisData,
         yAxisData = yAxisData,
         //gridLines = GridLines(color = MaterialTheme.colorScheme.outlineVariant),
-        backgroundColor = MaterialTheme.colorScheme.surface
+        backgroundColor = MaterialTheme.colorScheme.primary
     )
 
     LineChart(

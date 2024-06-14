@@ -19,4 +19,6 @@
     <string name="errorSplash">Errore di rete. Database non aggiornato</string>
     <string name="splashText">Caricamento criptovalute...</string>
     <string name="today">Today</string>
+    <string name="timeframe">1 settimana timeframe 1ora</string>
+    <string name="lastupdate">Ultimo aggiornamento</string>
 </resources>

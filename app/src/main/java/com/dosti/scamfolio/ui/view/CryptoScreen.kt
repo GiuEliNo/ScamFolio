@@ -66,6 +66,7 @@ import com.dosti.scamfolio.ui.chart.Chart
 import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
+import java.util.Date
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -99,14 +100,40 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                         .fillMaxSize()
                         .padding(10.dp)
                 ) {
+                    Column(
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
 
-                    coin?.let { CryptoHeader(it) }
-                    Spacer(modifier = Modifier.size(16.dp))
-                    coin?.let { Chart(it.sparkline_in_7d.price, ) }
+                        coin?.let { CryptoHeader(it) }
+                        Spacer(modifier = Modifier.size(16.dp))
+                        coin?.let { Chart(it.sparkline_in_7d.price, ) }
+                        Text(
+                            text = stringResource(R.string.lastupdate) + " : " + coin?.let {
+                                viewModel.getLastUpdate(
+                                    it
+                                )
+                            },
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.W600,
+                            color = Color.LightGray,
+                            textAlign = TextAlign.Center)
+                    }
+
                 }
             }
 
             item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(end = 10.dp, start = 10.dp)
+                ) {
                 Column(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start,
@@ -167,8 +194,8 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                             onValueChange = { removeQty = it }
                         )
                     }
-                    
-                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
 
                 if (toastEvent) {
@@ -182,9 +209,23 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                 }
 
             }
-        }
+                }
+
+            item {
+                Card(
+                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(end = 10.dp, start = 10.dp)
+                )
+                {
+
+                }
+
+            }
         }
     }
+}
 
     @Composable
     fun CustomTextField1(

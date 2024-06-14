@@ -20,4 +20,6 @@
     <string name="errorSplash">Network error. Database not updated</string>
     <string name="splashText" >Loading crypto ...</string>
     <string name="today">Today</string>
+    <string name="timeframe">1 week timeframe 1h</string>
+    <string name="lastupdate">Last update</string>
 </resources>
