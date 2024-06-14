@@ -116,7 +116,7 @@ fun ComposeCryptoBottomBar(navController: NavHostController) {
                 },
                 alwaysShowLabel = true,
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color(0xFF4BC096)
+                    indicatorColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }

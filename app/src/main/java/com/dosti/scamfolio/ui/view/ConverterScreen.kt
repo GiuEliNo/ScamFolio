@@ -3,22 +3,32 @@ package com.dosti.scamfolio.ui.view
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,7 +42,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelStoreOwner
@@ -52,58 +67,84 @@ fun ConverterScreen(
     val choice1 by remember { viewModel.choice1 }
     val choice2 by remember {viewModel.choice2}
 
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Top,
         modifier = Modifier
-            .fillMaxSize()
-    ) {
+            .fillMaxWidth()
+            .padding(10.dp)
+    )  {
         Text(
             text = "Converter",
             fontSize = 50.sp,
             fontFamily = custom,
-            color = Color.White
+            color = Color.White,
+            textAlign = TextAlign.Center,
         )
-        
-        Spacer(modifier = Modifier.height(150.dp))
+    }
 
-        CryptoField(value = firstField,
-            onValueChange = {firstField=it},
-            viewModel,
-            ch = choice1,
-            cryptos,
-            isTop = true,
-            onChoiceChange = {viewModel.setChoice1(it)})
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+            ),
 
-        Spacer(modifier = Modifier.height(50.dp))
-
-        CryptoField(value = secondField,
-            onValueChange = {secondField=it},
-            viewModel,
-            ch = choice2,
-            cryptos,
-            isTop = false,
-            onChoiceChange = {viewModel.setChoice2(it) })
-        Spacer(modifier = Modifier.height(100.dp))
-
-        Button(
-            onClick = {viewModel.calculate()},
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
-                .size(300.dp, 80.dp)
+                .padding(10.dp)
+
         ) {
             Column(
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             ) {
-                Text(
-                    text = stringResource(id = R.string.calculate),
-                    fontSize = 40.sp,
-                    fontFamily = custom,
-                    color = Color.White
-                )
-            }
+                CryptoField(value = firstField,
+                    onValueChange = { firstField = it },
+                    viewModel,
+                    ch = choice1,
+                    cryptos,
+                    isTop = true,
+                    onChoiceChange = { viewModel.setChoice1(it) })
 
+                Spacer(modifier = Modifier.height(25.dp))
+
+                CryptoField(value = secondField,
+                    onValueChange = { secondField = it },
+                    viewModel,
+                    ch = choice2,
+                    cryptos,
+                    isTop = false,
+                    onChoiceChange = { viewModel.setChoice2(it) })
+                Button(
+
+                    onClick = {viewModel.calculate()},
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                    //  border = BorderStroke(4.dp, Color.White),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(30.dp)
+
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.calculate),
+                            fontSize = 40.sp,
+                            fontFamily = custom,
+                            color = Color.White
+                        )
+                    }
+
+                }
+            }
         }
     }
 }
@@ -123,6 +164,8 @@ fun CryptoField(
     var expanded by remember { mutableStateOf(false) }
 
     Row(
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Bottom,
         modifier = Modifier
             .fillMaxWidth()
     ) {
@@ -139,7 +182,17 @@ fun CryptoField(
                 onValueChange = onValueChange,
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = MaterialTheme.colorScheme.inversePrimary,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.White,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                    unfocusedLabelColor = Color.Transparent,
+                    focusedContainerColor = Color.DarkGray,
+                    unfocusedContainerColor = Color.DarkGray
+                ),
                 modifier = Modifier
                     .menuAnchor()
                     .width(150.dp)
@@ -178,19 +231,38 @@ fun CryptoField(
 
         Spacer(modifier = Modifier.width(20.dp))
 
-        TextField(
+        val keyboardController = LocalSoftwareKeyboardController.current
+
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 10.dp, start = 8.dp),
             value = value,
             onValueChange = onValueChange,
             label = { Text(text = "Value", color = Color.White) },
             colors = OutlinedTextFieldDefaults.colors(
-                unfocusedTextColor = Color.White,
                 focusedTextColor = Color.White,
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White,
-                unfocusedLabelColor = Color.White
+                unfocusedTextColor = Color.White,
+                focusedBorderColor = MaterialTheme.colorScheme.inversePrimary,
+                focusedLeadingIconColor = Color.White,
+                unfocusedLeadingIconColor = Color.White,
+                unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                unfocusedLabelColor = Color.Transparent,
+                focusedContainerColor = Color.DarkGray,
+                unfocusedContainerColor = Color.DarkGray
             ),
             singleLine = true,
-            readOnly = isTop.not()
+            readOnly = isTop.not(),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+                autoCorrect = false,
+                capitalization = KeyboardCapitalization.None,
+                keyboardType = KeyboardType.Number
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {keyboardController?.hide()},
+            ),
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
         )
 
         Spacer(modifier = Modifier.width(20.dp))
