@@ -86,4 +86,8 @@ class Repository(private val dao: ScamfolioDao) {
     fun getAllCoinSummary(name: String) : List<Wallet>{
         return dao.getUserCoinSummary(name)
     }
+
+    fun updateCoinForBalance(name:String, price: Double) {
+        return dao.updateCoinForBalance(Coin(name, price))
+    }
 }

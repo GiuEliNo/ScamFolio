@@ -67,7 +67,7 @@ interface ScamfolioDao {
     @Query("SELECT balance FROM User WHERE username LIKE :username")
     fun getBalance(username: String): Double
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertCoinForBalance(coin: Coin)
 
 
@@ -99,4 +99,7 @@ interface ScamfolioDao {
             p.coinName, u.username
     """)
     fun getUserCoinSummary(username: String): List<Wallet>
+
+    @Update
+    fun updateCoinForBalance(coin: Coin)
 }
