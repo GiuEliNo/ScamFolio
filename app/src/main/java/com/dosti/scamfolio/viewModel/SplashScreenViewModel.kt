@@ -31,14 +31,14 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
     val isLoading = _isLoading.asStateFlow()
 
     private val _toastMessage = MutableLiveData<String?>(null)
-    val toastMessage: LiveData<String?> = _toastMessage
+    //val toastMessage: LiveData<String?> = _toastMessage
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+   //@OptIn(ExperimentalCoroutinesApi::class)
     suspend fun initDb(): Boolean {
         val successAsync = CoroutineScope(Dispatchers.Default).async {
             var success = true
             if (repository.isEmpty()) {
-                if(initializeDataAPI(repository))
+                if(initializeDataAPI(repository, false))
                     Log.d("Database", "Database was empty. Initialized")
                 else
                     success = false
@@ -47,11 +47,16 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
             if (System.currentTimeMillis() - repository.chechFetchedDate() > 6000000) {
                 //if one week old
                 repository.resetCoinList()
-                if(initializeDataAPI(repository))
+                if(initializeDataAPI(repository, false))
                     Log.d("Database", "Database entries were older than a week. Updated")
                 else
                     success = false
             }
+
+            if(initializeDataAPI(repository, true))
+                Log.d("Database", "Prices updated")
+            else
+                success = false
 
             Log.d("Database", "Database all right")
             fetchAllCryptos()
@@ -71,7 +76,7 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
-    fun clearErrorMessage() {
+    /* fun clearErrorMessage() {
         _toastMessage.value = null
-    }
+    }*/
 }

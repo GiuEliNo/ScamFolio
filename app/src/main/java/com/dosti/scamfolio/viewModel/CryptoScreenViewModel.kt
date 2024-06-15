@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.viewModel
 
+import android.annotation.SuppressLint
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -57,30 +58,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         }
     }
 
-    suspend fun getCurrentPriceWithRetry(
-        coinId: String,
-        maxRetries: Int,
-        delayMillis: Long
-    ): Double? {
-        var currentPrice: Double? = null
-        try {
-            repeat(maxRetries) { attempt ->
-                currentPrice = repository.getCurrentPrice(coinId)?.toDoubleOrNull()
-                if (currentPrice != null) {
-                    return currentPrice
-                } else {
-                    Log.e("getCurrentPrice", "Tentativo Fallito ritento tra $delayMillis")
-                    delay(delayMillis)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("getCurrentPrice", "Eccezione nella ricerca del valore", e)
-        }
-        return currentPrice
-    }
-
-
-    suspend fun insertPurchaseWithRetry(
+    private suspend fun insertPurchaseWithRetry(
         purchasing: Purchasing,
         maxRetries: Int,
         delayMillis: Long
@@ -109,24 +87,10 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-
-
                 try {
-                    val currentPrice = getCurrentPriceWithRetry(coinName, 5, 1000)
-                    if (currentPrice != null) {
-                        Log.e("Purchasing", "il valore di currentPrice è $currentPrice")
+                    val newPurchasing = Purchasing(0, coinName, qty, username, isNegative)
+                    insertPurchaseWithRetry(newPurchasing, 5, 1000)
 
-                        repository.insertCoinForBalance(coinName, currentPrice.toDouble())
-                        delay(1000)
-                        val newPurchasing = Purchasing(0, coinName, qty, username, isNegative)
-                        insertPurchaseWithRetry(newPurchasing, 5, 1000)
-                        Log.e("Purchasing", "Inserimento dell'acquisto avvenuto con successo")
-                    } else {
-                        Log.e(
-                            "Purchasing",
-                            "Errore nell'inserimento: $currentPrice non è un valido numero"
-                        )
-                    }
                 } catch (e: Exception) {
                     Log.e("Purchasing", "Errore durante l'inserimento dell'acquisto", e)
                 }
@@ -136,6 +100,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
 
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getLastUpdate(coin: CoinModelAPI): String? {
         val sdf = SimpleDateFormat("dd/MM/yy hh:mm a")
         val netDate = coin.time_fetched?.let { Date(it) }

@@ -3,7 +3,7 @@ package com.dosti.scamfolio.api
 import android.util.Log
 import com.dosti.scamfolio.dbStuff.Repository
 
-suspend fun initializeDataAPI(repository: Repository): Boolean {
+suspend fun initializeDataAPI(repository: Repository, onlyPrice: Boolean): Boolean {
     try {
 
         val newCoin = ConnectionRetrofit.callApi().getAllCoins(
@@ -17,7 +17,8 @@ suspend fun initializeDataAPI(repository: Repository): Boolean {
 
         newCoin.let {
             for (coinData in it) {
-                repository.insertCoinAPI(it)
+                if(!onlyPrice) repository.insertCoinAPI(it)
+                repository.insertCoinForBalance(coinData.name, coinData.current_price.toDouble())
             }
         }
         return true
