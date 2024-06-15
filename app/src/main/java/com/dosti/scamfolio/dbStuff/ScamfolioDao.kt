@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.dbStuff
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -8,6 +9,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.dosti.scamfolio.api.model.CoinBalance
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
+import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User
@@ -78,4 +80,23 @@ interface ScamfolioDao {
     @Query("SELECT SUM(p.quantity) AS total_quantity FROM Purchasing p JOIN User u ON p.usernameUser = u.username JOIN Coin c ON p.coinName = c.name WHERE u.username = :username AND c.name = :coinId AND p.isNegative = 0")
     fun getQuantityCoinByiD(coinId: String, username: String) : String
 
+    @Query("""
+        SELECT 
+            u.username, 
+            c.name AS coinName,
+            SUM(CASE WHEN p.isNegative = 1 THEN -p.quantity ELSE p.quantity END) AS quantity,
+            SUM(CASE WHEN p.isNegative = 1 THEN -p.quantity ELSE p.quantity END) * c.current_price AS balance
+
+        FROM 
+            User u
+        JOIN 
+            Purchasing p ON u.username = p.usernameUser
+        JOIN 
+            CoinModelAPIDB c ON p.coinName = c.id
+        WHERE 
+            u.username = :username
+        GROUP BY 
+            p.coinName, u.username
+    """)
+    fun getUserCoinSummary(username: String): List<Wallet>
 }

@@ -1,6 +1,7 @@
 package com.dosti.scamfolio.dbStuff
 
 import com.dosti.scamfolio.api.model.CoinBalance
+import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.Purchasing
@@ -80,5 +81,9 @@ class Repository(private val dao: ScamfolioDao) {
 
     fun getQuantityCoinByiD(coinId: String, username: String) : String{
         return dao.getQuantityCoinByiD(coinId,username)
+    }
+
+    fun getAllCoinSummary(name: String) : List<Wallet>{
+        return dao.getUserCoinSummary(name)
     }
 }

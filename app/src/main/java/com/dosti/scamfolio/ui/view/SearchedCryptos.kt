@@ -52,8 +52,7 @@ fun SearchScreen(
     searchQuery: String,
     searchResults: List<CoinModelAPIDB>,
     onSearchQueryChange: (String) -> Unit,
-    selectedCoin: (String) -> Unit,
-    prefRepository: SharedPrefRepository
+    selectedCoin: (String) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -207,8 +206,7 @@ fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
 @Composable
 fun SearchedCryptos(
     viewModel: SearchedCryptosViewModel,
-    selectedCoin: (String) -> Unit,
-    sharedPrefRepository: SharedPrefRepository
+    selectedCoin: (String) -> Unit
 ) {
     val searchResults by viewModel.searchResults.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
@@ -217,8 +215,7 @@ fun SearchedCryptos(
             searchQuery = viewModel.searchQuery,
             searchResults = it,
             onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
-            selectedCoin,
-            sharedPrefRepository
+            selectedCoin
         )
     }
 }
