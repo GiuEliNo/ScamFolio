@@ -116,7 +116,7 @@ fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable(onClick = { selectedCoin(coin.id) }),
+            .clickable(onClick = { selectedCoin(coin.name) }),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
