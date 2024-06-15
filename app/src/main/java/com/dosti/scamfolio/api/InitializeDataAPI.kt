@@ -18,7 +18,7 @@ suspend fun initializeDataAPI(repository: Repository, onlyPrice: Boolean): Boole
         newCoin.let {
             for (coinData in it) {
                 if(!onlyPrice) repository.insertCoinAPI(it)
-                repository.insertCoinForBalance(coinData.name, coinData.current_price.toDouble())
+                repository.insertCoinForBalance(coinData.id, coinData.current_price.toDouble())
             }
         }
         return true

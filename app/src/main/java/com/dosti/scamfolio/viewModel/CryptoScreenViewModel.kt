@@ -95,7 +95,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
                     Log.e("Purchasing", "Errore durante l'inserimento dell'acquisto", e)
                 }
             }
-            setValue("0")
+            setValue("")
         }
 
     }
