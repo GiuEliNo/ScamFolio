@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,8 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -55,19 +52,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.ui.chart.Chart
 import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
+import androidx.compose.runtime.State
+
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit) {
 
     val coin by viewModel.coin.observeAsState()
-    val walletCoin by viewModel.walletCoin.observeAsState()
 
     val showDialog = remember { mutableStateOf(false) }
 
@@ -153,8 +152,8 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                              .padding(horizontal = 8.dp)
                      ) {
                          coin?.let {
-                             walletCoin?.let { it1 -> WalletInfo(coin!!, it1) }
-                         }
+                            WalletInfo(coin!!, viewModel) }
+
                      }
                  }
              }
@@ -218,7 +217,10 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
 }
 
 @Composable
-fun WalletInfo(coin : CoinModelAPI, walletCoin : String) {
+fun WalletInfo(coin : CoinModelAPI, viewModel : CryptoScreenViewModel) {
+
+    val walletCoin by viewModel.walletCoin.observeAsState()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -234,12 +236,14 @@ fun WalletInfo(coin : CoinModelAPI, walletCoin : String) {
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        Text(
-            text = walletCoin,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.White,
-            style = MaterialTheme.typography.bodyMedium
-        )
+        (if(walletCoin.isNullOrBlank()) "0" else walletCoin)?.let {
+            Text(
+                text = it,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 
 }
@@ -287,9 +291,22 @@ fun DialogOpenPosition(
     coinName: String,
     showDialog: MutableState<Boolean>
 ) {
+
+    val checkIfCanRemove = {
+        viewModel.checkIfCanRemove(coinName)
+    }
+
     var toastEvent by remember { mutableStateOf(false) }
     var errorEvent by remember { mutableStateOf(false) }
-    var quantity by remember { mutableStateOf("") }
+
+    val currentValue = viewModel.value.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
+
+
+    val enabled by remember(currentValue.value) {
+        mutableStateOf(viewModel.checkIfCanRemove(coinName))
+    }
+
+
 
     Dialog(onDismissRequest = { showDialog.value = false } ){
         Card(
@@ -311,8 +328,9 @@ fun DialogOpenPosition(
                         .padding(10.dp)
                 ) {
                     AddQuantityTextField(
-                        value = quantity,
-                        onValueChange = { quantity = it }
+                        value = currentValue,
+                        callback = checkIfCanRemove,
+                        viewModel = viewModel
                     )
                 }
 
@@ -326,13 +344,14 @@ fun DialogOpenPosition(
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, quantity.toDouble(), username, false)
+                                viewModel.addPurchase(coinName, username, false)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
                             }
                         },
-                        text = stringResource(R.string.add_to_transactions)
+                        text = stringResource(R.string.add_to_transactions),
+                        enabled = true
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
@@ -340,13 +359,14 @@ fun DialogOpenPosition(
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, quantity.toDouble(), username, true)
+                                viewModel.addPurchase(coinName, username, true)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
                             }
                         },
-                        text = stringResource(R.string.remove_from_balance)
+                        text = stringResource(R.string.remove_from_balance),
+                        enabled = enabled
                     )
                 }
             }
@@ -370,8 +390,10 @@ fun DialogOpenPosition(
 
 @Composable
     fun AddQuantityTextField(
-        value: String,
-        onValueChange: (String) -> Unit
+    value: State<String>,
+    callback: () -> Any,
+    viewModel: CryptoScreenViewModel,
+
     ) {
         val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -379,10 +401,23 @@ fun DialogOpenPosition(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = 10.dp, start = 8.dp),
-            value = value.filter { it.isDigit() },
+            value = value.value,
             placeholder = {
                 Text(text = stringResource(R.string.insertValue))},
-            onValueChange = onValueChange,
+            onValueChange = { input ->
+                var dotCount = 0
+                val filtered = input.filter {
+                    if (it.isDigit()) {
+                        true
+                    } else if (it == '.' && dotCount < 1) {
+                        dotCount++
+                        true
+                    } else {
+                        false
+                    }
+                }
+                viewModel.setValue(filtered)
+            },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done,
                 autoCorrect = false,
@@ -390,7 +425,7 @@ fun DialogOpenPosition(
                 keyboardType = KeyboardType.Number
             ),
             keyboardActions = KeyboardActions(
-                onDone = {keyboardController?.hide()},
+                onAny = {callback()}
             ),
             label = { Text(text = "", color = Color.White) },
             colors = OutlinedTextFieldDefaults.colors(
@@ -412,12 +447,14 @@ fun DialogOpenPosition(
     @Composable
     fun CustomButton(
         onClick: () -> Unit,
-        text: String
+        text: String,
+        enabled: Boolean
     ) {
         Button(
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-            modifier = Modifier
+            modifier = Modifier,
+            enabled = enabled
 
         ) {
             Column(

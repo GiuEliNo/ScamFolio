@@ -1,7 +1,6 @@
 package com.dosti.scamfolio.viewModel
 
 import android.database.sqlite.SQLiteConstraintException
-import android.database.sqlite.SQLiteException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,10 +13,13 @@ import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.db.entities.Purchasing
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.Date
 
 class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel,
@@ -32,6 +34,11 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
     private val _username = sharedPrefRepository.getUsr("username", "NULL")
 
     val username = _username
+
+    private val _value: MutableStateFlow<String> = MutableStateFlow("")
+
+    val value: StateFlow<String>
+        get() = _value
 
 
     fun fetchCrypto(coinId: String) {
@@ -96,9 +103,13 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
 
     }
 
-    fun addPurchase(coinName: String, qty: Double, username: String, isNegative: Boolean) {
+    fun addPurchase(coinName: String, username: String, isNegative: Boolean) {
+
+        val qty = runBlocking { value.first().toDoubleOrNull() ?: 0.0 }
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+
 
                 try {
                     val currentPrice = getCurrentPriceWithRetry(coinName, 5, 1000)
@@ -120,7 +131,9 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
                     Log.e("Purchasing", "Errore durante l'inserimento dell'acquisto", e)
                 }
             }
+            setValue("0")
         }
+
     }
 
     fun getLastUpdate(coin: CoinModelAPI): String? {
@@ -138,6 +151,18 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
             }
             _walletCoin.value = result
         }
+    }
+
+    fun checkIfCanRemove(coinName: String): Boolean {
+        getWalletCoin(coinName)
+        val actualCoin = walletCoin.value?.toDoubleOrNull() ?: 0.0
+        val inTextValue = runBlocking { value.first().toDoubleOrNull() ?: 0.0 }
+
+        return actualCoin - inTextValue >= 0.0
+    }
+
+    fun setValue(it: String){
+        _value.value = it
     }
 }
 
