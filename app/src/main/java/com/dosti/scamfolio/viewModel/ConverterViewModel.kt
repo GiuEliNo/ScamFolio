@@ -8,15 +8,28 @@ import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.dbStuff.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class ConverterViewModel(private val repository: Repository,private val sharedCoinGeko: SharedCoinGekoViewModel): ViewModel() {
 
 
     private val _coinList= MutableStateFlow<List<CoinModelAPIDB>?>(emptyList())
     var coinList: StateFlow<List<CoinModelAPIDB>?> = _coinList
-    var firstField = mutableStateOf("")
-    var secondField = mutableStateOf("")
+    //var firstField = mutableStateOf("")
+    private val _firstField: MutableStateFlow<String> = MutableStateFlow("")
+
+    val firstField: StateFlow<String>
+        get() = _firstField
+
+    private val _secondField: MutableStateFlow<String> = MutableStateFlow("")
+
+    val secondField: StateFlow<String>
+        get() = _secondField
+
+
+
     var choice1 = mutableStateOf("")
 
     var choice2 = mutableStateOf("")
@@ -34,6 +47,9 @@ class ConverterViewModel(private val repository: Repository,private val sharedCo
         }
     }
 
+    fun setSecondField(name:String){
+        _secondField.value=name
+    }
     fun setChoice1(name:String){
         choice1.value=name
     }
@@ -53,24 +69,27 @@ class ConverterViewModel(private val repository: Repository,private val sharedCo
 
         if (myCrypto1 == null || myCrypto2 == null) {
             Log.e("ConverterViewModel", "myCrypto1 or myCrypto2 is null")
-            secondField.value = "error"
+            setSecondField("error")
             return
         }
         if (myCrypto1.current_price.toFloatOrNull()==null || myCrypto2.current_price.toFloatOrNull()==null){
             Log.e("ConverterViewModel", "price1 or price 2 is null")
-            secondField.value = "error"
+            setSecondField("error")
             return
         }
 
-        if(firstField.value.toFloatOrNull()!=null){
-            val secondValueInDollars=firstField.value.toFloat()*myCrypto1.current_price.toFloat()
-            Log.e("ConverterViewModel", "myCripto1:=$myCrypto1\nmyCrypto2:=$myCrypto2\nfirst_current_price:=${myCrypto1.current_price}\nsecondValueInDollars:= $secondValueInDollars\nFirstField value:= ${firstField.value}")
-            val secondValueInCoin=secondValueInDollars/myCrypto2.current_price.toFloat()
-            secondField.value= secondValueInCoin.toString()
-        }
-        else {
-            Log.e("ConverterViewModel", "fieldValue empty")
-            secondField.value = "error"
-        }
+        val inTextValue = runBlocking { firstField.first().toDoubleOrNull() ?: 0.0 }
+
+        Log.e("ConverterViewModel", inTextValue.toString())
+
+
+        val secondValueInDollars = inTextValue * myCrypto1.current_price.toFloat()
+        Log.e("ConverterViewModel", "myCripto1:=$myCrypto1\nmyCrypto2:=$myCrypto2\nfirst_current_price:=${myCrypto1.current_price}\nsecondValueInDollars:= $secondValueInDollars\nFirstField value:= ${firstField.value}")
+        val secondValueInCoin=secondValueInDollars/myCrypto2.current_price.toFloat()
+        setSecondField(secondValueInCoin.toString())
+    }
+
+    fun setfirstField(filtered: String) {
+        _firstField.value = filtered
     }
 }

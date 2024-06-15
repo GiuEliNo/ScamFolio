@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -20,6 +22,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -27,6 +31,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +49,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.ui.theme.custom
@@ -53,11 +59,18 @@ import com.dosti.scamfolio.viewModel.ConverterViewModel
 fun ConverterScreen(
     viewModel: ConverterViewModel
 ) {
-    var firstField by rememberSaveable { viewModel.firstField }
-    var secondField by rememberSaveable { viewModel.secondField }
+    var firstField = viewModel.firstField.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
+    var secondField = viewModel.secondField.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
+
     val cryptos = viewModel.coinList.collectAsState().value
     val choice1 by remember { viewModel.choice1 }
     val choice2 by remember {viewModel.choice2}
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val calc = {
+        viewModel.calculate()
+    }
 
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -97,28 +110,38 @@ fun ConverterScreen(
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
-                CryptoField(value = firstField,
-                    onValueChange = { firstField = it },
+                CryptoField(
+                    value = firstField,
+                //    onValueChange = { firstField = it },
                     viewModel,
                     ch = choice1,
                     cryptos,
                     isTop = true,
-                    onChoiceChange = { viewModel.setChoice1(it) })
+                    onChoiceChange = { viewModel.setChoice1(it) },
+                    callback = calc,
+                    true
+                )
 
                 Spacer(modifier = Modifier.height(25.dp))
 
-                CryptoField(value = secondField,
-                    onValueChange = { secondField = it },
+                CryptoField(
+                    value = secondField,
+                   // onValueChange = { secondField = it },
                     viewModel,
                     ch = choice2,
                     cryptos,
                     isTop = false,
-                    onChoiceChange = { viewModel.setChoice2(it) })
+                    onChoiceChange = { viewModel.setChoice2(it) },
+                    callback = calc,
+                    false
+                )
                 Button(
 
-                    onClick = {viewModel.calculate()},
+                    onClick = {
+                        calc()
+                        keyboardController?.hide()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-                    //  border = BorderStroke(4.dp, Color.White),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(30.dp)
@@ -144,13 +167,15 @@ fun ConverterScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CryptoField(
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: State<String>,
+ //   onValueChange: (String) -> Unit,
     viewModel: ConverterViewModel,
     ch: String,
     options: List<CoinModelAPIDB>?,
     isTop: Boolean,
-    onChoiceChange: (String) -> Unit
+    onChoiceChange: (String) -> Unit,
+    callback: () -> Unit,
+    firstField: Boolean
 ) {
     var choice by rememberSaveable { mutableStateOf(ch) }
     var expanded by remember { mutableStateOf(false) }
@@ -170,8 +195,8 @@ fun CryptoField(
 
         ) {
             TextField(
-                value = choice.filter { it.isDigit() },
-                onValueChange = onValueChange,
+                value = choice,
+                onValueChange = {choice = it},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 colors = OutlinedTextFieldDefaults.colors(
@@ -226,37 +251,119 @@ fun CryptoField(
 
         val keyboardController = LocalSoftwareKeyboardController.current
 
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 10.dp, start = 8.dp),
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(text = "Value", color = Color.White) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                focusedBorderColor = MaterialTheme.colorScheme.inversePrimary,
-                focusedLeadingIconColor = Color.White,
-                unfocusedLeadingIconColor = Color.White,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
-                unfocusedLabelColor = Color.Transparent,
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.DarkGray
-            ),
-            singleLine = true,
-            readOnly = isTop.not(),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done,
-                autoCorrect = false,
-                capitalization = KeyboardCapitalization.None,
-                keyboardType = KeyboardType.Number
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {keyboardController?.hide()},
-            ),
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
-        )
+        if(firstField) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 10.dp, start = 8.dp),
+                value = value.value,
+                onValueChange = { input ->
+                    var dotCount = 0
+                    val filtered = input.filter {
+                        if (it.isDigit()) {
+                            true
+                        } else if (it == '.' && dotCount < 1) {
+                            dotCount++
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                    viewModel.setfirstField(filtered)
+                    callback()
+                },
+                label = { Text(text = "Value", color = Color.White) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = MaterialTheme.colorScheme.inversePrimary,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.White,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                    unfocusedLabelColor = Color.Transparent,
+                    focusedContainerColor = Color.DarkGray,
+                    unfocusedContainerColor = Color.DarkGray
+                ),
+                singleLine = true,
+                readOnly = isTop.not(),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done,
+                    autoCorrect = false,
+                    capitalization = KeyboardCapitalization.None,
+                    keyboardType = KeyboardType.Number
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        callback()
+                    }
+                ),
+                leadingIcon = {
+                    IconButton(onClick = {
+                        viewModel.setfirstField("")
+                        callback()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Clear text",
+                            tint = Color.White
+                        )
+                    }
+                },
+
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
+            )
+        }
+        else{
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 10.dp, start = 8.dp),
+                value = value.value,
+                onValueChange = { input ->
+                    var dotCount = 0
+                    val filtered = input.filter {
+                        if (it.isDigit()) {
+                            true
+                        } else if (it == '.' && dotCount < 1) {
+                            dotCount++
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                    viewModel.setSecondField(filtered)
+                },
+                label = { Text(text = "Value", color = Color.White) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = MaterialTheme.colorScheme.inversePrimary,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.White,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                    unfocusedLabelColor = Color.Transparent,
+                    focusedContainerColor = Color.DarkGray,
+                    unfocusedContainerColor = Color.DarkGray
+                ),
+                singleLine = true,
+                readOnly = isTop.not(),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done,
+                    autoCorrect = false,
+                    capitalization = KeyboardCapitalization.None,
+                    keyboardType = KeyboardType.Number
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        callback()
+                    }
+                ),
+
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
+            )
+        }
 
         Spacer(modifier = Modifier.width(20.dp))
     }
