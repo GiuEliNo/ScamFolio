@@ -1,17 +1,10 @@
 package com.dosti.scamfolio.viewModel
 
-import android.content.Context
-import android.preference.PreferenceManager
 import android.util.Log
-import androidx.compose.runtime.MutableDoubleState
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.yml.charts.common.extensions.roundTwoDecimal
 import com.dosti.scamfolio.SharedPrefRepository
-import com.dosti.scamfolio.api.model.CoinBalance
 import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.dbStuff.Repository
@@ -27,7 +20,6 @@ class HomepageViewModel(private val repository: Repository,
     val myWallet=MutableStateFlow<List<Wallet>>(emptyList())
 
 
-    //private var _balance = sharedPrefRepository.getBalance("balance", "NULL")
     private var _balance = MutableStateFlow(0.0)
     var balance=_balance
 
@@ -72,8 +64,8 @@ class HomepageViewModel(private val repository: Repository,
          Log.e("Balance update", "finalBalance ritornato := $_balance.value")
     }
 
-    fun roundBalance(balance:Double):Double{
-        return balance.roundTwoDecimal()
+    fun roundDouble(double:Double):Double{
+        return double.roundTwoDecimal()
     }
 
 
