@@ -1,15 +1,11 @@
 package com.dosti.scamfolio.viewModel
 
-import android.content.Context
-import android.preference.PreferenceManager
 import android.util.Log
-import androidx.compose.runtime.MutableDoubleState
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.yml.charts.common.extensions.roundTwoDecimal
 import com.dosti.scamfolio.SharedPrefRepository
+import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.dbStuff.Repository
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +17,9 @@ class HomepageViewModel(private val repository: Repository,
                         sharedPrefRepository: SharedPrefRepository) : ViewModel(){
     private var _username = sharedPrefRepository.getUsr("username", "NULL")
     var username=_username
+    val myWallet=MutableStateFlow<List<Wallet>>(emptyList())
 
 
-    //private var _balance = sharedPrefRepository.getBalance("balance", "NULL")
     private var _balance = MutableStateFlow(0.0)
     var balance=_balance
 
@@ -33,13 +29,23 @@ class HomepageViewModel(private val repository: Repository,
                 withContext(Dispatchers.IO) {
                     transactions.value=repository.getPurchasingList(username)
                     updateBalanceValue(username)
+                    getWalletInfo(username)
                 }
             }
         }
 
+    fun getWalletInfo(name: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                myWallet.value = repository.getAllCoinSummary(username)
+            }
+        }
+    }
 
-     fun updateBalanceValue(name: String){
-         _balance.value = 0.0
+
+
+
+     private fun updateBalanceValue(name: String){
          viewModelScope.launch {
              withContext(Dispatchers.IO) {
                  val myBalance = repository.getAllPurchasingForBalance(username)
@@ -58,6 +64,10 @@ class HomepageViewModel(private val repository: Repository,
          Log.e("Balance update", "finalBalance ritornato := $_balance.value")
     }
 
+    fun roundDouble(double:Double):Double{
+        return double.roundTwoDecimal()
+    }
+
 
 
    /* fun setBalance(usr: String, sharedPrefRepository: SharedPrefRepository) {
@@ -69,4 +79,8 @@ class HomepageViewModel(private val repository: Repository,
     }
 
     */
+
+
+
+
 }

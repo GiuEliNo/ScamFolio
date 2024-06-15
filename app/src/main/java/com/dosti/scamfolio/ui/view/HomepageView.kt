@@ -9,10 +9,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.dosti.scamfolio.R
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.db.entities.Purchasing
+import com.dosti.scamfolio.ui.chart.PieChartBalance
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.HomepageViewModel
 
@@ -34,7 +39,6 @@ import com.dosti.scamfolio.viewModel.HomepageViewModel
 @Composable
 fun Welcome(
     viewModel: HomepageViewModel,
-    sharedPrefRepository: SharedPrefRepository
 ) {
 
     val username=viewModel.username
@@ -45,13 +49,34 @@ fun Welcome(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-          //  .background(Color.DarkGray)
+
     ) {
         TopLabel(username = username)
-        Spacer(modifier = Modifier.height(140.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                PieChartBalance(viewModel)
 
-        BalanceText(balance = balance.toString())
-        Transactions(transactions)
+                BalanceText(balance = viewModel.roundDouble(balance).toString())
+            }
+        }
+        Spacer(modifier=Modifier.height(10.dp))
+        Text(
+            text = "Transactions: ",
+            fontSize = 25.sp,
+            fontFamily = custom,
+            color = Color.White
+        )
+        Transactions(transactions,viewModel)
     }
 }
 
@@ -91,33 +116,26 @@ fun BalanceText(
                 color = Color.White,
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Text(
-                text = "Transactions: ",
-                fontSize = 25.sp,
-                fontFamily = custom,
-                color = Color.White
-            )
         }
     }
 }
 
 @Composable
 fun Transactions(
-    transactions: List<Purchasing>
+    transactions: List<Purchasing>,
+    viewModel: HomepageViewModel
 ) {
 
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+        contentPadding = PaddingValues(5.dp),
         modifier = Modifier
             .fillMaxSize()
     ) {
         items(
             items = transactions
         ) { purchasing ->
-            SingleTransaction(purchasing = purchasing)
+            SingleTransaction(purchasing = purchasing, viewModel)
         }
     }
 
@@ -125,18 +143,47 @@ fun Transactions(
 }
 
 @Composable
-fun SingleTransaction(purchasing: Purchasing) {
-    var color = if (purchasing.isNegative) {
+fun SingleTransaction(purchasing: Purchasing,
+                      viewModel: HomepageViewModel) {
+    val color = if (purchasing.isNegative) {
         Color.Red
     } else {
         Color(0xFF4BC096)
     }
-    var negative = purchasing.isNegative
-    var quantity = if (negative) {
-        "-" + purchasing.quantity.toString() + "$"
+    val negative = purchasing.isNegative
+    val quantity = if (negative) {
+        "-" + viewModel.roundDouble(purchasing.quantity)
     } else {
-        "+" + purchasing.quantity.toString() + "$"
+        "+" + viewModel.roundDouble(purchasing.quantity)
     }
+
+
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        )
+    ){
+        Row(modifier = Modifier.fillMaxWidth()){
+            Text(text = purchasing.coinName,
+                fontSize=20.sp,
+                fontFamily = custom,
+                color=color,
+                modifier =Modifier.padding(10.dp)
+            )
+            Text(text = quantity,
+                fontSize=20.sp,
+                fontFamily = custom,
+                color=color,
+                modifier =Modifier.padding(10.dp)
+            )
+        }
+
+    }
+
+
+    /*
 
 
 
@@ -169,5 +216,9 @@ fun SingleTransaction(purchasing: Purchasing) {
 
             Spacer(modifier = Modifier.width(15.dp))
         }
+
+
     }
+
+     */
 }

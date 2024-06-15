@@ -109,7 +109,6 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
     }
 
     fun getWalletCoin(coinId: String) {
-        val username = sharedPrefRepository.getUsr("username", "NULL")
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
                 repository.getQuantityCoinByiD(coinId, username)
