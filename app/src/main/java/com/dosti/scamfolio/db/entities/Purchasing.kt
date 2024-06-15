@@ -15,6 +15,7 @@ import androidx.room.PrimaryKey
             onUpdate = CASCADE,
             onDelete = CASCADE
         ),
+
         ForeignKey(
             entity = Coin::class,
             parentColumns = ["name"],
@@ -22,6 +23,10 @@ import androidx.room.PrimaryKey
             onUpdate = CASCADE,
             onDelete = CASCADE
         )
+
+
+
+
     ]
 )
 data class Purchasing(
