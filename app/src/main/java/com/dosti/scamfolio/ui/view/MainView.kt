@@ -40,6 +40,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
@@ -363,8 +364,8 @@ fun SubmitButtonLandScape(
     ) {
         Button(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+           // border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(100.dp, 50.dp)
         ) {
@@ -393,8 +394,8 @@ fun CreateAccountButtonLandscape(
     ) {
         Button(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+          //  border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(100.dp, 50.dp)
         ) {
@@ -429,8 +430,8 @@ fun SubmitButtonPortrait(
     ) {
         Button(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+           // border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(300.dp, 80.dp)
         ) {
@@ -462,8 +463,8 @@ fun CreateAccountButtonPortrait(
     ) {
         Button(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+           // border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(300.dp, 80.dp)
         ) {
@@ -616,8 +617,8 @@ fun SignInButtonPortrait(
     ) {
         Button(
             onClick = { onSubmitRegister(username, password, viewModel, context) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+            //border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(300.dp, 80.dp)
         ) {
@@ -715,8 +716,8 @@ fun BackButtonPortrait(
     ) {
         Button(
             onClick = onClick ,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+            //border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(300.dp, 80.dp)
         ) {
@@ -802,8 +803,8 @@ fun SignInButtonLandscape(
     ) {
         Button(
             onClick = { onSubmitRegister(username, password, viewModel, context) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+       //     border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(100.dp, 50.dp)
         ) {
@@ -832,8 +833,8 @@ fun BackButtonLandscape(
     ) {
         Button(
             onClick = onClick ,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4BC096)),
-            border = BorderStroke(4.dp, Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+         //   border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(100.dp, 50.dp)
         ) {
