@@ -35,14 +35,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dosti.scamfolio.R
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -257,20 +263,30 @@ fun LogoText() {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Text(
-            text = stringResource(id = R.string.app_name),
-            fontSize = 60.sp,
-            fontFamily = custom,
-            color = Color.White,
-            modifier = Modifier
-        )
+        Row(verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier= Modifier.fillMaxWidth()){
+            Image(
+                painter = painterResource(id = R.drawable.logo_hi_res),
+                contentDescription = null,
+            )
+            Text(
+                text = stringResource(id = R.string.app_name),
+                fontSize = 50.sp,
+                fontFamily = custom,
+                color = Color.White,
+                modifier = Modifier
+            )
 
-        Text(
+            /*Text(
             text = stringResource(id = R.string.login),
             fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,
         )
+
+         */
+        }
     }
 }
 
@@ -392,10 +408,8 @@ fun CreateAccountButtonLandscape(
         horizontalAlignment = Alignment.End,
         modifier = Modifier
     ) {
-        Button(
+        TextButton(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-          //  border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(100.dp, 50.dp)
         ) {
@@ -461,12 +475,12 @@ fun CreateAccountButtonPortrait(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Button(
+        TextButton(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+            //colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
            // border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
-                .size(300.dp, 80.dp)
+                .size(250.dp, 60.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center
@@ -531,26 +545,34 @@ fun SignInView(
 
 @Composable
 fun SignInLogoText() {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            fontSize = 50.sp,
-            fontFamily = custom,
-            color = Color.White,
+    Row(verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier= Modifier.fillMaxWidth()) {
+        Image(
+            painter = painterResource(id = R.drawable.logo_hi_res),
+            contentDescription = null,
+        )
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-        )
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.app_name),
+                fontSize = 50.sp,
+                fontFamily = custom,
+                color = Color.White,
+                modifier = Modifier
+            )
 
-        Text(
-            text = stringResource(R.string.create_account),
-            fontSize = 40.sp,
-            fontFamily = custom,
-            color = Color.White,
-        )
+            Text(
+                text = stringResource(R.string.create_account),
+                fontSize = 40.sp,
+                fontFamily = custom,
+                color = Color.White,
+            )
+        }
     }
 }
 
@@ -728,14 +750,14 @@ fun BackButtonPortrait(
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
             //border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
-                .size(300.dp, 80.dp)
+                .size(250.dp, 60.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = stringResource(R.string.back),
-                    fontSize = 40.sp,
+                    fontSize = 30.sp,
                     fontFamily = custom,
                     color = Color.White
                 )
@@ -778,9 +800,15 @@ fun SignInViewLandscapeLayout(
                 onValueChange = onPasswordChange,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Row(modifier = Modifier) {
+            Column(
+                modifier=Modifier.fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
 
                 SignInButtonLandscape(username, password, viewModel, LocalContext.current) {
                     onSubmitRegister(
@@ -790,7 +818,7 @@ fun SignInViewLandscapeLayout(
                         context
                     )
                 }
-                Spacer(modifier=Modifier.width(75.dp))
+                Spacer(modifier=Modifier.height(16.dp))
 
                 BackButtonLandscape(onBackButton)
             }
@@ -806,30 +834,31 @@ fun SignInButtonLandscape(
     context: Context,
     onClick: () -> Unit
 ) {
-    Column(
+    /*Column(
         verticalArrangement = Arrangement.Top,
-        modifier = Modifier
+        modifier = Modifier.fillMaxWidth()
     ) {
+
+     */
         Button(
             onClick = { onSubmitRegister(username, password, viewModel, context) },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
        //     border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
-                .size(100.dp, 50.dp)
+                .size(150.dp, 60.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = stringResource(R.string.submit),
-                    fontSize = 10.sp,
+                    fontSize = 15.sp,
                     fontFamily = custom,
                     color = Color.White
                 )
             }
 
         }
-    }
 }
 
 @Composable
@@ -844,7 +873,7 @@ fun BackButtonLandscape(
             onClick = onClick ,
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
             modifier = Modifier
-                .size(100.dp, 50.dp)
+                .size(120.dp, 50.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center
