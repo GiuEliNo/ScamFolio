@@ -213,7 +213,7 @@ fun BalanceText(
                 .padding(5.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primary)){
-                Text(text= "$balance €",
+                Text(text= "$balance $",
                     fontSize = size.sp,
                     fontFamily = custom,
                     color=Color(0xFF65C466))
@@ -299,15 +299,6 @@ fun SingleTransaction(purchasing: Purchasing,
                 color=color,
                 modifier =Modifier.padding(10.dp)
             )
-
-            purchasing.transactionDate?.let {
-                Text(text = it,
-                    fontSize=20.sp,
-                    fontFamily = custom,
-                    color=Color.White,
-                    modifier =Modifier.padding(10.dp)
-                )
-            }
         }
 
     }

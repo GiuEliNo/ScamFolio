@@ -11,6 +11,7 @@ import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.dbStuff.Repository
 import com.dosti.scamfolio.api.ConnectionRetrofit
 import com.dosti.scamfolio.api.model.CoinModelAPI
+import com.dosti.scamfolio.api.model.Sparkline
 import com.dosti.scamfolio.db.entities.Purchasing
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -44,17 +45,38 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
 
     fun fetchCrypto(coinId: String) {
         viewModelScope.launch {
-            val newCoin = ConnectionRetrofit.callApi().getCoinData(
-                "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
-                coinId.lowercase(),
-                vsCurrency = "eur",
-                order = "market_cap_desc",
-                perPage = "250",
-                sparklineBoolean = true,
-            )
-            newCoin.find { it.id == coinId }?.time_fetched = System.currentTimeMillis()
-            _coin.value = newCoin[0]
+            try {
+                val newCoin = ConnectionRetrofit.callApi().getCoinData(
+                    "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
+                    coinId.lowercase(),
+                    vsCurrency = "eur",
+                    order = "market_cap_desc",
+                    perPage = "250",
+                    sparklineBoolean = true,
+                )
+                newCoin.find { it.id == coinId }?.time_fetched = System.currentTimeMillis()
+                _coin.value = newCoin[0]
+            } catch (e: Exception){
+                Log.d("Fetch Coin", "error")
 
+                val newCoin = CoinModelAPI(
+                    id = coinId,
+                    name = coinId,
+                    symbol = coinId,
+                    price = "NaN",
+                    image = null,
+                    price_change_percentage_24h = "0.00000000",
+                    current_price = "NaN",
+                    time_fetched = null,
+                    sparkline_in_7d = Sparkline(arrayOf(1.0, 2.5, 3.7, 4.2).toList()),
+                    market_cap = "NaN",
+                    high_24h = "NaN",
+                    low_24h = "NaN",
+                    circulating_supply = "NaN",
+                    total_supply = "NaN"
+                )
+                _coin.value = newCoin
+            }
         }
     }
 
@@ -64,7 +86,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         delayMillis: Long
     ) {
 
-        repeat(maxRetries) { attempt ->
+        repeat(maxRetries) {
             try {
                 repository.insertPurchasing(purchasing)
                 Log.e("Inserimento Purchase", "Inserimento avvenuto con successo")

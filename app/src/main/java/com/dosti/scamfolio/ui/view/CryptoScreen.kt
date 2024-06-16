@@ -117,7 +117,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     ){
 
                         coin?.let { CryptoHeader(it) }
-                        coin?.let { Chart(it.sparkline_in_7d.price, ) }
+                        coin?.let { it.sparkline_in_7d?.let { it1 -> Chart(it1.price, ) } }
                         Text(
                             text = stringResource(R.string.lastupdate) + " : " + coin?.let {
                                 viewModel.getLastUpdate(
