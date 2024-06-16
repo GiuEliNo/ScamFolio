@@ -185,18 +185,18 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     coin?.let {
                         InfoMarketData(
                             name = stringResource(R.string.marketcap),
-                            value = coin!!.market_cap + " $",
+                            value = coin!!.market_cap + " €",
                             false
                         )
 
                         InfoMarketData(
                             name = stringResource(R.string.high24h),
-                            value = coin!!.high_24h + " $",
+                            value = coin!!.high_24h + " €",
                             false)
 
                         InfoMarketData(
                             name = stringResource(R.string.low_24h),
-                            value = coin!!.low_24h + " $",
+                            value = coin!!.low_24h + " €",
                             false)
 
                         InfoMarketData(

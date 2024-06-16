@@ -213,7 +213,7 @@ fun BalanceText(
                 .padding(5.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primary)){
-                Text(text= "$balance $",
+                Text(text= "$balance €",
                     fontSize = size.sp,
                     fontFamily = custom,
                     color=Color(0xFF65C466))
