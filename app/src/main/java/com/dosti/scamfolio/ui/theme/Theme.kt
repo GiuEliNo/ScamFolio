@@ -60,7 +60,7 @@ fun ScamFolioTheme(
 ) {
  //   BackgroundGradient()
 
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val colorScheme = DarkColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {

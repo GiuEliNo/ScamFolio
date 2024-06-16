@@ -1,4 +1,4 @@
-package com.dosti.scamfolio.dbStuff
+package com.dosti.scamfolio.db.repositories
 
 import android.util.Log
 import com.dosti.scamfolio.api.model.CoinBalance
@@ -7,6 +7,7 @@ import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.db.entities.User
+import com.dosti.scamfolio.db.dao.ScamfolioDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

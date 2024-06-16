@@ -45,9 +45,6 @@ fun Chart(listPrice: List<Double>){
     val xAxisData = AxisData.Builder()
         .axisStepSize(3.dp)
         .backgroundColor(Color.Transparent)
-       // .steps(pointsData.size - 1)
-    ///    .labelData { i -> date.plusDays(i.toLong()).toString().substring(5) }
-    //    .labelAndAxisLinePadding(12.dp)
         .axisLabelColor(Color.LightGray)
         .build()
 
@@ -56,12 +53,6 @@ fun Chart(listPrice: List<Double>){
         .backgroundColor(Color.Transparent)
         .labelAndAxisLinePadding(20.dp)
         .axisLabelColor(Color.LightGray)
-      /*  .labelData {  i ->
-            val yMin = pointsData.minOf { it.y }
-            val yMax = pointsData.maxOf { it.y }
-            val yScale = (yMax - yMin) / steps
-            ((i * yScale) + yMin).toString()
-        }*/
         .build()
 
     val lineChartData = LineChartData(
@@ -98,7 +89,6 @@ fun Chart(listPrice: List<Double>){
         ),
         xAxisData = xAxisData,
         yAxisData = yAxisData,
-        //gridLines = GridLines(color = MaterialTheme.colorScheme.outlineVariant),
         backgroundColor = MaterialTheme.colorScheme.primary
     )
 

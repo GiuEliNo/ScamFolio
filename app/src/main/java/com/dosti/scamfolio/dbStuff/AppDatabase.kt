@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.dosti.scamfolio.db.dao.ScamfolioDao
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
 import com.dosti.scamfolio.db.entities.Coin
 import com.dosti.scamfolio.db.utils.ConverterDate
@@ -26,8 +27,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "scamfolio.db"
                 )
-                  //  .createFromAsset("scamfolio.db")
-                   // .allowMainThreadQueries()
                     .build()
             }
             return db as AppDatabase

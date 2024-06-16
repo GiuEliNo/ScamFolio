@@ -9,7 +9,7 @@ interface CoinGekoAPIService {
     @GET("coins/markets")
     suspend fun getAllCoins(
         @Header("secret_key") secretKey : String = "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
-        @retrofit2.http.Query("vs_currency") vsCurrency: String = "eur",
+        @retrofit2.http.Query("vs_currency") vsCurrency: String = "usd",
         @retrofit2.http.Query("order") order: String = "market_cap_desc",
         @retrofit2.http.Query("per_page") perPage: String = "250",
         @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = false
@@ -18,7 +18,7 @@ interface CoinGekoAPIService {
     suspend fun getCoinData(
         @Header("secret_key") secretKey : String = "CG-9CHDGjAiUnv7oCnbFEB7KPAN",
         @retrofit2.http.Query("ids") id: String,
-        @retrofit2.http.Query("vs_currency") vsCurrency: String = "eur",
+        @retrofit2.http.Query("vs_currency") vsCurrency: String = "usd",
         @retrofit2.http.Query("order") order: String = "market_cap_desc",
         @retrofit2.http.Query("per_page") perPage: String = "250",
         @retrofit2.http.Query("sparkline") sparklineBoolean: Boolean = true
