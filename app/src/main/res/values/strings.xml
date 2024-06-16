@@ -34,4 +34,7 @@
     <string name="logged_out_correctly">Logged Out Correctly</string>
     <string name="transactions">"Transactions: "</string>
     <string name="empty">Empty</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="username">Username</string>
+    <string name="current_balance">Current balance:</string>
 </resources>

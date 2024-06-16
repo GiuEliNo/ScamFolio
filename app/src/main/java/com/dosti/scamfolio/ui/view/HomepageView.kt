@@ -202,11 +202,22 @@ fun BalanceText(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "Current balance: $balance$",
+                text = stringResource(R.string.current_balance),
                 fontSize = size.sp,
                 fontFamily = custom,
                 color = Color.White,
             )
+
+            Card(modifier= Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primary)){
+                Text(text= "$balance $",
+                    fontSize = size.sp,
+                    fontFamily = custom,
+                    color=Color(0xFF65C466))
+            }
 
         }
     }

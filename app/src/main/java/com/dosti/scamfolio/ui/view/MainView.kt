@@ -258,7 +258,7 @@ fun LogoText() {
             .fillMaxWidth()
     ) {
         Text(
-            text = "Scamfolio",
+            text = stringResource(id = R.string.app_name),
             fontSize = 60.sp,
             fontFamily = custom,
             color = Color.White,
@@ -266,7 +266,7 @@ fun LogoText() {
         )
 
         Text(
-            text = "login",
+            text = stringResource(id = R.string.login),
             fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,
@@ -283,7 +283,7 @@ fun usernameField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = "Username"
+    label: String = stringResource(id = R.string.username)
 ) {
     val icon = @Composable {
         Icon(
@@ -296,7 +296,7 @@ fun usernameField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = "Username", color = Color.White) },
+        label = { Text(text = stringResource(R.string.username), color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = Color.White,
             focusedTextColor = Color.White,
@@ -315,7 +315,7 @@ fun passwordField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = "Password"
+    label: String = stringResource(id = R.string.password)
 ) {
     val icon = @Composable {
         Icon(
@@ -330,7 +330,7 @@ fun passwordField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = "Password", color = Color.White) },
+        label = { Text(stringResource( R.string.password), color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = Color.White,
             focusedTextColor = Color.White,
@@ -579,7 +579,7 @@ fun SignInPasswordField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = "Password", color = Color.White) },
+        label = { Text(text = stringResource(R.string.password), color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = Color.White,
             focusedTextColor = Color.White,

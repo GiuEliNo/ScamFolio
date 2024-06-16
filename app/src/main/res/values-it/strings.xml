@@ -33,4 +33,6 @@
     <string name="logged_out_correctly">Uscito Correttamente</string>
     <string name="transactions">Transazioni</string>
     <string name="empty">Vuoto</string>
+    <string name="username">Nome Utente</string>
+    <string name="current_balance">Bilancio corrente:</string>
 </resources>
