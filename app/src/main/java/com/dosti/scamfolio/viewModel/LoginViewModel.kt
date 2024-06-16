@@ -1,6 +1,5 @@
 package com.dosti.scamfolio.viewModel
 
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +14,8 @@ import kotlinx.coroutines.withContext
 class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _loginResult = MutableStateFlow<User?>(null)
 
-    var eventToast= false
+    private val _eventToast= MutableStateFlow(false)
+    val eventToast: StateFlow<Boolean> get()=_eventToast
 
 
     enum class loginScreens{
@@ -59,7 +59,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
                 _loginResult.value = user
             }
             else {
-                eventToast=true
+                _eventToast.value=true
             }
         }
     }
@@ -78,13 +78,13 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
                     repository.signIn(username, password, 0.0)
                 }
             } else {
-                eventToast = true
+                _eventToast.value = true
             }
 
         }
     }
 
     fun resetEventToast(){
-        eventToast=false
+        _eventToast.value=false
     }
 }

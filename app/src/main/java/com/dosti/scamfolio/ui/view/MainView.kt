@@ -44,14 +44,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.lifecycleScope
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.db.entities.User
 import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -135,6 +138,7 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
                             onLoginSuccess: () -> Unit,
                             )
 {
+    val context= LocalContext.current
         if (loginResult==null) {
             BackgroundGradient()
             Column(
@@ -158,7 +162,7 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
                 Spacer(modifier = Modifier.height(100.dp))
                 SubmitButtonPortrait(
                     onClick = {
-                        onSubmitLogin(username, password, viewModel)
+                        onSubmitLogin(username, password, viewModel, context= context)
                     }
                 )
                 Spacer(modifier = Modifier.height(30.dp))
@@ -189,6 +193,7 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
                              onNavigateToRegister:  () -> Unit,
                              onLoginSuccess: () -> Unit)
 {
+    val context= LocalContext.current
     if (loginResult==null) {
         BackgroundGradient()
         Row(
@@ -219,7 +224,7 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
 
                     SubmitButtonLandScape(
                         onClick = {
-                            onSubmitLogin(username, password, viewModel)
+                            onSubmitLogin(username, password, viewModel, context= context)
                         }
                     )
                     Spacer(modifier=Modifier.width(75.dp))
@@ -465,8 +470,20 @@ fun CreateAccountButtonPortrait(
         }
     }
 }
-private fun onSubmitLogin(username : String, password : String, viewModel : LoginViewModel ) {
+private fun onSubmitLogin(username : String,
+                          password : String,
+                          viewModel : LoginViewModel,
+                          context: Context) {
     viewModel.checkLogin(username, password)
+    (context as LifecycleOwner).lifecycleScope.launch {
+        viewModel.eventToast.collect { eventToast->
+            if (eventToast) {
+
+                Toast.makeText(context, "Credenziali Errate", Toast.LENGTH_SHORT).show()
+                viewModel.resetEventToast()
+            }
+        }
+    }
 }
 
 
@@ -641,13 +658,24 @@ private fun onSubmitRegister(
         return
     } else {
         viewModel.createNewUser(username, password)
-        if(!viewModel.eventToast) {
-            Toast.makeText(context, context.getString(R.string.sign_in_completed), Toast.LENGTH_SHORT).show()
-            viewModel.navigateToLogin()
-        }
-        else{
-            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
-            viewModel.resetEventToast()
+        (context as LifecycleOwner).lifecycleScope.launch {
+            viewModel.eventToast.collect {eventToast->
+                if (!eventToast) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.sign_in_completed),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.navigateToLogin()
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.something_went_wrong),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.resetEventToast()
+                }
+            }
         }
     }
 
@@ -761,7 +789,8 @@ fun SignInViewLandscapeLayout(
             Spacer(modifier = Modifier.height(16.dp))
 
             Column(
-                modifier=Modifier.fillMaxWidth()
+                modifier= Modifier
+                    .fillMaxWidth()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
