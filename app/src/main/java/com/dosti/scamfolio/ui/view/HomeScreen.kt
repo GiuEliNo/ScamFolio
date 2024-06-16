@@ -48,8 +48,7 @@ import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 @Composable
 fun ComposeCryptoPages(factory : ViewModelFactory,
-                        viewModel: LoginViewModel,
-                       sharedPrefRepository: SharedPrefRepository) {
+                        viewModel: LoginViewModel) {
     val navController = rememberNavController()
 
     ScamFolioTheme {
@@ -68,7 +67,6 @@ fun ComposeCryptoPages(factory : ViewModelFactory,
                 navController = navController,
                 factory = factory,
                 modifier = Modifier.padding(it),
-                sharedPrefRepository = sharedPrefRepository
             )
         }
     }
@@ -138,9 +136,7 @@ fun ComposeCryptoBottomBar(navController: NavHostController) {
 fun ComposeCryptoNavHost(
     navController: NavHostController,
     factory: ViewModelProvider.Factory?,
-    modifier: Modifier,
-    sharedPrefRepository: SharedPrefRepository
-) {
+    modifier: Modifier) {
     val actions = remember(navController) { AppActions(navController) }
 
     NavHost(

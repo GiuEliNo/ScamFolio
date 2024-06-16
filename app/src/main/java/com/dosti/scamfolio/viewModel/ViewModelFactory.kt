@@ -3,7 +3,7 @@ package com.dosti.scamfolio.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dosti.scamfolio.SharedPrefRepository
-import com.dosti.scamfolio.dbStuff.Repository
+import com.dosti.scamfolio.db.repositories.Repository
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val repository: Repository,

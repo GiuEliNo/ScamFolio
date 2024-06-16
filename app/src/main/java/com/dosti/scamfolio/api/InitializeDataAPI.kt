@@ -1,7 +1,7 @@
 package com.dosti.scamfolio.api
 
 import android.util.Log
-import com.dosti.scamfolio.dbStuff.Repository
+import com.dosti.scamfolio.db.repositories.Repository
 
 suspend fun initializeDataAPI(repository: Repository, onlyPrice: Boolean): Boolean {
     try {

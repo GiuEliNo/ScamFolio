@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.SharedPrefRepository
-import com.dosti.scamfolio.dbStuff.Repository
+import com.dosti.scamfolio.db.repositories.Repository
 import com.dosti.scamfolio.api.ConnectionRetrofit
 import com.dosti.scamfolio.api.model.CoinModelAPI
 import com.dosti.scamfolio.api.model.Sparkline
@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel,
-    private val sharedPrefRepository: SharedPrefRepository) : ViewModel() {
+                            private val sharedPrefRepository: SharedPrefRepository) : ViewModel() {
     private val _coin = MutableLiveData<CoinModelAPI>()
     val coin: LiveData<CoinModelAPI> = _coin
 

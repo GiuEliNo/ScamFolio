@@ -302,44 +302,4 @@ fun SingleTransaction(purchasing: Purchasing,
         }
 
     }
-
-
-    /*
-
-
-
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .background(Color.White, shape = RoundedCornerShape(20.dp))
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = purchasing.coinName,
-                fontSize = 30.sp,
-                fontFamily = custom,
-                color = color
-            )
-            Spacer(modifier = Modifier.width(160.dp))
-
-            Text(
-                text = quantity,
-                fontSize = 30.sp,
-                fontFamily = custom,
-                color = color
-            )
-
-            Spacer(modifier = Modifier.width(15.dp))
-        }
-
-
-    }
-
-     */
 }

@@ -1,4 +1,4 @@
-package com.dosti.scamfolio.dbStuff
+package com.dosti.scamfolio.db.dao
 
 import android.database.Cursor
 import androidx.room.Dao

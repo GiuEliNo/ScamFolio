@@ -8,15 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.SharedPrefRepository
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
-import com.dosti.scamfolio.dbStuff.Repository
-import kotlinx.coroutines.Dispatchers
+import com.dosti.scamfolio.db.repositories.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchedCryptosViewModel(
     private val repository: Repository,
