@@ -86,7 +86,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
             ExtendedFloatingActionButton(
                 onClick = {showDialog.value = true},
                 icon = { Icon(Icons.Filled.Wallet, stringResource(R.string.add_sell)) },
-                text = { Text(text = stringResource(R.string.addposition)) },
+                text = { Text(text = stringResource(R.string.add_sell)) },
                 contentColor = Color.White,
                 containerColor = MaterialTheme.colorScheme.secondary
             )
@@ -372,14 +372,16 @@ fun DialogOpenPosition(
             }
 
             if (toastEvent) {
-                Toast.makeText(LocalContext.current, "purchasing added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(LocalContext.current,
+                    stringResource(R.string.purchasing_added), Toast.LENGTH_SHORT).show()
                 toastEvent = false
                 showDialog.value = false
 
             }
 
             if (errorEvent) {
-                Toast.makeText(LocalContext.current, "Not a number!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(LocalContext.current,
+                    stringResource(R.string.not_a_number), Toast.LENGTH_SHORT).show()
                 errorEvent = false
                 showDialog.value = false
             }
