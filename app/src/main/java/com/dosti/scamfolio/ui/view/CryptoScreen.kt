@@ -63,7 +63,7 @@ import androidx.compose.runtime.State
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateUp: () -> Unit) {
+fun CryptoScreen(viewModel: CryptoScreenViewModel, coinName: String) {
 
     val coin by viewModel.coin.observeAsState()
 

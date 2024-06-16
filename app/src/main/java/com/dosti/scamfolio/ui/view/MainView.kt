@@ -1,13 +1,8 @@
 package com.dosti.scamfolio.ui.view
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
-import android.preference.PreferenceManager
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +15,6 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -28,7 +22,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,10 +34,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.RemoveRedEye
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -78,7 +69,6 @@ fun MainLoginScreen(
             LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModel)
         }
 }
-
 
 
 @Composable
@@ -156,28 +146,23 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
                 LogoText()
                 Spacer(modifier = Modifier.height(100.dp))
 
-                usernameField(
+                UsernameField(
                     value = username,
-                    onValueChange = onUsernameChange,
-                    modifier = Modifier.fillMaxWidth()
+                    onValueChange = onUsernameChange
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                passwordField(
+                PasswordField(
                     value = password,
-                    onValueChange = onPasswordChange,
-                    modifier = Modifier.fillMaxWidth()
+                    onValueChange = onPasswordChange
                 )
                 Spacer(modifier = Modifier.height(100.dp))
                 SubmitButtonPortrait(
                     onClick = {
                         onSubmitLogin(username, password, viewModel)
-                    },
-                    username = username,
-                    password = password,
-                    Modifier
+                    }
                 )
                 Spacer(modifier = Modifier.height(30.dp))
-                CreateAccountButtonPortrait(onNavigateToRegister,modifier = Modifier)
+                CreateAccountButtonPortrait(onNavigateToRegister)
                 Spacer(modifier = Modifier.height(40.dp))
             }
         } else {
@@ -219,14 +204,14 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
                 .fillMaxHeight()
                 .weight(1f))
             {
-                usernameField(value = username,
-                    onValueChange = onUsernameChange,
-                    modifier = Modifier.fillMaxWidth())
+                UsernameField(
+                    value = username,
+                    onValueChange = onUsernameChange
+                )
 
-                passwordField(
+                PasswordField(
                     value = password,
-                    onValueChange = onPasswordChange,
-                    modifier = Modifier.fillMaxWidth()
+                    onValueChange = onPasswordChange
                 )
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -235,14 +220,11 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
                     SubmitButtonLandScape(
                         onClick = {
                             onSubmitLogin(username, password, viewModel)
-                        },
-                        username = username,
-                        password = password,
-                        Modifier.weight(1f)
+                        }
                     )
                     Spacer(modifier=Modifier.width(75.dp))
 
-                    CreateAccountButtonLandscape(onNavigateToRegister,modifier = Modifier)
+                    CreateAccountButtonLandscape(onNavigateToRegister)
                 }
             }
         }
@@ -293,13 +275,10 @@ fun LogoText() {
 
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun usernameField(
+fun UsernameField(
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    label: String = stringResource(id = R.string.username)
+    onValueChange: (String) -> Unit
 ) {
     val icon = @Composable {
         Icon(
@@ -325,13 +304,10 @@ fun usernameField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun passwordField(
+fun PasswordField(
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    label: String = stringResource(id = R.string.password)
+    onValueChange: (String) -> Unit
 ) {
     val icon = @Composable {
         Icon(
@@ -369,10 +345,7 @@ fun passwordField(
 
 @Composable
 fun SubmitButtonLandScape(
-    onClick: () -> Unit,
-    username: String,
-    password: String,
-    modifier: Modifier
+    onClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -402,8 +375,8 @@ fun SubmitButtonLandScape(
 
 @Composable
 fun CreateAccountButtonLandscape(
-    onClick: () -> Unit,
-    modifier: Modifier) {
+    onClick: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.End,
         modifier = Modifier
@@ -431,10 +404,7 @@ fun CreateAccountButtonLandscape(
 
 @Composable
 fun SubmitButtonPortrait(
-    onClick: () -> Unit,
-    username: String,
-    password: String,
-    modifier: Modifier
+    onClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -466,8 +436,7 @@ fun SubmitButtonPortrait(
 
 @Composable
 fun CreateAccountButtonPortrait(
-    onClick: () -> Unit,
-    modifier: Modifier
+    onClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -628,8 +597,7 @@ fun SignInButtonPortrait(
     username: String,
     password: String,
     viewModel: LoginViewModel,
-    context: Context,
-    onClick: () -> Unit
+    context: Context
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -695,7 +663,6 @@ fun SignInViewPortraitLayout(
     onPasswordChange: (String) -> Unit,
     onBackButton: () -> Unit
 ) {
-    var context = LocalContext.current
     BackgroundGradient()
     Column (
         verticalArrangement = Arrangement.Top,
@@ -707,10 +674,9 @@ fun SignInViewPortraitLayout(
         SignInLogoText()
         Spacer(modifier = Modifier.height(100.dp))
 
-        usernameField(
+        UsernameField(
             value = username,
-            onValueChange = onUsernameChange,
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = onUsernameChange
         )
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -721,14 +687,7 @@ fun SignInViewPortraitLayout(
 
         Spacer(modifier = Modifier.height(100.dp))
 
-        SignInButtonPortrait(username, password, viewModel, LocalContext.current) {
-            onSubmitRegister(
-                username,
-                password,
-                viewModel,
-                context
-            )
-        }
+        SignInButtonPortrait(username, password, viewModel, LocalContext.current)
         Spacer(modifier = Modifier.height(30.dp))
         BackButtonPortrait(onBackButton)
     }
@@ -776,7 +735,6 @@ fun SignInViewLandscapeLayout(
     onPasswordChange: (String) -> Unit,
     onBackButton: () -> Unit
     ){
-    var context= LocalContext.current
     BackgroundGradient()
     Row(
         modifier=Modifier.fillMaxSize(),
@@ -791,14 +749,14 @@ fun SignInViewLandscapeLayout(
             .fillMaxHeight()
             .weight(1f))
         {
-            usernameField(value = username,
-                onValueChange = onUsernameChange,
-                modifier = Modifier.fillMaxWidth())
+            UsernameField(
+                value = username,
+                onValueChange = onUsernameChange
+            )
 
-            passwordField(
+            PasswordField(
                 value = password,
-                onValueChange = onPasswordChange,
-                modifier = Modifier.fillMaxWidth()
+                onValueChange = onPasswordChange
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -810,14 +768,7 @@ fun SignInViewLandscapeLayout(
             ) {
 
 
-                SignInButtonLandscape(username, password, viewModel, LocalContext.current) {
-                    onSubmitRegister(
-                        username,
-                        password,
-                        viewModel,
-                        context
-                    )
-                }
+                SignInButtonLandscape(username, password, viewModel, LocalContext.current)
                 Spacer(modifier=Modifier.height(16.dp))
 
                 BackButtonLandscape(onBackButton)
@@ -831,8 +782,7 @@ fun SignInButtonLandscape(
     username: String,
     password: String,
     viewModel: LoginViewModel,
-    context: Context,
-    onClick: () -> Unit
+    context: Context
 ) {
     /*Column(
         verticalArrangement = Arrangement.Top,

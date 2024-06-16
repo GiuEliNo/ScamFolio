@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.dosti.scamfolio.dbStuff.AppDatabase
+import com.dosti.scamfolio.db.AppDatabase
 import com.dosti.scamfolio.db.repositories.Repository
 import com.dosti.scamfolio.ui.view.MainLoginScreen
 import androidx.lifecycle.ViewModelProvider
