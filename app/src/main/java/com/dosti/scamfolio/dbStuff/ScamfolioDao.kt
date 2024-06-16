@@ -77,8 +77,21 @@ interface ScamfolioDao {
     @Query("SELECT username, coinName, quantity, price, isNegative FROM User JOIN Purchasing ON username=usernameUser JOIN Coin ON coinName=name WHERE User.username like :name")
     fun getAllPurchasingForBalance(name: String) :List<CoinBalance>
 
-    @Query("SELECT SUM(p.quantity) AS total_quantity FROM Purchasing p JOIN User u ON p.usernameUser = u.username JOIN Coin c ON p.coinName = c.name WHERE u.username = :username AND c.name = :coinId AND p.isNegative = 0")
-    fun getQuantityCoinByiD(coinId: String, username: String) : String
+    @Query("""
+        SELECT SUM(p.quantity) 
+        FROM Purchasing p
+        INNER JOIN Coin c ON p.coinName = c.name
+        INNER JOIN User u ON p.usernameUser = u.username
+        WHERE u.username = :username AND c.name = :coinId AND p.isNegative = 0
+    """)    fun getPositiveQuantityCoinByiD(coinId: String, username: String) : Double
+
+    @Query("""
+        SELECT SUM(p.quantity) 
+        FROM Purchasing p
+        INNER JOIN Coin c ON p.coinName = c.name
+        INNER JOIN User u ON p.usernameUser = u.username
+        WHERE u.username = :username AND c.name = :coinId AND p.isNegative = 1
+    """)    fun getNegativeQuantityCoinByiD(coinId: String, username: String) : Double
 
     @Query("""
         SELECT 
@@ -102,4 +115,7 @@ interface ScamfolioDao {
 
     @Update
     fun updateCoinForBalance(coin: Coin)
+
+    @Query("SELECT image FROM CoinModelAPIDB WHERE id==:coinId")
+    fun getCoinImage(coinId: String) : String
 }

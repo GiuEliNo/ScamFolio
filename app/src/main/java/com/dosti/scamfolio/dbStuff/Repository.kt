@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.dbStuff
 
+import android.util.Log
 import com.dosti.scamfolio.api.model.CoinBalance
 import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
@@ -79,8 +80,13 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.getAllPurchasingForBalance(name)
     }
 
-    fun getQuantityCoinByiD(coinId: String, username: String) : String{
-        return dao.getQuantityCoinByiD(coinId,username)
+    fun getQuantityCoinByiD(coinId: String, username: String) : Double{
+        val negativeCoin = dao.getNegativeQuantityCoinByiD(coinId,username)
+        val positiveCoin = dao.getPositiveQuantityCoinByiD(coinId,username)
+        val total = positiveCoin - negativeCoin
+        Log.d("Wallet Coin", total.toString())
+        return total
+
     }
 
     fun getAllCoinSummary(name: String) : List<Wallet>{
@@ -90,4 +96,9 @@ class Repository(private val dao: ScamfolioDao) {
     fun updateCoinForBalance(name:String, price: Double) {
         return dao.updateCoinForBalance(Coin(name, price))
     }
+
+    fun getCoinImage(coinId: String) : String{
+        return dao.getCoinImage(coinId)
+    }
+
 }

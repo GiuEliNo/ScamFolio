@@ -113,7 +113,11 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
             val result = withContext(Dispatchers.IO) {
                 repository.getQuantityCoinByiD(coinId, username)
             }
-            _walletCoin.value = result
+            withContext(Dispatchers.Main) {
+                Log.d("WalletCoin", "getWalletCoin result: $result")
+                _walletCoin.postValue(result.toString())
+            }
+
         }
     }
 

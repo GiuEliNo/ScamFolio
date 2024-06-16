@@ -1,6 +1,7 @@
 package com.dosti.scamfolio.viewModel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.yml.charts.common.extensions.roundTwoDecimal
@@ -9,6 +10,7 @@ import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.db.entities.Purchasing
 import com.dosti.scamfolio.dbStuff.Repository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -68,17 +70,22 @@ class HomepageViewModel(private val repository: Repository,
         return double.roundTwoDecimal()
     }
 
-
-
-   /* fun setBalance(usr: String, sharedPrefRepository: SharedPrefRepository) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                sharedPrefRepository.putBalance("balance", repository.getBalance(usr))
-            }
+    suspend fun getCoinImage(coinName: String): String =
+        withContext(Dispatchers.IO) {
+            val pathImage: String = repository.getCoinImage(coinName)
+            return@withContext pathImage
         }
-    }
 
-    */
+
+    /* fun setBalance(usr: String, sharedPrefRepository: SharedPrefRepository) {
+         viewModelScope.launch {
+             withContext(Dispatchers.IO) {
+                 sharedPrefRepository.putBalance("balance", repository.getBalance(usr))
+             }
+         }
+     }
+
+     */
 
 
 

@@ -71,11 +71,13 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
     val showDialog = remember { mutableStateOf(false) }
 
     val username=viewModel.username
+
     if (showDialog.value) {
         DialogOpenPosition(username, viewModel, coinName, showDialog)
     }
 
     LaunchedEffect(Unit) {
+
         viewModel.fetchCrypto(coinName)
         viewModel.getWalletCoin(coinName)
     }
