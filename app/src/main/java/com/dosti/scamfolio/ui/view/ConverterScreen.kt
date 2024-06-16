@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -144,7 +145,7 @@ fun ConverterScreenPortraitLayout(
             ) {
                 CryptoField(
                     value = firstField,
-                //    onValueChange = { firstField = it },
+                    //    onValueChange = { firstField = it },
                     viewModel,
                     ch = choice1,
                     cryptos,
@@ -158,7 +159,7 @@ fun ConverterScreenPortraitLayout(
 
                 CryptoField(
                     value = secondField,
-                   // onValueChange = { secondField = it },
+                    // onValueChange = { secondField = it },
                     viewModel,
                     ch = choice2,
                     cryptos,
@@ -167,6 +168,26 @@ fun ConverterScreenPortraitLayout(
                     callback = calc,
                     false
                 )
+
+
+                TextButton(
+                    onClick = {
+                        viewModel.setfirstField("")
+                        calc()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = "clear",
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontFamily = custom,
+                        fontSize = 20.sp,
+
+                        )
+                }
+
                 Button(
 
                     onClick = {
@@ -176,7 +197,7 @@ fun ConverterScreenPortraitLayout(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(30.dp)
+                        .padding(start = 30.dp, end = 30.dp)
 
                 ) {
                     Column(
@@ -194,7 +215,8 @@ fun ConverterScreenPortraitLayout(
             }
         }
     }
-}
+    }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -271,6 +293,7 @@ fun CryptoField(
                                     choice=myCrypto.name
                                     expanded= false
                                     onChoiceChange(myCrypto.name)
+                                    callback()
                                 }
                                 )
                         }
@@ -330,18 +353,6 @@ fun CryptoField(
                         callback()
                     }
                 ),
-                leadingIcon = {
-                    IconButton(onClick = {
-                        viewModel.setfirstField("")
-                        callback()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Clear,
-                            contentDescription = "Clear text",
-                            tint = Color.White
-                        )
-                    }
-                },
 
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
             )
