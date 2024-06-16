@@ -538,7 +538,7 @@ fun SignInLogoText() {
     ) {
         Text(
             text = stringResource(R.string.app_name),
-            fontSize = 60.sp,
+            fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,
             modifier = Modifier
@@ -546,7 +546,7 @@ fun SignInLogoText() {
 
         Text(
             text = stringResource(R.string.create_account),
-            fontSize = 50.sp,
+            fontSize = 40.sp,
             fontFamily = custom,
             color = Color.White,
         )

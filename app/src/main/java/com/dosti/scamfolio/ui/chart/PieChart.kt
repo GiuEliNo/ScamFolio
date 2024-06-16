@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.yml.charts.common.model.PlotType
 import co.yml.charts.ui.piechart.charts.PieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
+import com.dosti.scamfolio.R
 import com.dosti.scamfolio.api.model.CoinBalance
 import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.viewModel.HomepageViewModel
@@ -69,7 +71,7 @@ fun PieChartBalance(viewModel: HomepageViewModel, size: Int, textSize: Int){
         }
     else{
             val slice = PieChartData.Slice(
-                "Empty",
+                stringResource(R.string.empty),
                 0.0f,
                 Color(0xFF1A297E))
             slicesPieChart.add(slice)

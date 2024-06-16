@@ -31,4 +31,6 @@
     <string name="addposition">Aggiungi posizione</string>
     <string name="insertValue">Inserisci valore</string>
     <string name="logged_out_correctly">Uscito Correttamente</string>
+    <string name="transactions">Transazioni</string>
+    <string name="empty">Vuoto</string>
 </resources>
