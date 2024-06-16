@@ -267,7 +267,6 @@ fun SingleTransaction(purchasing: Purchasing,
 
     val imagePainter = imageUrlState.value?.let { rememberAsyncImagePainter(it) }
 
-
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(2.dp),
@@ -276,7 +275,7 @@ fun SingleTransaction(purchasing: Purchasing,
         )
     ){
         Row(modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -288,39 +287,35 @@ fun SingleTransaction(purchasing: Purchasing,
             )
 
             Text(text = purchasing.coinName,
-                fontSize= updateSize(purchasing.coinName).sp,
+                fontSize= 20.sp,
                 fontFamily = custom,
                 color=color,
-                modifier =Modifier.padding(10.dp)
+                modifier =Modifier
+                    .padding(10.dp)
+                    .weight(0.8f)
             )
+
             Text(text = quantity,
-                fontSize=20.sp,
+                fontSize=18.sp,
                 fontFamily = custom,
                 color=color,
-                modifier =Modifier.padding(10.dp)
+                modifier =Modifier
+                    .padding(10.dp)
+                    .weight(0.5f)
             )
+
+
 
             purchasing.transactionDate?.let {
                 Text(text = it,
-                    fontSize=20.sp,
+                    fontSize=15.sp,
                     fontFamily = custom,
                     color=Color.White,
-                    modifier =Modifier.padding(10.dp)
+                    modifier =Modifier
+                        .padding(10.dp)
+                        .weight(0.6f)
                 )
             }
         }
-    }
-}
-
-fun updateSize(coin: String) : Int {
-    val length = coin.length
-    if (length <= 4) {
-        return 28
-    } else if (length in 5 .. 8) {
-        return 22
-    } else if (length in 9..12) {
-        return 20
-    } else {
-        return 11
     }
 }
