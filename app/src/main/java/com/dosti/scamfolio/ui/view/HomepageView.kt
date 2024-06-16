@@ -203,7 +203,7 @@ fun BalanceText(
         ) {
             Text(
                 text = stringResource(R.string.current_balance),
-                fontSize = size.sp,
+                style = MaterialTheme.typography.headlineMedium,
                 fontFamily = custom,
                 color = Color.White,
             )
@@ -214,7 +214,7 @@ fun BalanceText(
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primary)){
                 Text(text= "$balance $",
-                    fontSize = size.sp,
+                    style = MaterialTheme.typography.headlineMedium,
                     fontFamily = custom,
                     color=Color(0xFF65C466))
             }
@@ -283,11 +283,11 @@ fun SingleTransaction(purchasing: Purchasing,
             Image(
                 painter =  imagePainter ?: painterResource(id = R.drawable.placeholderimage),
                 contentDescription = null,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(25.dp)
             )
 
             Text(text = purchasing.coinName,
-                fontSize= 20.sp,
+                style = MaterialTheme.typography.titleLarge,
                 fontFamily = custom,
                 color=color,
                 modifier =Modifier
@@ -296,11 +296,11 @@ fun SingleTransaction(purchasing: Purchasing,
             )
 
             Text(text = quantity,
-                fontSize=18.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 fontFamily = custom,
                 color=color,
                 modifier =Modifier
-                    .padding(10.dp)
+                  //  .padding(10.dp)
                     .weight(0.5f)
             )
 
@@ -308,9 +308,9 @@ fun SingleTransaction(purchasing: Purchasing,
 
             purchasing.transactionDate?.let {
                 Text(text = it,
-                    fontSize=15.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontFamily = custom,
-                    color=Color.White,
+                    color=Color.LightGray,
                     modifier =Modifier
                         .padding(10.dp)
                         .weight(0.6f)

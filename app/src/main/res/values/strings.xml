@@ -9,7 +9,7 @@
     <string name="logout">logout</string>
     <string name="submit">Submit</string>
     <string name="calculate">Calculate</string>
-    <string name="calculator">calculator</string>
+    <string name="calculator">Calculator</string>
     <string name="back">Back</string>
     <string name="login" translatable="false">Login</string>
     <string name="sign_in_completed">Sign in completed</string>
@@ -36,7 +36,7 @@
     <string name="empty">Empty</string>
     <string name="password" translatable="false">Password</string>
     <string name="username">Username</string>
-    <string name="current_balance">Current balance:</string>
+    <string name="current_balance">Balance:</string>
     <string name="value">Value</string>
     <string name="add_sell">Add/Sell</string>
     <string name="errorEmpty">username and password can\'t be empty!</string>

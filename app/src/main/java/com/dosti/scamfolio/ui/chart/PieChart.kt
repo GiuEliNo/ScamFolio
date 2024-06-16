@@ -4,6 +4,7 @@ import android.app.slice.Slice
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -78,7 +79,7 @@ fun PieChartBalance(viewModel: HomepageViewModel, size: Int, textSize: Int){
     }
     val pieChartData= PieChartData(slicesPieChart, plotType = PlotType.Pie)
     val pieChartConfig= PieChartConfig(
-        backgroundColor = Color.Black,
+        backgroundColor = MaterialTheme.colorScheme.surface,
         isAnimationEnable = true,
         showSliceLabels = true,
         animationDuration = 1500,
