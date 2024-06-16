@@ -288,7 +288,7 @@ fun SingleTransaction(purchasing: Purchasing,
             )
 
             Text(text = purchasing.coinName,
-                fontSize=20.sp,
+                fontSize= updateSize(purchasing.coinName).sp,
                 fontFamily = custom,
                 color=color,
                 modifier =Modifier.padding(10.dp)
@@ -309,46 +309,18 @@ fun SingleTransaction(purchasing: Purchasing,
                 )
             }
         }
-
     }
+}
 
-
-    /*
-
-
-
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .background(Color.White, shape = RoundedCornerShape(20.dp))
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = purchasing.coinName,
-                fontSize = 30.sp,
-                fontFamily = custom,
-                color = color
-            )
-            Spacer(modifier = Modifier.width(160.dp))
-
-            Text(
-                text = quantity,
-                fontSize = 30.sp,
-                fontFamily = custom,
-                color = color
-            )
-
-            Spacer(modifier = Modifier.width(15.dp))
-        }
-
-
+fun updateSize(coin: String) : Int {
+    val length = coin.length
+    if (length <= 4) {
+        return 28
+    } else if (length in 5 .. 8) {
+        return 22
+    } else if (length in 9..12) {
+        return 20
+    } else {
+        return 11
     }
-
-     */
 }
