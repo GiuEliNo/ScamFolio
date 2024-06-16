@@ -1,6 +1,7 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,12 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -75,6 +78,7 @@ fun ComposeCryptoPages(factory : ViewModelFactory,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposeCryptoTopBar(viewModel: LoginViewModel) {
+    val context=LocalContext.current
     TopAppBar(
         title = { Text(
             text = stringResource(id = R.string.app_name),
@@ -84,8 +88,10 @@ fun ComposeCryptoTopBar(viewModel: LoginViewModel) {
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xD40A0A0A)),
         actions = {
             Box{ IconButton(onClick = {viewModel.navigateToLoginFromLoggedIn()
+                Toast.makeText(context,
+                    context.getString(R.string.logged_out_correctly), Toast.LENGTH_SHORT).show()
             }) {
-                Icon(Icons.Default.Logout,"Logout")
+                Icon(Icons.Default.Logout,context.getString(R.string.logout))
             }}
         }
     )

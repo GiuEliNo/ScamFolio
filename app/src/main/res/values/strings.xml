@@ -31,4 +31,5 @@
     <string name="titleportfoliocoindetial">Wallet</string>
     <string name="addposition">Add position</string>
     <string name="insertValue">Insert value</string>
+    <string name="logged_out_correctly">Logged Out Correctly</string>
 </resources>

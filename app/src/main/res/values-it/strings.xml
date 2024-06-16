@@ -30,4 +30,5 @@
     <string name="titleportfoliocoindetial">Portafoglio</string>
     <string name="addposition">Aggiungi posizione</string>
     <string name="insertValue">Inserisci valore</string>
+    <string name="logged_out_correctly">Uscito Correttamente</string>
 </resources>
