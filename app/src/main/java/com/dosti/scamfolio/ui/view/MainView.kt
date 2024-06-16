@@ -68,7 +68,7 @@ fun MainLoginScreen(
         when(currentScreen){
             LoginViewModel.loginScreens.LOGIN -> LoginView( viewModel, onNavigateToRegister = {viewModel.navigateToRegister()}, sharedPrefRepository = sharedPrefRepository)
             LoginViewModel.loginScreens.REGISTER -> SignInView(viewModel, onBackButton={viewModel.navigateToLogin()})
-            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, sharedPrefRepository)
+            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModel, sharedPrefRepository)
         }
 }
 

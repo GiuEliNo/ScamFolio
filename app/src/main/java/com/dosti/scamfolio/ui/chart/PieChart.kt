@@ -69,11 +69,9 @@ fun PieChartBalance(viewModel: HomepageViewModel, size: Int, textSize: Int){
         }
     else{
             val slice = PieChartData.Slice(
-                "Empty :C ",
+                "Empty",
                 0.0f,
-                Color(0xFF1A297E),
-                sliceDescription = {SlicePercentage -> "La fetta è vuota, fai qualche transazione"}
-            )
+                Color(0xFF1A297E))
             slicesPieChart.add(slice)
     }
     val pieChartData= PieChartData(slicesPieChart, plotType = PlotType.Pie)
