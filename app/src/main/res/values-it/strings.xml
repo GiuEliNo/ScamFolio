@@ -35,6 +35,9 @@
     <string name="empty">Vuoto</string>
     <string name="username">Nome Utente</string>
     <string name="current_balance">Bilancio corrente:</string>
+
     <string name="value">Valore</string>
     <string name="add_sell">Compra/Vendi</string>
+    <string name="errorEmpty">Lo username e la password non possono essere vuoti!</string>
+    <string name="str_len">Lo username non può essere più lungo di 10 caratteri!</string>
 </resources>

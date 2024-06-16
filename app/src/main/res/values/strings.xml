@@ -39,4 +39,6 @@
     <string name="current_balance">Current balance:</string>
     <string name="value">Value</string>
     <string name="add_sell">Add/Sell</string>
+    <string name="errorEmpty">username and password can\'t be empty!</string>
+    <string name="str_len">username can\'t be longer than 10 characters!</string>
 </resources>
