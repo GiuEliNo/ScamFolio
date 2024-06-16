@@ -5,12 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.db.entities.User
-import com.dosti.scamfolio.dbStuff.Repository
-import kotlinx.coroutines.CoroutineScope
+import com.dosti.scamfolio.db.repositories.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -65,10 +63,6 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
-
-
-    private var _stateLogin = mutableIntStateOf(1)
-    var stateLogin = _stateLogin
 
     fun createNewUser(
         username: String,

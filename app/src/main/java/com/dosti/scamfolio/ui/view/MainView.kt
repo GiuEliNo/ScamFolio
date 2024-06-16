@@ -69,7 +69,7 @@ fun MainLoginScreen(
         when(currentScreen){
             LoginViewModel.loginScreens.LOGIN -> LoginView( viewModel, onNavigateToRegister = {viewModel.navigateToRegister()}, sharedPrefRepository = sharedPrefRepository)
             LoginViewModel.loginScreens.REGISTER -> SignInView(viewModel, onBackButton={viewModel.navigateToLogin()})
-            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModel, sharedPrefRepository)
+            LoginViewModel.loginScreens.HOME -> ComposeCryptoPages(viewModelFactory, viewModel)
         }
 }
 
@@ -834,7 +834,6 @@ fun BackButtonLandscape(
         Button(
             onClick = onClick ,
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-         //   border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(100.dp, 50.dp)
         ) {
