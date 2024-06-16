@@ -33,6 +33,11 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
         _currentScreen.value=(loginScreens.LOGIN)
     }
 
+    fun navigateToLoginFromLoggedIn(){
+        _loginResult.value= null
+        _currentScreen.value=(loginScreens.LOGIN)
+    }
+
     fun navigateToRegister(){
         _currentScreen.value=(loginScreens.REGISTER)
     }

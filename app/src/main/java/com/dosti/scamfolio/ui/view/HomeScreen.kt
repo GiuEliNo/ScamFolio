@@ -1,10 +1,15 @@
 package com.dosti.scamfolio.ui.view
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -14,7 +19,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -34,15 +41,18 @@ import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.ui.theme.ScamFolioTheme
 import com.dosti.scamfolio.ui.theme.custom
 import com.dosti.scamfolio.ui.view.ScreenRouter.Companion.COIN_DETAIL
+import com.dosti.scamfolio.viewModel.LoginViewModel
 import com.dosti.scamfolio.viewModel.ViewModelFactory
 @Composable
-fun ComposeCryptoPages(factory : ViewModelFactory, sharedPrefRepository: SharedPrefRepository) {
+fun ComposeCryptoPages(factory : ViewModelFactory,
+                        viewModel: LoginViewModel,
+                       sharedPrefRepository: SharedPrefRepository) {
     val navController = rememberNavController()
 
     ScamFolioTheme {
         Scaffold(
             topBar = {
-                ComposeCryptoTopBar()
+                ComposeCryptoTopBar(viewModel)
             },
 
             bottomBar = {
@@ -64,15 +74,20 @@ fun ComposeCryptoPages(factory : ViewModelFactory, sharedPrefRepository: SharedP
 @SuppressLint("ResourceAsColor")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComposeCryptoTopBar() {
-
+fun ComposeCryptoTopBar(viewModel: LoginViewModel) {
     TopAppBar(
         title = { Text(
             text = stringResource(id = R.string.app_name),
             fontFamily = custom,
             color = Color.White
             ) },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xD40A0A0A))
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xD40A0A0A)),
+        actions = {
+            Box{ IconButton(onClick = {viewModel.navigateToLoginFromLoggedIn()
+            }) {
+                Icon(Icons.Default.Logout,"Logout")
+            }}
+        }
     )
 }
 
