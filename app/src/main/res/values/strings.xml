@@ -43,4 +43,5 @@
     <string name="not_a_number">Not a number!</string>
     <string name="errorEmpty">username and password can\'t be empty!</string>
     <string name="str_len">username can\'t be longer than 10 characters!</string>
+    <string name="personal_wallet">Personal Wallet:</string>
 </resources>

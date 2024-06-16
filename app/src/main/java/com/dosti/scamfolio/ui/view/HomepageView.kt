@@ -89,6 +89,12 @@ fun WelcomeLandscapeLayout(
         ) {
             TopLabel(username = username, 25    )
             Spacer(modifier = Modifier.height(10.dp))
+            Text(text = stringResource(R.string.personal_wallet),
+                fontSize = 8.sp,
+                color = Color.White,
+                modifier=Modifier.align(Alignment.Start)
+                    .padding(10.dp)
+                )
             Card(modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
@@ -142,6 +148,13 @@ fun WelcomePortraitLayout(
     ) {
         TopLabel(username = username, 30)
         Spacer(modifier = Modifier.height(10.dp))
+        Text(text = stringResource(R.string.personal_wallet),
+            fontSize = 8.sp,
+            color = Color.White,
+            modifier= Modifier
+                .align(Alignment.Start)
+                .padding(10.dp)
+        )
         Card(modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
