@@ -299,6 +299,15 @@ fun SingleTransaction(purchasing: Purchasing,
                 color=color,
                 modifier =Modifier.padding(10.dp)
             )
+
+            purchasing.transactionDate?.let {
+                Text(text = it,
+                    fontSize=20.sp,
+                    fontFamily = custom,
+                    color=Color.White,
+                    modifier =Modifier.padding(10.dp)
+                )
+            }
         }
 
     }

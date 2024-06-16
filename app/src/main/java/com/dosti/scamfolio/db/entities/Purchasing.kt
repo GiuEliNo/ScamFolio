@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(
     tableName = "Purchasing",
@@ -35,5 +36,6 @@ data class Purchasing(
     val coinName: String,
     val quantity: Double,
     val usernameUser: String,
-    val isNegative: Boolean
-)
+    val isNegative: Boolean,
+    val transactionDate: String?
+    )

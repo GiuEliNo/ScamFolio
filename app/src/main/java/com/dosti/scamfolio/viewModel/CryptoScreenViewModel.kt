@@ -88,7 +88,7 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val newPurchasing = Purchasing(0, coinName, qty, username, isNegative)
+                    val newPurchasing = Purchasing(0, coinName, qty, username, isNegative, getCurrentDate())
                     insertPurchaseWithRetry(newPurchasing, 5, 1000)
 
                 } catch (e: Exception) {
@@ -98,6 +98,14 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
             setValue("")
         }
 
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getCurrentDate(): String? {
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val netDate = System.currentTimeMillis()
+        val date = netDate.let { sdf.format(it) }
+        return date
     }
 
     @SuppressLint("SimpleDateFormat")
