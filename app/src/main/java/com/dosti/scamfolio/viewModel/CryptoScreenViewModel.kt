@@ -1,8 +1,10 @@
 package com.dosti.scamfolio.viewModel
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -103,13 +105,22 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
 
     }
 
-    fun addPurchase(coinName: String, username: String, isNegative: Boolean) {
+
+    fun addPurchase(coinName: String, username: String, isNegative: Boolean, context: Context) {
 
         val qty = runBlocking { value.first().toDoubleOrNull() ?: 0.0 }
-
+        var dollars : Double?
+        var coinPrice : Double?
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
+                    coinPrice = repository.getCurrentPrice(coinName)?.get(0)?.toDouble()
+                    dollars = coinPrice?.times(qty)
+                    Log.d("dollars", dollars.toString())
+                    if(dollars!! >= 10) {
+                        Toast.makeText(context, "Too much!", Toast.LENGTH_SHORT).show()
+                        return@withContext
+                    }
                     val newPurchasing = Purchasing(0, coinName, qty, username, isNegative, getCurrentDate())
                     insertPurchaseWithRetry(newPurchasing, 5, 1000)
 

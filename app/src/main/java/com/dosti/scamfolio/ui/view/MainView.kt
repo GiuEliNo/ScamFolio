@@ -643,15 +643,24 @@ private fun onSubmitRegister(
     viewModel: LoginViewModel,
     context: Context
 ) {
-    viewModel.createNewUser(username, password)
-    if(!viewModel.eventToast) {
-        Toast.makeText(context, context.getString(R.string.sign_in_completed), Toast.LENGTH_SHORT).show()
-        viewModel.navigateToLogin()
+    if (username.isEmpty() || password.isEmpty()) {
+        Toast.makeText(context, context.getString(R.string.errorEmpty), Toast.LENGTH_SHORT).show()
+        return
+    } else if (username.length > 10) {
+        Toast.makeText(context, context.getString(R.string.str_len), Toast.LENGTH_SHORT).show()
+        return
+    } else {
+        viewModel.createNewUser(username, password)
+        if(!viewModel.eventToast) {
+            Toast.makeText(context, context.getString(R.string.sign_in_completed), Toast.LENGTH_SHORT).show()
+            viewModel.navigateToLogin()
+        }
+        else{
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+            viewModel.resetEventToast()
+        }
     }
-    else{
-        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
-        viewModel.resetEventToast()
-    }
+
 }
 
 

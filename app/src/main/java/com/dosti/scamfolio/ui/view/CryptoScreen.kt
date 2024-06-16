@@ -303,7 +303,7 @@ fun DialogOpenPosition(
 
     val currentValue = viewModel.value.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
-
+    val context = LocalContext.current
     val enabled by remember(currentValue.value) {
         mutableStateOf(viewModel.checkIfCanRemove(coinName))
     }
@@ -346,7 +346,7 @@ fun DialogOpenPosition(
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, username, false)
+                                viewModel.addPurchase(coinName, username, false, context)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
@@ -361,7 +361,7 @@ fun DialogOpenPosition(
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, username, true)
+                                viewModel.addPurchase(coinName, username, true, context)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
