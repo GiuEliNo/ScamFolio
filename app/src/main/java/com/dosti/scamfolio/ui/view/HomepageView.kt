@@ -85,7 +85,7 @@ fun WelcomeLandscapeLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxHeight()
-                .weight(0.4f)
+                .weight(0.8f)
         ) {
             TopLabel(username = username, 25    )
             Spacer(modifier = Modifier.height(10.dp))
@@ -140,7 +140,7 @@ fun WelcomePortraitLayout(
             .fillMaxSize()
 
     ) {
-        TopLabel(username = username, 50)
+        TopLabel(username = username, 30)
         Spacer(modifier = Modifier.height(10.dp))
         Card(modifier = Modifier
             .fillMaxWidth()
@@ -176,14 +176,15 @@ fun TopLabel(
     size: Int
 ) {
     Text(
-        text = stringResource(R.string.welcome_back),
+        text = stringResource(R.string.personal_area),
         fontSize = size.sp,
         fontFamily = custom,
         color = Color.White,
     )
+    Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = username,
-        fontSize = size.sp,
+        text = stringResource(id = R.string.welcome_back)+ " " + username,
+        fontSize = 10.sp,
         fontFamily = custom,
         color = Color.White,
     )
@@ -290,7 +291,7 @@ fun SingleTransaction(purchasing: Purchasing,
                 fontSize= 20.sp,
                 fontFamily = custom,
                 color=color,
-                modifier =Modifier
+                modifier = Modifier
                     .padding(10.dp)
                     .weight(0.8f)
             )
@@ -299,7 +300,7 @@ fun SingleTransaction(purchasing: Purchasing,
                 fontSize=18.sp,
                 fontFamily = custom,
                 color=color,
-                modifier =Modifier
+                modifier = Modifier
                     .padding(10.dp)
                     .weight(0.5f)
             )
@@ -311,7 +312,7 @@ fun SingleTransaction(purchasing: Purchasing,
                     fontSize=15.sp,
                     fontFamily = custom,
                     color=Color.White,
-                    modifier =Modifier
+                    modifier = Modifier
                         .padding(10.dp)
                         .weight(0.6f)
                 )
