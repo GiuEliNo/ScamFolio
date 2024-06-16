@@ -21,7 +21,7 @@ import kotlin.random.Random
 
 
 @Composable
-fun PieChartBalance(viewModel: HomepageViewModel){
+fun PieChartBalance(viewModel: HomepageViewModel, size: Int, textSize: Int){
 
         val wallet= viewModel.myWallet.collectAsState().value
 
@@ -84,13 +84,13 @@ fun PieChartBalance(viewModel: HomepageViewModel){
         animationDuration = 1500,
         isEllipsizeEnabled = true,
         isClickOnSliceEnabled = false,
-        sliceLabelTextSize = 12.sp
+        sliceLabelTextSize = textSize.sp
     )
 
 
     PieChart(modifier = Modifier
-        .width(175.dp)
-        .height(175.dp),
+        .width(size.dp)
+        .height(size.dp),
         pieChartData,
         pieChartConfig)
 }

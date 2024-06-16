@@ -87,7 +87,7 @@ fun WelcomeLandscapeLayout(
                 .fillMaxHeight()
                 .weight(0.4f)
         ) {
-            TopLabel(username = username)
+            TopLabel(username = username, 25    )
             Spacer(modifier = Modifier.height(10.dp))
             Card(modifier = Modifier
                 .fillMaxWidth()
@@ -100,9 +100,10 @@ fun WelcomeLandscapeLayout(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    PieChartBalance(viewModel)
 
-                    BalanceText(balance = viewModel.roundDouble(balance).toString())
+                    PieChartBalance(viewModel, 60, 6)
+
+                    BalanceText(balance = viewModel.roundDouble(balance).toString(), 13)
                 }
             }
         }
@@ -139,7 +140,7 @@ fun WelcomePortraitLayout(
             .fillMaxSize()
 
     ) {
-        TopLabel(username = username)
+        TopLabel(username = username, 50)
         Spacer(modifier = Modifier.height(10.dp))
         Card(modifier = Modifier
             .fillMaxWidth()
@@ -152,9 +153,9 @@ fun WelcomePortraitLayout(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                PieChartBalance(viewModel)
+                PieChartBalance(viewModel, 175, 12)
 
-                BalanceText(balance = viewModel.roundDouble(balance).toString())
+                BalanceText(balance = viewModel.roundDouble(balance).toString(), 30)
             }
         }
         Spacer(modifier=Modifier.height(10.dp))
@@ -171,17 +172,18 @@ fun WelcomePortraitLayout(
 
 @Composable
 fun TopLabel(
-    username: String
+    username: String,
+    size: Int
 ) {
     Text(
         text = stringResource(R.string.welcome_back),
-        fontSize = 50.sp,
+        fontSize = size.sp,
         fontFamily = custom,
         color = Color.White,
     )
     Text(
         text = username,
-        fontSize = 50.sp,
+        fontSize = size.sp,
         fontFamily = custom,
         color = Color.White,
     )
@@ -190,6 +192,7 @@ fun TopLabel(
 @Composable
 fun BalanceText(
     balance : String,
+    size: Int
 ) {
     Row {
         Spacer(modifier = Modifier.width(20.dp))
@@ -200,7 +203,7 @@ fun BalanceText(
         ) {
             Text(
                 text = "Current balance: $balance$",
-                fontSize = 30.sp,
+                fontSize = size.sp,
                 fontFamily = custom,
                 color = Color.White,
             )
