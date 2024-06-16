@@ -20,9 +20,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ViewList
+import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -52,7 +55,9 @@ fun SearchScreen(
     searchQuery: String,
     searchResults: List<CoinModelAPIDB>,
     onSearchQueryChange: (String) -> Unit,
-    selectedCoin: (String) -> Unit
+    selectedCoin: (String) -> Unit,
+    onToggleShowWallet: () -> Unit,
+    showWallet: Boolean
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -62,9 +67,12 @@ fun SearchScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(end = 8.dp, top = 10.dp, bottom = 16.dp, start = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ){
          TextField(
              modifier = Modifier
-                 .fillMaxWidth()
                  .padding(end = 8.dp, top = 10.dp, bottom = 16.dp, start = 8.dp),
              value = searchQuery,
              singleLine = true,
@@ -92,6 +100,25 @@ fun SearchScreen(
              leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
              shape = MaterialTheme.shapes.large,
              )
+
+            //Spacer(modifier = Modifier.size(8.dp))
+
+            val icon = if (showWallet) Icons.Filled.ViewList else Icons.Filled.Wallet
+            val contentDescription = if (showWallet) "Show All" else "Show Wallet"
+
+            IconButton(
+                onClick = { onToggleShowWallet() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                   // .padding(vertical = 8.dp)
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = contentDescription,
+                    tint = Color.White
+                )
+            }
+        }
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(32.dp),
@@ -215,7 +242,9 @@ fun SearchedCryptos(
             searchQuery = viewModel.searchQuery,
             searchResults = it,
             onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
-            selectedCoin
+            selectedCoin,
+            onToggleShowWallet = { viewModel.onToggleShowWallet() },
+            showWallet = viewModel.showWalletOnly
         )
     }
 }

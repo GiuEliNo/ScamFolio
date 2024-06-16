@@ -118,4 +118,7 @@ interface ScamfolioDao {
 
     @Query("SELECT image FROM CoinModelAPIDB WHERE id==:coinId")
     fun getCoinImage(coinId: String) : String
+
+    @Query("SELECT coinName FROM Purchasing WHERE usernameUser = :username GROUP BY coinName" )
+    suspend fun getAllCoins(username: String): List<String>
 }

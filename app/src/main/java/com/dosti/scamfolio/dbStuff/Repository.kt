@@ -10,6 +10,7 @@ import com.dosti.scamfolio.db.entities.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Repository(private val dao: ScamfolioDao) {
     fun login(username : String, password : String) : User? {
@@ -80,12 +81,14 @@ class Repository(private val dao: ScamfolioDao) {
         return dao.getAllPurchasingForBalance(name)
     }
 
-    fun getQuantityCoinByiD(coinId: String, username: String) : Double{
-        val negativeCoin = dao.getNegativeQuantityCoinByiD(coinId,username)
-        val positiveCoin = dao.getPositiveQuantityCoinByiD(coinId,username)
-        val total = positiveCoin - negativeCoin
-        Log.d("Wallet Coin", total.toString())
-        return total
+    suspend fun getQuantityCoinByiD(coinId: String, username: String) : Double{
+        return withContext(Dispatchers.IO) {
+            val negativeCoin = dao.getNegativeQuantityCoinByiD(coinId, username)
+            val positiveCoin = dao.getPositiveQuantityCoinByiD(coinId, username)
+            val total = positiveCoin - negativeCoin
+            Log.d("Wallet Coin", total.toString())
+            total
+        }
 
     }
 
@@ -99,6 +102,12 @@ class Repository(private val dao: ScamfolioDao) {
 
     fun getCoinImage(coinId: String) : String{
         return dao.getCoinImage(coinId)
+    }
+
+    suspend fun getAllCoins(username: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            dao.getAllCoins(username)
+        }
     }
 
 }

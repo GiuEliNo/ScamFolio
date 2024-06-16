@@ -21,5 +21,5 @@ class ViewModelFactory(private val repository: Repository,
         else if(modelClass.isAssignableFrom(SplashScreenViewModel::class.java))
             SplashScreenViewModel(repository,sharedCoinGeko) as T
         else
-            SearchedCryptosViewModel(repository, sharedCoinGeko) as T
+            SearchedCryptosViewModel(repository, sharedCoinGeko, sharedPrefRepository) as T
 }
