@@ -160,7 +160,7 @@ fun WelcomePortraitLayout(
         }
         Spacer(modifier=Modifier.height(10.dp))
         Text(
-            text = "Transactions: ",
+            text = stringResource(R.string.transactions),
             fontSize = 25.sp,
             fontFamily = custom,
             color = Color.White
@@ -265,8 +265,8 @@ fun SingleTransaction(purchasing: Purchasing,
         )
     ){
         Row(modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
+            .padding(8.dp)
+            .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
