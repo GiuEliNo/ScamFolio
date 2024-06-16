@@ -43,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -117,7 +116,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
                     ){
 
                         coin?.let { CryptoHeader(it) }
-                        coin?.let { it.sparkline_in_7d?.let { it1 -> Chart(it1.price, ) } }
+                        coin?.let { it.sparkline_in_7d?.let { it1 -> Chart(it1.price) } }
                         Text(
                             text = stringResource(R.string.lastupdate) + " : " + coin?.let {
                                 viewModel.getLastUpdate(
@@ -303,7 +302,6 @@ fun DialogOpenPosition(
 
     val currentValue = viewModel.value.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
-    val context = LocalContext.current
     val enabled by remember(currentValue.value) {
         mutableStateOf(viewModel.checkIfCanRemove(coinName))
     }
@@ -312,7 +310,7 @@ fun DialogOpenPosition(
 
     Dialog(onDismissRequest = { showDialog.value = false } ){
         Card(
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary,),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .padding(end = 10.dp, start = 10.dp)
         ) {
@@ -346,7 +344,7 @@ fun DialogOpenPosition(
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, username, false, context)
+                                viewModel.addPurchase(coinName, username, false)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
@@ -361,7 +359,7 @@ fun DialogOpenPosition(
                     CustomButton(
                         onClick = {
                             try {
-                                viewModel.addPurchase(coinName, username, true, context)
+                                viewModel.addPurchase(coinName, username, true)
                                 toastEvent = true
                             } catch (e: NumberFormatException) {
                                 errorEvent = true
@@ -397,8 +395,6 @@ fun DialogOpenPosition(
     viewModel: CryptoScreenViewModel,
 
     ) {
-        val keyboardController = LocalSoftwareKeyboardController.current
-
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
