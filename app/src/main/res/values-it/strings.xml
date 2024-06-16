@@ -35,4 +35,6 @@
     <string name="empty">Vuoto</string>
     <string name="username">Nome Utente</string>
     <string name="current_balance">Bilancio corrente:</string>
+    <string name="value">Valore</string>
+    <string name="add_sell">Compra/Vendi</string>
 </resources>

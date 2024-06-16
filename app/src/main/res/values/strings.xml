@@ -37,4 +37,6 @@
     <string name="password" translatable="false">Password</string>
     <string name="username">Username</string>
     <string name="current_balance">Current balance:</string>
+    <string name="value">Value</string>
+    <string name="add_sell">Add/Sell</string>
 </resources>

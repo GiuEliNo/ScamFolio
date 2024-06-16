@@ -304,7 +304,7 @@ fun CryptoField(
                     viewModel.setfirstField(filtered)
                     callback()
                 },
-                label = { Text(text = "Value", color = Color.White) },
+                label = { Text(text = stringResource(R.string.value), color = Color.White) },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
@@ -366,7 +366,7 @@ fun CryptoField(
                     }
                     viewModel.setSecondField(filtered)
                 },
-                label = { Text(text = "Value", color = Color.White) },
+                label = { Text(text = stringResource(R.string.value), color = Color.White) },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,

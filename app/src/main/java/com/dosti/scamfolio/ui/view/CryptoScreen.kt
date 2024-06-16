@@ -86,7 +86,7 @@ fun CryptoScreen(viewModel : CryptoScreenViewModel, coinName : String, navigateU
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {showDialog.value = true},
-                icon = { Icon(Icons.Filled.Wallet, "Add position") },
+                icon = { Icon(Icons.Filled.Wallet, stringResource(R.string.add_sell)) },
                 text = { Text(text = stringResource(R.string.addposition)) },
                 contentColor = Color.White,
                 containerColor = MaterialTheme.colorScheme.secondary
