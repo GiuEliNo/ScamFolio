@@ -42,6 +42,9 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
     val value: StateFlow<String>
         get() = _value
 
+    private val _overFlowError=MutableStateFlow(false)
+    val overFlowError: StateFlow<Boolean> get()=_overFlowError
+
 
     fun fetchCrypto(coinId: String) {
         viewModelScope.launch {
@@ -103,15 +106,32 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
 
     }
 
+    fun resetOverflowErr(){
+        _overFlowError.value=false
+    }
+
     fun addPurchase(coinName: String, username: String, isNegative: Boolean) {
 
         val qty = runBlocking { value.first().toDoubleOrNull() ?: 0.0 }
 
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val newPurchasing = Purchasing(0, coinName, qty, username, isNegative, getCurrentDate())
-                    insertPurchaseWithRetry(newPurchasing, 5, 1000)
+                    val check= 5000000.0
+                    val currentPrice= runBlocking { repository.getCurrentPrice(coinName) }
+                    Log.e("Current Price", "Current Price is: $currentPrice")
+
+                    if(currentPrice?.toDoubleOrNull() != null && qty*currentPrice.toDouble() < check ) {
+                        _overFlowError.value=false
+                        val newPurchasing =
+                            Purchasing(0, coinName, qty, username, isNegative, getCurrentDate())
+                        insertPurchaseWithRetry(newPurchasing, 5, 1000)
+                    }
+                    else{
+                        _overFlowError.value=true
+                        Log.e("overFlowError", "overFlow error : ${_overFlowError.value}")
+                    }
 
                 } catch (e: Exception) {
                     Log.e("Purchasing", "Errore durante l'inserimento dell'acquisto", e)

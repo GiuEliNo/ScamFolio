@@ -59,6 +59,7 @@ import com.dosti.scamfolio.ui.chart.Chart
 import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -300,7 +301,8 @@ fun DialogOpenPosition(
     var toastEvent by remember { mutableStateOf(false) }
     var errorEvent by remember { mutableStateOf(false) }
 
-    val currentValue = viewModel.value.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
+    val currentValue =
+        viewModel.value.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
     val enabled by remember(currentValue.value) {
         mutableStateOf(viewModel.checkIfCanRemove(coinName))
@@ -308,7 +310,7 @@ fun DialogOpenPosition(
 
 
 
-    Dialog(onDismissRequest = { showDialog.value = false } ){
+    Dialog(onDismissRequest = { showDialog.value = false }) {
         Card(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
             modifier = Modifier
@@ -340,7 +342,7 @@ fun DialogOpenPosition(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
-                    ) {
+                ) {
                     CustomButton(
                         onClick = {
                             try {
@@ -371,21 +373,33 @@ fun DialogOpenPosition(
                 }
             }
 
-            if (toastEvent) {
-                Toast.makeText(LocalContext.current,
-                    stringResource(R.string.purchasing_added), Toast.LENGTH_SHORT).show()
+            if (toastEvent && !viewModel.overFlowError.collectAsState().value) {
+                Toast.makeText(
+                    LocalContext.current,
+                    stringResource(R.string.purchasing_added), Toast.LENGTH_SHORT
+                ).show()
                 toastEvent = false
                 showDialog.value = false
 
             }
 
             if (errorEvent) {
-                Toast.makeText(LocalContext.current,
-                    stringResource(R.string.not_a_number), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    LocalContext.current,
+                    stringResource(R.string.not_a_number), Toast.LENGTH_SHORT
+                ).show()
                 errorEvent = false
                 showDialog.value = false
             }
-
+            if (viewModel.overFlowError.collectAsState().value) {
+                Toast.makeText(
+                    LocalContext.current,
+                    stringResource(R.string.too_much_money_all_together),
+                    Toast.LENGTH_SHORT
+                ).show()
+                viewModel.resetOverflowErr()
+                showDialog.value=false
+            }
         }
     }
 }
@@ -440,7 +454,10 @@ fun DialogOpenPosition(
                 unfocusedContainerColor = Color.DarkGray
             ),
             singleLine = true,
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
+            supportingText = {Text(modifier=Modifier.fillMaxWidth(),
+                text= stringResource(R.string.limit_purchase)
+            )}
         )
     }
 

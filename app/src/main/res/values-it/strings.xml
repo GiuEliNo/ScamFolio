@@ -38,11 +38,14 @@
 
     <string name="value">Valore</string>
     <string name="add_sell">Aggiungi/Vendi</string>
-    <string name="purchasing_added">Acquisto effettuato!</string>
+    <string name="purchasing_added">Transazione effettuata!</string>
     <string name="not_a_number">Errore, non è un numero</string>
     <string name="errorEmpty">Lo username e la password non possono essere vuoti!</string>
     <string name="str_len">Lo username non può essere più lungo di 10 caratteri!</string>
     <string name="personal_wallet">Portafoglio Personale:</string>
     <string name="wrong_credentials">Credenziali Errate</string>
     <string name="make_password_visible">Rende la Password Visibile</string>
+    <string name="result">Risultato</string>
+    <string name="limit_purchase">Limite: 500.000€ per l\'acquisto</string>
+    <string name="too_much_money_all_together">Troppi soldi tutti insieme!</string>
 </resources>

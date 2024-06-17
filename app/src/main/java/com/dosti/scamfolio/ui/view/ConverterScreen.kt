@@ -113,7 +113,7 @@ fun ConverterScreenPortraitLayout(
             .padding(10.dp)
     )  {
         Text(
-            text = "Converter",
+            text = stringResource(id = R.string.calculator),
             fontSize = 50.sp,
             fontFamily = custom,
             color = Color.White,
@@ -377,7 +377,7 @@ fun CryptoField(
                     }
                     viewModel.setSecondField(filtered)
                 },
-                label = { Text(text = stringResource(R.string.value), color = Color.White) },
+                label = { Text(text = stringResource(R.string.result), color = Color.White) },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
