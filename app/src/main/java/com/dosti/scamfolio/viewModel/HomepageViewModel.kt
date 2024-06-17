@@ -28,13 +28,13 @@ class HomepageViewModel(private val repository: Repository,
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     transactions.value=repository.getPurchasingList(username)
-                    updateBalanceValue(username)
-                    getWalletInfo(username)
+                    updateBalanceValue()
+                    getWalletInfo()
                 }
             }
         }
 
-    fun getWalletInfo(name: String) {
+    private fun getWalletInfo() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 myWallet.value = repository.getAllCoinSummary(username)
@@ -45,7 +45,7 @@ class HomepageViewModel(private val repository: Repository,
 
 
 
-     private fun updateBalanceValue(name: String){
+     private fun updateBalanceValue() {
          viewModelScope.launch {
              withContext(Dispatchers.IO) {
                  val myBalance = repository.getAllPurchasingForBalance(username)

@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.retrofit2)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     implementation(libs.vico.compose)
     implementation(libs.vico.compose.m2)

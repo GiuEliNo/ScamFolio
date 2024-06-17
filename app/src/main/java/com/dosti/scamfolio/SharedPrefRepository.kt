@@ -1,8 +1,7 @@
 package com.dosti.scamfolio
 
 import android.content.Context
-import android.preference.PreferenceManager
-
+import androidx.preference.PreferenceManager
 class SharedPrefRepository(context : Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -11,10 +10,4 @@ class SharedPrefRepository(context : Context) {
     }
 
     fun getUsr(key: String, default: String) = prefs?.getString(key, default) ?: default
-
-    fun putBalance(key: String, balance: Double) {
-        prefs.edit().putString(key, balance.toString()).apply()
-    }
-
-    fun getBalance(key: String, default: String) = prefs?.getString(key, default) ?: default
 }

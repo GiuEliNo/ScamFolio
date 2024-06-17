@@ -1,6 +1,6 @@
 package com.dosti.scamfolio.ui.chart
 
-import androidx.compose.foundation.layout.fillMaxSize
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
@@ -21,20 +21,18 @@ import co.yml.charts.ui.linechart.model.LineType
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun Chart(listPrice: List<Double>){
     val pointsData: MutableList<Point> = mutableListOf()
 
     var count = 0
-    var hours = 0
-    for(price in listPrice){
+    for((hours, price) in listPrice.withIndex()){
 
         pointsData.add(Point(hours.toFloat(), price.toFloat()))
-        hours++
 
         count += 1
     }
@@ -81,7 +79,7 @@ fun Chart(listPrice: List<Double>){
                     ),
                     selectionHighlightPopUp = SelectionHighlightPopUp(popUpLabel = { x, y ->
                         val xLabel = "${(date.plusHours(x.toLong())).toString().substring(5, 13).replace("T", " ").replace("-", "/").plus("h")} "
-                        val yLabel = "${String.format("%.2f", y)}"
+                        val yLabel = String.format("%.2f", y)
                         "$xLabel \n $yLabel"
                     })
                 )

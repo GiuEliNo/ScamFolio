@@ -25,14 +25,14 @@ class SearchedCryptosViewModel(
     private val _username = sharedPrefRepository.getUsr("username", "NULL")
     val username = _username
 
-    val _coinList = sharedCoinGeko.getCoinLiveData()
+    private val _coinList = sharedCoinGeko.getCoinLiveData()
     var searchQuery by mutableStateOf("")
         private set
     var showWalletOnly by mutableStateOf(false)
         private set
 
     private val _walletCoins = MutableStateFlow<Map<String, Double>>(emptyMap())
-    val walletCoins: StateFlow<Map<String, Double>> = _walletCoins
+    private val walletCoins: StateFlow<Map<String, Double>> = _walletCoins
 
     init {
         viewModelScope.launch {

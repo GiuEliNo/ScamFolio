@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(
     tableName = "Purchasing",

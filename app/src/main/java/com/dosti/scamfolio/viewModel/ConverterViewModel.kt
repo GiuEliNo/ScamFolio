@@ -5,14 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dosti.scamfolio.db.entities.CoinModelAPIDB
-import com.dosti.scamfolio.db.repositories.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class ConverterViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel): ViewModel() {
+class ConverterViewModel(private val sharedCoinGeko: SharedCoinGekoViewModel): ViewModel() {
 
 
     private val _coinList= MutableStateFlow<List<CoinModelAPIDB>?>(emptyList())

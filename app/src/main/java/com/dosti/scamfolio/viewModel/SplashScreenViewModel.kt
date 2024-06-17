@@ -18,10 +18,6 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _toastMessage = MutableLiveData<String?>(null)
-    //val toastMessage: LiveData<String?> = _toastMessage
-
-   //@OptIn(ExperimentalCoroutinesApi::class)
     suspend fun initDb(): Boolean {
         val successAsync = CoroutineScope(Dispatchers.Default).async {
             var success = true
@@ -33,7 +29,6 @@ class SplashScreenViewModel(private val repository: Repository, private val shar
             }
 
             if (System.currentTimeMillis() - repository.chechFetchedDate() > 6000000) {
-                //if one week old
                 repository.resetCoinList()
                 if(initializeDataAPI(repository, false))
                     Log.d("Database", "Database entries were older than a week. Updated")

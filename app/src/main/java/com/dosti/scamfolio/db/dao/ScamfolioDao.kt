@@ -1,6 +1,5 @@
 package com.dosti.scamfolio.db.dao
 
-import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -58,18 +57,8 @@ interface ScamfolioDao {
     @Query("DELETE FROM CoinModelAPIDB")
     suspend fun resetCoinList()
 
-    @Query("UPDATE User SET balance = balance + :qty WHERE Username LIKE :username ")
-    fun updateUserBalance(username: String, qty: Double)
-
-    @Query("UPDATE User SET balance = balance - :qty WHERE Username LIKE :username")
-    fun decrementUserBalance(username: String, qty: Double)
-
-    @Query("SELECT balance FROM User WHERE username LIKE :username")
-    fun getBalance(username: String): Double
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertCoinForBalance(coin: Coin)
-
 
     @Query("SELECT current_price FROM CoinModelAPIDB where id LIKE :name LIMIT 1")
     fun getCurrentPrice(name: String): String?

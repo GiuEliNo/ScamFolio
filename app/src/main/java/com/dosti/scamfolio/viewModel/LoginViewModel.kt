@@ -83,7 +83,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
             if (!exist) {
                 withContext(Dispatchers.IO) {
-                    repository.signIn(username, password, 0.0)
+                    repository.signIn(username, password)
                     _signInError.value=false
                 }
             } else {

@@ -13,11 +13,11 @@ class ViewModelFactory(private val repository: Repository,
         if(modelClass.isAssignableFrom(LoginViewModel::class.java))
                 LoginViewModel(repository) as T
         else if( modelClass.isAssignableFrom(CryptoScreenViewModel::class.java))
-            CryptoScreenViewModel(repository, sharedCoinGeko, sharedPrefRepository) as T
+            CryptoScreenViewModel(repository, sharedPrefRepository) as T
         else if( modelClass.isAssignableFrom(HomepageViewModel::class.java))
             HomepageViewModel(repository, sharedPrefRepository) as T
         else if( modelClass.isAssignableFrom(ConverterViewModel::class.java))
-            ConverterViewModel(repository, sharedCoinGeko) as T
+            ConverterViewModel(sharedCoinGeko) as T
         else if(modelClass.isAssignableFrom(SplashScreenViewModel::class.java))
             SplashScreenViewModel(repository,sharedCoinGeko) as T
         else

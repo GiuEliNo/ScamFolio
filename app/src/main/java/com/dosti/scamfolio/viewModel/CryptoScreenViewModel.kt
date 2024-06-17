@@ -24,8 +24,8 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class CryptoScreenViewModel(private val repository: Repository, private val sharedCoinGeko: SharedCoinGekoViewModel,
-                            private val sharedPrefRepository: SharedPrefRepository) : ViewModel() {
+class CryptoScreenViewModel(private val repository: Repository,
+                            sharedPrefRepository: SharedPrefRepository) : ViewModel() {
     private val _coin = MutableLiveData<CoinModelAPI>()
     val coin: LiveData<CoinModelAPI> = _coin
 

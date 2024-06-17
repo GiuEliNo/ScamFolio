@@ -1,8 +1,6 @@
 package com.dosti.scamfolio.ui.chart
 
-import android.app.slice.Slice
 import android.util.Log
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -19,10 +17,7 @@ import co.yml.charts.ui.piechart.charts.PieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.dosti.scamfolio.R
-import com.dosti.scamfolio.api.model.CoinBalance
-import com.dosti.scamfolio.api.model.Wallet
 import com.dosti.scamfolio.viewModel.HomepageViewModel
-import kotlin.random.Random
 
 
 @Composable

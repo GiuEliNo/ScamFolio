@@ -19,6 +19,7 @@ retrofit2 = "2.9.0"
 lifecycleRuntimeComposeAndroid = "2.8.1"
 coreSplashscreen = "1.0.1"
 vico = "1.11.1"
+preferenceKtx = "1.2.1"
 
 
 [libraries]
@@ -64,6 +65,7 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
