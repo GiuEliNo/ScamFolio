@@ -97,7 +97,7 @@ interface ScamfolioDao {
         SELECT 
             u.username, 
             c.name AS coinName,
-            SUM(CASE WHEN p.isNegative = 1 THEN -p.quantity ELSE p.quantity END) AS quantity,
+            SUM(CASE WHEN p.isNegative = 1 THEN -p.quantity ELSE p.quantity END) AS totalQuantity,
             SUM(CASE WHEN p.isNegative = 1 THEN -p.quantity ELSE p.quantity END) * c.current_price AS balance
 
         FROM 
@@ -110,6 +110,8 @@ interface ScamfolioDao {
             u.username = :username
         GROUP BY 
             p.coinName, u.username
+        HAVING 
+            totalQuantity != 0.0
     """)
     fun getUserCoinSummary(username: String): List<Wallet>
 
