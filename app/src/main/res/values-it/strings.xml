@@ -49,7 +49,7 @@
     <string name="limit_purchase">Limite: 500.000€ per l\'acquisto</string>
     <string name="too_much_money_all_together">Troppi soldi tutti insieme!</string>
     <string name="clear">Pulisci</string>
-    <string name="allcoinsearch">All</string>
-    <string name="inwalletcoinsearch">In wallet</string>
+    <string name="allcoinsearch">Tutte</string>
+    <string name="inwalletcoinsearch">Nel portafoglio</string>
     <string name="walletempty">Ancora vuoto :c compra almeno una monetina!</string>
 </resources>
