@@ -51,5 +51,5 @@
     <string name="clear">Pulisci</string>
     <string name="allcoinsearch">All</string>
     <string name="inwalletcoinsearch">In wallet</string>
-    <string name="walletempty">Still empty :c buy something!</string>
+    <string name="walletempty">Ancora vuoto :c compra almeno una monetina!</string>
 </resources>
