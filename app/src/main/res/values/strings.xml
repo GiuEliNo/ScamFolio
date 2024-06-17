@@ -44,4 +44,6 @@
     <string name="errorEmpty">username and password can\'t be empty!</string>
     <string name="str_len">username can\'t be longer than 10 characters!</string>
     <string name="personal_wallet">Personal Wallet:</string>
+    <string name="wrong_credentials">Wrong credentials!</string>
+    <string name="make_password_visible">Make Password Visible</string>
 </resources>

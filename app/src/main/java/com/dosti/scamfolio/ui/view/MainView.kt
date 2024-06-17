@@ -2,6 +2,7 @@ package com.dosti.scamfolio.ui.view
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -138,8 +139,9 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
                             onLoginSuccess: () -> Unit,
                             )
 {
+    val loginErr by viewModel.loginError.collectAsState()
     val context= LocalContext.current
-        if (loginResult==null) {
+    if (loginResult==null) {
             BackgroundGradient()
             Column(
                 verticalArrangement = Arrangement.Top,
@@ -152,12 +154,14 @@ fun LoginViewPortraitLayout(viewModel: LoginViewModel,
 
                 UsernameField(
                     value = username,
-                    onValueChange = onUsernameChange
+                    onValueChange = onUsernameChange,
+                    loginErr
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 PasswordField(
                     value = password,
-                    onValueChange = onPasswordChange
+                    onValueChange = onPasswordChange,
+                    loginErr
                 )
                 Spacer(modifier = Modifier.height(100.dp))
                 SubmitButtonPortrait(
@@ -193,6 +197,7 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
                              onNavigateToRegister:  () -> Unit,
                              onLoginSuccess: () -> Unit)
 {
+    val loginErr by viewModel.loginError.collectAsState()
     val context= LocalContext.current
     if (loginResult==null) {
         BackgroundGradient()
@@ -211,12 +216,14 @@ fun LoginViewLandscapeLayout(viewModel: LoginViewModel,
             {
                 UsernameField(
                     value = username,
-                    onValueChange = onUsernameChange
+                    onValueChange = onUsernameChange,
+                    loginErr
                 )
 
                 PasswordField(
                     value = password,
-                    onValueChange = onPasswordChange
+                    onValueChange = onPasswordChange,
+                    loginErr
                 )
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -283,13 +290,14 @@ fun LogoText() {
 @Composable
 fun UsernameField(
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    hasError: Boolean
 ) {
     val icon = @Composable {
         Icon(
             Icons.Default.Person,
             contentDescription = "",
-            tint = Color.White
+            tint = if (hasError) Color.Red else Color.White
         )
     }
 
@@ -298,11 +306,11 @@ fun UsernameField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(R.string.username), color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedTextColor = Color.White,
-            focusedTextColor = Color.White,
-            focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White,
-            unfocusedLabelColor = Color.White
+            unfocusedTextColor = if (hasError) Color.Red else Color.White,
+            focusedTextColor = if (hasError) Color.Red else Color.White,
+            focusedBorderColor = if (hasError) Color.Red else Color.White,
+            unfocusedBorderColor = if (hasError) Color.Red else Color.White,
+            unfocusedLabelColor = if (hasError) Color.Red else Color.White
         ),
         leadingIcon = icon,
         singleLine = true
@@ -312,13 +320,15 @@ fun UsernameField(
 @Composable
 fun PasswordField(
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    hasError: Boolean
 ) {
+    Log.e("LoginError", "Login error vale $hasError")
     val icon = @Composable {
         Icon(
             Icons.Default.Lock,
             contentDescription = "",
-            tint = Color.White
+            tint = if (hasError) Color.Red else Color.White
         )
     }
 
@@ -329,11 +339,11 @@ fun PasswordField(
         onValueChange = onValueChange,
         label = { Text(stringResource( R.string.password), color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedTextColor = Color.White,
-            focusedTextColor = Color.White,
-            focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White,
-            unfocusedLabelColor = Color.White
+            unfocusedTextColor = if (hasError) Color.Red else Color.White,
+            focusedTextColor = if (hasError) Color.Red else Color.White,
+            focusedBorderColor = if (hasError) Color.Red else Color.White,
+            unfocusedBorderColor = if (hasError) Color.Red else Color.White,
+            unfocusedLabelColor = if (hasError) Color.Red else Color.White
         ),
         singleLine = true,
         leadingIcon = icon,
@@ -342,7 +352,7 @@ fun PasswordField(
         trailingIcon = {
             IconButton(onClick = { showPass=!showPass}){
                 Icon(
-                    Icons.Default.RemoveRedEye, contentDescription = "", tint=Color.White)
+                    Icons.Default.RemoveRedEye, contentDescription = stringResource(R.string.make_password_visible), tint=if (hasError) Color.Red else Color.White)
             }
         },
     )
@@ -479,7 +489,8 @@ private fun onSubmitLogin(username : String,
         viewModel.eventToast.collect { eventToast->
             if (eventToast) {
 
-                Toast.makeText(context, "Credenziali Errate", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.wrong_credentials), Toast.LENGTH_SHORT).show()
                 viewModel.resetEventToast()
             }
         }
@@ -567,12 +578,13 @@ fun SignInLogoText() {
 fun SignInPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
+    hasError: Boolean
 ) {
     val icon = @Composable {
         Icon(
             Icons.Default.Lock,
             contentDescription = "",
-            tint = Color.White
+            tint = if (hasError) Color.Red else Color.White
         )
     }
 
@@ -589,11 +601,11 @@ fun SignInPasswordField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(R.string.password), color = Color.White) },
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedTextColor = Color.White,
-            focusedTextColor = Color.White,
-            focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White,
-            unfocusedLabelColor = Color.White
+            unfocusedTextColor = if (hasError) Color.Red else Color.White,
+            focusedTextColor = if (hasError) Color.Red else Color.White,
+            focusedBorderColor = if (hasError) Color.Red else Color.White,
+            unfocusedBorderColor = if (hasError) Color.Red else Color.White,
+            unfocusedLabelColor = if (hasError) Color.Red else Color.White
         ),
         singleLine = true,
         leadingIcon = icon,
@@ -602,7 +614,7 @@ fun SignInPasswordField(
         trailingIcon = {
             IconButton(onClick = { showPass=!showPass}){
                 Icon(
-                    Icons.Default.RemoveRedEye, contentDescription = "", tint=Color.White)
+                    Icons.Default.RemoveRedEye, contentDescription = stringResource(R.string.make_password_visible), tint=if (hasError) Color.Red else Color.White)
             }
         },
 
@@ -652,9 +664,11 @@ private fun onSubmitRegister(
 ) {
     if (username.isEmpty() || password.isEmpty()) {
         Toast.makeText(context, context.getString(R.string.errorEmpty), Toast.LENGTH_SHORT).show()
+        viewModel.signalSignInErr()
         return
     } else if (username.length > 10) {
         Toast.makeText(context, context.getString(R.string.str_len), Toast.LENGTH_SHORT).show()
+        viewModel.signalSignInErr()
         return
     } else {
         viewModel.createNewUser(username, password)
@@ -691,6 +705,7 @@ fun SignInViewPortraitLayout(
     onPasswordChange: (String) -> Unit,
     onBackButton: () -> Unit
 ) {
+    val submitErr by viewModel.signInError.collectAsState()
     BackgroundGradient()
     Column (
         verticalArrangement = Arrangement.Top,
@@ -704,13 +719,15 @@ fun SignInViewPortraitLayout(
 
         UsernameField(
             value = username,
-            onValueChange = onUsernameChange
+            onValueChange = onUsernameChange,
+            submitErr
         )
         Spacer(modifier = Modifier.height(20.dp))
 
         SignInPasswordField(
             value = password,
             onValueChange = onPasswordChange,
+            submitErr
         )
 
         Spacer(modifier = Modifier.height(100.dp))
@@ -763,6 +780,7 @@ fun SignInViewLandscapeLayout(
     onPasswordChange: (String) -> Unit,
     onBackButton: () -> Unit
     ){
+    val submitErr by viewModel.signInError.collectAsState()
     BackgroundGradient()
     Row(
         modifier=Modifier.fillMaxSize(),
@@ -779,12 +797,14 @@ fun SignInViewLandscapeLayout(
         {
             UsernameField(
                 value = username,
-                onValueChange = onUsernameChange
+                onValueChange = onUsernameChange,
+                submitErr
             )
 
             PasswordField(
                 value = password,
-                onValueChange = onPasswordChange
+                onValueChange = onPasswordChange,
+                submitErr
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -813,16 +833,10 @@ fun SignInButtonLandscape(
     viewModel: LoginViewModel,
     context: Context
 ) {
-    /*Column(
-        verticalArrangement = Arrangement.Top,
-        modifier = Modifier.fillMaxWidth()
-    ) {
 
-     */
         Button(
             onClick = { onSubmitRegister(username, password, viewModel, context) },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-       //     border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .size(150.dp, 60.dp)
         ) {

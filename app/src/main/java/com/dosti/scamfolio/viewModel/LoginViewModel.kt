@@ -17,6 +17,12 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _eventToast= MutableStateFlow(false)
     val eventToast: StateFlow<Boolean> get()=_eventToast
 
+    private val _loginError=MutableStateFlow(false)
+    val loginError: StateFlow<Boolean> get()=_loginError
+
+    private val _signInError=MutableStateFlow(false)
+    val signInError:StateFlow<Boolean> get()=_signInError
+
 
     enum class loginScreens{
         LOGIN,REGISTER, HOME
@@ -57,8 +63,10 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
             }
             if (user!=null) {
                 _loginResult.value = user
+                _loginError.value=false
             }
             else {
+                _loginError.value=true
                 _eventToast.value=true
             }
         }
@@ -76,9 +84,11 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
             if (!exist) {
                 withContext(Dispatchers.IO) {
                     repository.signIn(username, password, 0.0)
+                    _signInError.value=false
                 }
             } else {
                 _eventToast.value = true
+                _signInError.value=true
             }
 
         }
@@ -86,5 +96,9 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     fun resetEventToast(){
         _eventToast.value=false
+    }
+
+    fun signalSignInErr(){
+        _signInError.value=true
     }
 }
