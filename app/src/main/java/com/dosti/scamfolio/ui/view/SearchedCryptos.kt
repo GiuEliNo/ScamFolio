@@ -3,6 +3,7 @@ package com.dosti.scamfolio.ui.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,8 +23,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ViewList
 import androidx.compose.material.icons.filled.Wallet
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -67,13 +72,16 @@ fun SearchScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(end = 8.dp, top = 10.dp, bottom = 16.dp, start = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp, top = 10.dp, bottom = 10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ){
          TextField(
-             modifier = Modifier
-                 .padding(end = 8.dp, top = 10.dp, bottom = 16.dp, start = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 8.dp, start = 8.dp),
              value = searchQuery,
              singleLine = true,
              keyboardOptions = KeyboardOptions.Default.copy(
@@ -85,7 +93,7 @@ fun SearchScreen(
                  onDone = {keyboardController?.hide()}
              ),
              onValueChange = onSearchQueryChange,
-             label = { Text(text = stringResource(R.string.search), color = Color.White) },
+             label = { Text(text = stringResource(R.string.search), color = Color.LightGray, fontStyle = FontStyle.Italic) },
              colors = OutlinedTextFieldDefaults.colors(
                  focusedTextColor = Color.White,
                  unfocusedTextColor = Color.White,
@@ -101,27 +109,50 @@ fun SearchScreen(
              shape = MaterialTheme.shapes.large,
              )
 
-            //Spacer(modifier = Modifier.size(8.dp))
-
-            val icon = if (showWallet) Icons.Filled.ViewList else Icons.Filled.Wallet
-            val contentDescription = if (showWallet) "Show All" else "Show Wallet"
-
-            IconButton(
-                onClick = { onToggleShowWallet() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                   // .padding(vertical = 8.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.Start
             ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = contentDescription,
-                    tint = Color.White
-                )
+                Button(
+                    onClick = { onToggleShowWallet() },
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 8.dp, top = 4.dp),
+                    enabled = showWallet,
+                    colors =  ButtonDefaults.buttonColors(
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContentColor = Color.White,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = Color.LightGray
+                        )
+                ) {
+                    Text(
+                        text = stringResource(R.string.allcoinsearch),
+                    )
+                }
+
+                Button(
+                    onClick = { onToggleShowWallet() },
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 8.dp, top = 4.dp),
+                    enabled = !showWallet,
+                    colors =  ButtonDefaults.buttonColors(
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContentColor = Color.White,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = Color.LightGray
+                    )
+
+                ) {
+                    Text(
+                        text = stringResource(R.string.inwalletcoinsearch),
+                    )
+                }
             }
         }
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier.fillMaxSize()
         ) {
@@ -132,6 +163,24 @@ fun SearchScreen(
                 }
             ) { coin ->
                 CoinItem(coin = coin, selectedCoin)
+            }
+
+            if(searchResults.isEmpty()){
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = stringResource(R.string.walletempty),
+                            textAlign = TextAlign.Center,
+                            color = Color.LightGray,
+                            fontStyle = FontStyle.Italic
+                        )
+                    }
+                }
             }
         }
     }

@@ -50,4 +50,7 @@
     <string name="limit_purchase">Limit: 500,000€ for purchase</string>
     <string name="too_much_money_all_together">Too much money all together!</string>
     <string name="clear">Clear</string>
+    <string name="allcoinsearch">All</string>
+    <string name="inwalletcoinsearch">In wallet</string>
+    <string name="walletempty">Still empty :c buy something!</string>
 </resources>
