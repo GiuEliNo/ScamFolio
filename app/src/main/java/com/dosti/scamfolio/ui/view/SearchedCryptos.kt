@@ -1,5 +1,6 @@
 package com.dosti.scamfolio.ui.view
 
+import android.graphics.drawable.PaintDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,7 +40,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -196,7 +199,7 @@ fun CoinItem(coin: CoinModelAPIDB, selectedCoin: (String) -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = rememberAsyncImagePainter(coin.image),
+            painter = rememberAsyncImagePainter(coin.image, placeholder  = painterResource(R.drawable.placeholderimage), fallback = painterResource(R.drawable.placeholderimage), error = painterResource(R.drawable.placeholderimage)),
             contentDescription = null,
             modifier = Modifier.size(40.dp)
         )

@@ -140,7 +140,7 @@ fun WelcomePortraitLayout(
         TopLabel(username = username, 30)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = stringResource(R.string.personal_wallet),
-            fontSize = 8.sp,
+            style = MaterialTheme.typography.bodyLarge,
             color = Color.White,
             modifier= Modifier
                 .align(Alignment.Start)
@@ -188,9 +188,9 @@ fun TopLabel(
     Spacer(modifier = Modifier.height(16.dp))
     Text(
         text = stringResource(id = R.string.welcome_back)+ " " + username,
-        fontSize = 10.sp,
+        style = MaterialTheme.typography.bodyMedium,
         fontFamily = custom,
-        color = Color.White,
+        color = Color.LightGray,
     )
 }
 

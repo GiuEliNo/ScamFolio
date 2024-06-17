@@ -60,6 +60,7 @@ import com.dosti.scamfolio.ui.theme.BackgroundGradient
 import com.dosti.scamfolio.viewModel.CryptoScreenViewModel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.res.painterResource
 
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -503,7 +504,7 @@ fun DialogOpenPosition(
 
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(coin.image),
+                    painter = rememberAsyncImagePainter(coin.image, placeholder  = painterResource(R.drawable.placeholderimage), fallback = painterResource(R.drawable.placeholderimage), error = painterResource(R.drawable.placeholderimage)),
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
                 )
