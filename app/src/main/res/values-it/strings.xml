@@ -48,4 +48,5 @@
     <string name="result">Risultato</string>
     <string name="limit_purchase">Limite: 500.000€ per l\'acquisto</string>
     <string name="too_much_money_all_together">Troppi soldi tutti insieme!</string>
+    <string name="clear">Pulisci</string>
 </resources>

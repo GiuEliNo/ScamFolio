@@ -118,11 +118,11 @@ class CryptoScreenViewModel(private val repository: Repository, private val shar
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val check= 5000000.0
+                    val check= 500000.0
                     val currentPrice= runBlocking { repository.getCurrentPrice(coinName) }
                     Log.e("Current Price", "Current Price is: $currentPrice")
 
-                    if(currentPrice?.toDoubleOrNull() != null && qty*currentPrice.toDouble() < check ) {
+                    if(currentPrice?.toDoubleOrNull() != null && qty*currentPrice.toDouble() < check || isNegative) {
                         _overFlowError.value=false
                         val newPurchasing =
                             Purchasing(0, coinName, qty, username, isNegative, getCurrentDate())

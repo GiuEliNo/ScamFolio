@@ -180,7 +180,7 @@ fun ConverterScreenPortraitLayout(
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = "clear",
+                        text = stringResource(R.string.clear),
                         color = MaterialTheme.colorScheme.secondary,
                         fontFamily = custom,
                         fontSize = 20.sp,
