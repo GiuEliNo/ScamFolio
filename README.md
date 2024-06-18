@@ -23,13 +23,20 @@ The local database was designed as a simple database with 4 tables.
 
 
 ## Screenshot
-<img title="Login Page" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/login_page.png" alt="Login Page" width="200" data-align="inline" data-align="center">
-<img title="Dashboard" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/dashboard.png" alt="Dashboard" width="200" data-align="inline" data-align="center">
-<img title="Search" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/search.png" alt="Search" width="200" data-align="inline" data-align="center">
-<img title="Coin Detail" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/coindetail.png" alt="Coin Detail" width="200" data-align="inline" data-align="center">
-<img title="Calculator" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/calculator.png" alt="Calculator"
-width="200" data-align="inline" data-align="center">
+<p float="left">
+  <img title="Login" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/login_page.png" alt="Dashboard" width="180" data-align="inline" data-align="center">  
+  <img title="Dashboard" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/dashboard.png" alt="Dashboard" width="180" data-align="inline" data-align="center">
+  <img title="Search" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/search.png" alt="Search" width="180" data-align="inline" data-align="center">
+  <img title="Coin Detail" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/coindetail.png" alt="Coin Detail" width="180" data-align="inline" data-align="center">
+  <img title="Calculator" src="https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/calculator.png" alt="Calculator" width="180" data-align="inline" data-align="center">
+</p>
+
+
+
+
+
 ## License
+
 ```
 DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -46,6 +53,7 @@ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
   0. You just DO WHAT THE FUCK YOU WANT TO.
 ```
 <img title="Login Page" src="https://upload.wikimedia.org/wikipedia/commons/0/05/WTFPL_logo.svg" alt="Login Page" width="100" data-align="inline" data-align="bottom">
+
 ## Authors
 Project team __Dosti__
 + Andrea Tsilogiannis
