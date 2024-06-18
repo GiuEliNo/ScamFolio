@@ -19,7 +19,7 @@ Scamfolio is an Android application, developed with a MVVM pattern in mind, that
 
 ### Local Database
 The local database was designed as a simple database with 4 tables.
-![E-R Diagram](https://raw.githubusercontent.com/zeroParanoie/ScamFolio/pic/scamfolio_db_er.png)
+![E-R Diagram](https://raw.githubusercontent.com/zeroParanoie/ScamFolio/main/pic/scamfolio_db_er.png)
 
 
 ## Screenshot
